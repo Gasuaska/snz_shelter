@@ -1,5 +1,6 @@
 from django.db import models
 
+from .constants import KENNEL_CHOICES
 
 class Owner(models.Model):
     first_name = models.CharField(
@@ -10,6 +11,26 @@ class Owner(models.Model):
         max_length=64,
         help_text='Фамилия',
         verbose_name='Фамилия')
+    surname = models.CharField(
+        max_length=128,
+        help_text='Отчество',
+        verbose_name='Отчество',
+        null=True,
+        blank=True,)
+    phone_number = models.CharField(
+        max_length=64,
+        help_text='Номер телефона',
+        verbose_name='Номер телефона',
+        null=True,
+        blank=True,
+        )
+    address = models.CharField(
+        max_length=128,
+        help_text='Адрес владельца',
+        verbose_name='Адрес',
+        null=True,
+        blank=True,
+        )
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -119,7 +140,6 @@ class BaseHealthInfo(models.Model):
         help_text='Дополнительные примечания',
         verbose_name='Примечания'
         )
-    
 
     class Meta:
         abstract = True
@@ -147,6 +167,15 @@ class DogInfo(BaseInfoModel):
         blank=True,
         related_name='dogs'
     )
+    kennel = models.CharField(
+        max_length=64,
+        choices=KENNEL_CHOICES,
+        default=None,
+        help_text='Вольер',
+        verbose_name='Вольер',
+        blank=True,
+        null=True
+        )
 
     def __str__(self):
         return self.name
@@ -166,45 +195,6 @@ class DogHealth(BaseHealthInfo):
     class Meta:
         verbose_name = 'Здоровье собаки'
         verbose_name_plural = 'Здоровье собак'
-
-
-class DogKennelGroup(models.Model):
-    name = models.CharField(
-        max_length=64,
-        unique=True,
-        verbose_name='Название группы вольеров',
-        help_text='Название группы вольеров'
-        )
-
-    class Meta:
-        verbose_name = 'Группа вольеров'
-        verbose_name_plural = 'Группы вольеров'
-
-    def __str__(self):
-        return self.name
-
-
-class DogKennel(models.Model):
-    dog = models.ForeignKey(
-        DogInfo,
-        null=True,
-        blank=True,
-        on_delete=models.CASCADE,
-        related_name="dogkennel"
-    )
-    group = models.ForeignKey(
-        DogKennelGroup,
-        on_delete=models.CASCADE,
-        related_name='dog_kennel')
-    name = models.CharField(max_length=64)
-
-    class Meta:
-        unique_together = ('group', 'name'),
-        verbose_name = 'Вольер'
-        verbose_name_plural = 'Вольеры'
-
-    def __str__(self):
-        return f'{self.group.name} - {self.name}'
 
 # КОТИКИ
 
@@ -243,14 +233,14 @@ class CatHealth(BaseHealthInfo):
         max_length=1,
         choices=VIRUS_STATUS_CHOICES,
         default=UNKNOWN,
-        help_text='Лейкоз у кисы: да(по умолчанию)/нет',
+        help_text='Лейкоз у кисы: да/нет/неизвестно(по умолчанию)',
         verbose_name='Вирус лейкоза кошек'
         )
     fiv_status = models.CharField(
         max_length=1,
         choices=VIRUS_STATUS_CHOICES,
         default=UNKNOWN,
-        help_text='Иммунодефицит у кисы: да(по умолчанию)/нет',
+        help_text='Иммунодефицит у кисы: да/нет/неизвестно(по умолчанию)',
         verbose_name='Иммунодефицит'
         )
 
