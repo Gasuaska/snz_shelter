@@ -1,0 +1,23 @@
+<header>
+  <p>Место для логотипа</p>
+  <a href="{% url 'homepage:index' %}">АНО "Друг из приюта" г. Снежинска</a>
+  <nav>
+    <ul>
+      <li>
+        <a href="{% url 'homepage:index' %}">Главная</a> 
+      </li>
+      <li>
+        <a href="{% url 'dogs:dogs_list' %}">Собаки</a> 
+      </li>
+      <li>
+        <a href="{% url 'cats:cats_list'%}">Котики</a>
+      </li>
+      <li>
+        <a href="{% url 'pages:about'%}">О приюте</a>
+      </li>
+      <li>
+        <a href="{% url 'pages:help_us'%}">Помочь приюту</a>
+      </li>
+    </ul>
+  </nav>
+</header>

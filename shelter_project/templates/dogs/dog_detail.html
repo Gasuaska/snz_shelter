@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1>Информация о собаке</h1>
+  <ul>
+    <li>
+      → <a href="{% url 'homepage:index' %}">Главная</a> 
+    </li>
+    <li>
+      → <a href="{% url 'dogs:dogs_list' %}">Собаки</a> 
+    </li>
+    <li>
+      → Собака 
+    </li>
+  </ul>
+
+  <h2>ИМЯ</h2>
+  <img src="" alt="Фото собаки" width="35%" height="60%">
+  <ul>
+    <li>
+      Год рождения: 2020 (5 лет)
+    </li>
+    <li>
+      В приюте с: 2020
+    </li>
+    <li>
+      Пол: девочка
+    </li>
+    <li>
+      Кастрирована
+    </li>
+    <li>
+      Размер: по колено
+    </li>
+  </ul>
+  <p>Блаблабла хорошая собака</p>
+  <hr>
+  <h3> ПРИЮТИТЬ СОБАКУ</h3>
+  <hr>
+  <p>Еще прекрасные собаки</p>
+  <a href=""><img src="'" alt="Фото еще собаки" width="20%" height="30%"></a>
+  <a href=""><img src="'" alt="Фото еще собаки" width="20%" height="30%"></a>
+  <a href=""><img src="'" alt="Фото еще собаки" width="20%" height="30%"></a>
+{% endblock %}
