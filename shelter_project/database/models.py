@@ -2,6 +2,7 @@ from django.db import models
 
 from .constants import KENNEL_CHOICES
 
+
 class Owner(models.Model):
     first_name = models.CharField(
         max_length=64,
@@ -34,6 +35,7 @@ class Owner(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
     class Meta:
         verbose_name = 'Владелец'
         verbose_name_plural = 'Владельцы'
@@ -72,19 +74,20 @@ class BaseInfoModel(models.Model):
         verbose_name='Кастрация'
         )
     description = models.TextField(
+        null=True,
         blank=True,
         help_text='Описание животного',
-        verbose_name='Описание'
+        verbose_name='Описание',
         )
-    
+
     birth_date = models.DateField(
         help_text=('Ориентировочная дата рождения (с точностью до года,'
-        ' если что, ставим 1 января соответствующего года)'),
+                   ' если что, ставим 1 января соответствующего года)'),
         verbose_name='Дата рождения'
         )
     intake_date = models.DateField(
         help_text=('Ориентировочная дата заселения в приют (с точностью до '
-        'года, если что, ставим 1 января соответствующего года)'),
+                   'года, если что, ставим 1 января соответствующего года)'),
         verbose_name='Дата заселения в приют',
         )
     is_at_shelter = models.BooleanField(
@@ -102,19 +105,19 @@ class BaseInfoModel(models.Model):
         null=True,
         blank=True,
         help_text='Причина убытия',
-        verbose_name='Причина убытия'
+        verbose_name='Причина убытия',
     )
     intake_place = models.TextField(
         null=True,
         blank=True,
         help_text='Откуда животное попало в приют?',
-        verbose_name='Место изъятия'
+        verbose_name='Место изъятия',
         )
     notes = models.TextField(
         null=True,
         blank=True,
         help_text='Дополнительные примечания',
-        verbose_name='Примечания'
+        verbose_name='Примечания',
         )
 
     class Meta:
@@ -134,18 +137,6 @@ class BaseHealthInfo(models.Model):
         help_text='Назначенное лечение (необязательное поле)',
         verbose_name='Назначенное лечение'
         )
-    notes = models.TextField(
-        null=True,
-        blank=True,
-        help_text='Дополнительные примечания',
-        verbose_name='Примечания'
-        )
-
-    class Meta:
-        abstract = True
-
-
-class BaseDatesModel(models.Model):
     notes = models.TextField(
         null=True,
         blank=True,
@@ -186,7 +177,7 @@ class DogInfo(BaseInfoModel):
 
 
 class DogHealth(BaseHealthInfo):
-    dog = models.OneToOneField(
+    dog = models.ForeignKey(
         DogInfo,
         on_delete=models.CASCADE,
         related_name="dohhealth"
@@ -207,6 +198,7 @@ class CatInfo(BaseInfoModel):
         blank=True,
         related_name='cats'
     )
+
     def __str__(self):
         return self.name
 
@@ -224,7 +216,7 @@ class CatHealth(BaseHealthInfo):
         (NEGATIVE, 'Отрицательно'),
         (UNKNOWN, 'Неизвестно')
     ]
-    cat = models.OneToOneField(
+    cat = models.ForeignKey(
         CatInfo,
         on_delete=models.CASCADE,
         related_name="cathealth"
