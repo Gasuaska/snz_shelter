@@ -1,0 +1,587 @@
+:root {
+    --accent: #f2c37a;
+    --accent-dark: #d9a963;
+    --brown: #b87a41;
+    --text: #333;
+    --bg: #ffffff;
+    --border: #ddd;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Century Gothic", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.main-nav a:hover {
+    color: var(--brown);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--brown);
+    text-decoration: none;
+}
+
+.site-footer {
+    background: white;
+    border-top: 1px solid var(--border);
+    padding: 20px;
+    margin-top: 40px;
+    text-align: center;
+    color: var(--text);
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--accent);
+    color: black;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.btn:hover {
+    background: var(--accent-dark);
+}
+
+body, html {
+    margin: 0;
+    padding-top: 25px;
+    height: 100%;
+    font-family: "Century Gothic", Arial, sans-serif;
+}
+
+.hero {
+    position: relative;
+    background-image: url("../images/index_background.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+}
+
+.buttons {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 30px;
+}
+
+.buttons a {
+    padding: 20px 40px;
+    font-size: 24px;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    background-color: #EFB878(255, 0, 0, 0.7); /* полупрозрачная кнопка */
+    border-radius: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.buttons a:hover {
+    background-color: #e8ad69(255, 0, 0, 1);
+    transform: scale(1.05);
+}
+
+.dogs-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.dog-card {
+    width: 25%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.dog-photo {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.dog-name a {
+    text-decoration: none;
+    color: var(--brown);
+}
+
+.dog-name a:hover {
+    color: var(--accent-dark);
+}
+
+.dog-button {
+    display: inline-block;
+    margin: 10px 0 15px 0;
+    padding: 10px 20px;
+    background-color: #EFB878;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.dog-button:hover {
+    background-color: #f1b36c;
+    transform: scale(1.05);
+}
+
+/* Общий стиль navbar */
+.navbar {
+    background-color: #f5f5f5; /* светлый фон */
+    font-family: "Century Gothic", Arial, sans-serif; /* шрифт сайта */
+}
+
+/* Контейнер с логотипом и меню */
+.navbar-container {
+    display: flex;
+    justify-content: space-between; /* логотип слева, меню справа */
+    align-items: center;
+}
+
+/* Список меню в один ряд */
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 20px; /* расстояние между пунктами */
+    margin: 0;
+    padding: 0;
+}
+
+/* Ссылки */
+.navbar-menu li a {
+    text-decoration: none;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+/* Эффект при наведении на ссылки */
+.navbar-menu li a:hover {
+    background-color: #ddd;
+}
+
+/* Выделяем «Помочь» цветом */
+.navbar-menu li.help-link a {
+    background-color: #EFB878;
+    color: white;
+}
+
+.navbar-menu li.help-link a:hover {
+    background-color: #f1b36c;
+}
+
+.navbar-menu {
+    list-style: none;       /* убираем маркеры */
+    margin: 0;
+    padding: 0;
+    display: flex;          /* делаем горизонтально */
+    gap: 20px;              /* расстояние между ссылками */
+}
+
+/* Сбрасываем отступы <li> */
+.navbar-menu li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Ссылки */
+.navbar-menu li a {
+    text-decoration: none;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 5px;
+    display: block;         /* важно для кликабельности */
+    transition: background-color 0.3s;
+}
+
+/* Эффект при наведении */
+.navbar-menu li a:hover {
+    background-color: #ddd;
+}
+
+/* Выделяем «Помочь» */
+.navbar-menu li.help-link a {
+    background-color: #EFB878;
+    color: rgb(0, 0, 0);
+}
+
+.navbar-menu li.help-link a:hover {
+    background-color: #f1b36c;
+}
+
+/* Контейнер для логотипа и меню */
+.navbar-container {
+    display: flex;
+    justify-content: space-between; /* логотип слева, меню справа */
+    align-items: center;
+    padding: 10px 20px;
+}
+
+/* Логотип */
+.navbar-brand {
+    font-family: "Century Gothic", Arial, sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    color: #333;
+    text-decoration: none;
+}
+
+.hero-section {
+    position: relative;
+    height: 70vh;
+    background-image: url('../images/index_background.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Полупрозрачный overlay */
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.4);
+    z-index: 1;
+}
+
+/* Контент поверх */
+.hero-content {
+    position: relative;
+    z-index: 2; /* чтобы быть поверх overlay */
+    text-align: center;
+    color: white;
+}
+
+/* Buttons */
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 20px;
+    text-decoration: none;
+    color: white;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+}
+
+/* Кнопки главной страницы */
+
+.primary-btn {
+    background-color: #BC7A2E;
+    color: #fff;
+}
+
+.primary-btn:hover {
+    background-color: #cc883a;
+}
+
+.secondary-btn {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.secondary-btn:hover {
+    background-color: #fff2e2;
+}
+
+.section-title {
+    width: 60%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 70px;
+}
+
+.section-text {
+    width: 60%;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.dogs-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+.dog-card {
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.dog-image-wrapper {
+    width: 100%;
+    padding-top: 100%; /* 4:3 = 3/4 = 75% */
+    position: relative;
+}
+
+.dog-card img.dog-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.dog-detail-container {
+    display: flex;
+    gap: 10%;
+    flex-wrap: wrap;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.dog-text {
+    flex: 1;
+    width: 40%;
+    margin: 0 auto;
+
+}
+.dog-slider {
+    flex: 1;
+    width: 40%;
+    position: relative;
+}
+
+.slides-container {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+    position: relative; /* важно для абсолютного позиционирования кнопок */
+}
+
+.slide {
+    width: 100%;
+    display: none;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.dog-slider button.prev,
+.dog-slider button.next {
+    position: absolute;
+    top: 50%;                 /* по вертикали центр */
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.dog-slider button.prev { left: 10px; }
+.dog-slider button.next { right: 10px; }
+
+.dog-slider button:hover {
+    background-color: rgba(0,0,0,0.7);
+}
+
+.dog-name-detail {
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: var(--brown);
+}
+
+.site-footer {
+    background-color: #BC7A2E;
+    color: black;
+    text-align: center;
+    padding: 30px 20px;
+    font-family: 'Century Gothic', sans-serif;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.footer-nav a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.footer-nav a:hover {
+    color: #333; /* чуть темнее при наведении */
+}
+
+.footer-info p {
+    margin: 5px 0;
+}
+
+.logo-img {
+    width: 50px;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center; /* выравнивание логотипа и текста по центру */
+    gap: 10px;           /* расстояние между картинкой и текстом */
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 50px;        /* высота логотипа */
+    width: auto;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column; /* текст в две строки */
+    justify-content: center; /* вертикальное центрирование по логотипу */
+    font-size: 16px;         /* подбираем под дизайн */
+    line-height: 1.2;        /* расстояние между строк */
+    color: black;
+    font-weight: bold;
+}
+
+.more-dogs-btn {
+    margin-left: 50px;
+    margin-bottom: 50px;
+}
+
+.donate-section {
+    background-color: #EED6BB;
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.donate-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    width: 90%;
+    align-items: stretch;
+}
+
+.donate-box, .donate-qr-text {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    flex: 1 1 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.donate-qr-text {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.donate-qr {
+    height: auto;
+}
+
+.donate-qr-column img.donate-qr {
+    max-width: 150px;
+    height: auto;
+    display: block;
+}
+
+.donate-text-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.donate-text-column:last-child {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.donate-text-column:first-child {
+    flex: 0 0 150px;  

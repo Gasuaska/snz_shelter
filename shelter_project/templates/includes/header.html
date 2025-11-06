@@ -1,23 +1,20 @@
-<header>
-  <p>Место для логотипа</p>
-  <a href="{% url 'homepage:index' %}">АНО "Друг из приюта" г. Снежинска</a>
-  <nav>
-    <ul>
-      <li>
-        <a href="{% url 'homepage:index' %}">Главная</a> 
-      </li>
-      <li>
-        <a href="{% url 'dogs:dogs_list' %}">Собаки</a> 
-      </li>
-      <li>
-        <a href="{% url 'cats:cats_list'%}">Котики</a>
-      </li>
-      <li>
-        <a href="{% url 'pages:about'%}">О приюте</a>
-      </li>
-      <li>
-        <a href="{% url 'pages:help_us'%}">Помочь приюту</a>
-      </li>
+{% load static %}
+<nav class="navbar">
+  <div class="navbar-container site-header">
+    <a class="navbar-brand" href="/">
+      <img src="{% static 'images/logo.jpg' %}" alt="Друг из приюта" class="logo-img">
+      <span class="brand-text">
+        Друг из<br>приюта
+      </span>
+    </a>
+    <ul class="navbar-menu">
+      <li><a href="{% url 'dogs:dogs_list' %}">Собаки</a></li>
+      <li><a href="{% url 'cats:cats_list' %}">Кошки</a></li>
+      <li><a href="{% url 'pages:about' %}">О нас</a></li>
+      <li><a href="{% url 'blog:blog_list' %}">Статьи</a></li>
+      <li><a href="{% url 'pages:contacts' %}">Контакты</a></li>
+      <li><a href="{% url 'pages:useful_links' %}">Ссылки</a></li>
+      <li class="help-link"><a href="{% url 'pages:help_us' %}">Помочь</a></li>
     </ul>
-  </nav>
-</header>
+  </div>
+</nav>

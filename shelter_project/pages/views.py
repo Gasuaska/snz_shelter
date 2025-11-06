@@ -12,3 +12,6 @@ def rules(request):
 def useful_links(request):
     return render(request, 'pages/useful_links.html')
 
+
+def contacts(request):
+    return render(request, 'pages/contacts.html')

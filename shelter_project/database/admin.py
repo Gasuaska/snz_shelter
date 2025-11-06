@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import CatInfo, DogInfo, CatHealth, DogHealth, Owner
+from .models import (
+    CatInfo, DogInfo, CatHealth, DogHealth, Owner, DogDescription, AnimalPhoto)
 
 
 class PetInfoAdmin(admin.ModelAdmin):
@@ -28,11 +29,16 @@ class DogInfoAdmin(PetInfoAdmin):
 class CatInfoAdmin(PetInfoAdmin):
     pass
 
+class AnimalPhotoAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['animal']
 
 admin.site.register(CatInfo, CatInfoAdmin)
 admin.site.register(DogInfo, DogInfoAdmin)
 admin.site.register(CatHealth)
 admin.site.register(DogHealth)
 admin.site.register(Owner)
+admin.site.register(DogDescription)
+admin.site.register(AnimalPhoto, AnimalPhotoAdmin)
+
 
 admin.site.empty_value_display = 'Не задано'

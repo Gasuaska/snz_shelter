@@ -1,20 +1,17 @@
-<footer>
-  <ul>
-    <li>
-      <a href="{% url 'homepage:index' %}">Главная</a> 
-    </li>
-    <li>
-      <a href="{% url 'pages:help_us'%}">Помочь приюту</a>
-    </li>
-    <li>
-      <a href="{% url 'pages:rules' %}">Правила посещения</a> 
-    </li>
-    <li>
-      <a href="{% url 'pages:useful_links'%}">Полезное</a>
-    </li>
-    <li>
-      <a href="{% url 'pages:about'%}">О приюте</a>
-    </li>
-  </ul>
-  <p>© gasuaska, 2025</p>
+<footer class="site-footer">
+  <div class="footer-nav">
+    <a href="{% url 'dogs:dogs_list' %}">Собаки</a>
+    <a href="{% url 'cats:cats_list' %}">Кошки</a>
+    <a href="{% url 'pages:about' %}">О нас</a>
+    <a href="{% url 'blog:blog_list' %}">Статьи</a>
+    <a href="{% url 'pages:contacts' %}">Контакты</a>
+    <a href="{% url 'pages:useful_links' %}">Ссылки</a>
+    <a href="{% url 'pages:help_us' %}">Помочь</a>
+  </div>
+
+  <div class="footer-info">
+    <p>АНО “Друг из приюта”</p>
+    <p>Заботимся о тех, кто нуждается в нашей помощи</p>
+    <p>© 2025 Gasuaska</p>
+  </div>
 </footer>

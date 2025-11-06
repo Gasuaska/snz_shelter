@@ -1,0 +1,17 @@
+        <div class="dog-card">
+             <div class="dog-image-wrapper">
+                  <img src="{{ dog.photos.first.image.url }}" alt="{{ dog.name }}" class="dog-image">
+              </div>
+            <h3 class="dog-name"><a href="{% url 'dogs:dog_detail' dog.id %}">{{ dog.name }}</a></h3>
+              <ul>
+            <li>
+              {{ dog.age_display }}
+            </li>
+            <li>
+              {{ dog.gender_display }}
+            </li>
+            <li>
+              {{ dog.height_display}}
+            </li>
+            <a href="{% url 'dogs:dog_detail' dog.id %}" class="dog-button">Подробнее</a>
+        </div>

@@ -1,7 +1,11 @@
- <!-- base.html -->
  <!DOCTYPE html>
+ {% load static %}
  <html lang="ru">
    <head>
+     <meta charset="UTF-8">
+    <title>{% block title %}Приют{% endblock %}</title>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
    </head>
    <body>
     {% include "includes/header.html" %}

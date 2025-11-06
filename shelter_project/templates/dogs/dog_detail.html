@@ -1,45 +1,58 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
+<h1 class="dog-name-detail">{{ dog.name }}</h1>
 
-  <h1>Информация о собаке</h1>
-  <ul>
-    <li>
-      → <a href="{% url 'homepage:index' %}">Главная</a> 
-    </li>
-    <li>
-      → <a href="{% url 'dogs:dogs_list' %}">Собаки</a> 
-    </li>
-    <li>
-      → Собака 
-    </li>
-  </ul>
+<div class="dog-detail-container">
+    <div class="dog-text">
+        <ul>
+            <li><b>Возраст:</b> {{ dog.age_display }}</li>
+            <li><b>Пол:</b> {{ dog.gender_display }}</li>
+            <li><b>Рост:</b> {{ dog.height_display }}</li>
+            <li><b>В приюте с:</b> {{ dog.intake_year }} года</li>
+        </ul>
+        <br>
+        <p>{{ dog_description.bio }}</p>
+        <br>
+        <p>{{ dog_description.character }}</p>
+        <br>
+        <p>{{ dog_description.best_owner }}</p>
+    </div>
 
-  <h2>ИМЯ</h2>
-  <img src="" alt="Фото собаки" width="35%" height="60%">
-  <ul>
-    <li>
-      Год рождения: 2020 (5 лет)
-    </li>
-    <li>
-      В приюте с: 2020
-    </li>
-    <li>
-      Пол: девочка
-    </li>
-    <li>
-      Кастрирована
-    </li>
-    <li>
-      Размер: по колено
-    </li>
-  </ul>
-  <p>Блаблабла хорошая собака</p>
-  <hr>
-  <h3> ПРИЮТИТЬ СОБАКУ</h3>
-  <hr>
-  <p>Еще прекрасные собаки</p>
-  <a href=""><img src="'" alt="Фото еще собаки" width="20%" height="30%"></a>
-  <a href=""><img src="'" alt="Фото еще собаки" width="20%" height="30%"></a>
-  <a href=""><img src="'" alt="Фото еще собаки" width="20%" height="30%"></a>
+    <div class="dog-slider">
+        <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+        
+        <div class="slides-container">
+            {% for photo in dog_photos %}
+                <img src="{{ photo.image.url }}" class="slide" alt="{{ dog.name }}">
+            {% empty %}
+                <img src="{% static 'images/default-dog.jpg' %}" class="slide" alt="{{ dog.name }}">
+            {% endfor %}
+        </div>
+
+        <button class="next" onclick="changeSlide(1)">&#10095;</button>
+    </div>
+</div>
+
+<script>
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.style.display = i === index ? 'block' : 'none';
+    });
+}
+
+function changeSlide(step) {
+    currentSlide += step;
+    if (currentSlide < 0) currentSlide = slides.length - 1;
+    if (currentSlide >= slides.length) currentSlide = 0;
+    showSlide(currentSlide);
+}
+
+// Инициализация
+if (slides.length > 0) showSlide(currentSlide);
+</script>
+
 {% endblock %}
