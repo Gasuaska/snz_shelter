@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @font-face {
+        font-family: 'CenturyGothic';
+        src: url("{{ STATIC_ROOT }}/fonts/centurygothic.ttf") format('truetype');
+    }
+    body {
+        font-family: 'CenturyGothic', Arial, sans-serif;
+    }
+    .card {
+        background-color: #fff2e2;
+        border: 2px solid #BC7A2E;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .card h1 {
+        color: #BC7A2E;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .card p {
+        font-size: 16px;
+        line-height: 1.4;
+        color: #333;
+    }
+    .photo {
+        float: right;
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        margin-left: 20px;
+    }
+    .clearfix { clear: both; }
+    </style>
+</head>
+<body>
+  <div class="card">
+    <img class="photo" src="{{ dog.photos.first.file.url }}" alt="Фото">
+    <h1>{{ dog.name }}</h1>
+    <p>Год рождения: {{ dog.birth_date }}
+    <p>Пол: {{ dog.get_gender_display }}</p>
+    <p>Рост: {{ dog.get_height_display }}</p>
+  </div>
+</body>
+</html>

@@ -73,9 +73,8 @@ body {
     display: inline-block;
     padding: 10px 20px;
     background: var(--accent);
-    color: black;
+    color: #BC7A2E;
     text-decoration: none;
-    border-radius: 6px;
     font-weight: 600;
 }
 
@@ -204,7 +203,7 @@ body, html {
 .navbar-menu {
     list-style: none;
     display: flex;
-    gap: 20px; /* расстояние между пунктами */
+    gap: 15px; /* расстояние между пунктами */
     margin: 0;
     padding: 0;
 }
@@ -366,6 +365,7 @@ body, html {
 
 .section-text {
     width: 60%;
+    margin-left: 10%;
 }
 
 ul {
@@ -531,57 +531,724 @@ ul {
 
 .donate-section {
     background-color: #EED6BB;
-    padding: 40px 0;
-    display: flex;
-    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.donate-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #BC7A2E;
+    margin-bottom: 30px;
 }
 
 .donate-container {
     display: flex;
+    justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
     max-width: 1000px;
-    width: 90%;
-    align-items: stretch;
+    margin: 0 auto;
 }
 
-.donate-box, .donate-qr-text {
+.donate-box {
     background-color: #fff;
+    flex: 1 1 300px;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    flex: 1 1 300px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    min-height: 180px;
 }
 
-.donate-qr-text {
-    display: flex;
-    gap: 20px;
+.donate-qr-box {
+    flex-direction: row;
     align-items: center;
+    gap: 20px;
 }
 
 .donate-qr {
-    height: auto;
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    align-items: center;
 }
 
-.donate-qr-column img.donate-qr {
-    max-width: 150px;
-    height: auto;
+.donate-qr-text {
+    flex: 1;
+    text-align: left;
+    font-size: 16px;
+}
+
+.navbar-toggle {
+    display: none;
+    font-size: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column;
+        align-items: flex-start; 
+        padding: 10px 20px;
+    }
+
+    .navbar-brand {
+        margin-bottom: 10px;
+    }
+
+    .navbar-toggle {
+        align-self: flex-end;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .navbar-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .navbar-menu.active {
+        display: flex;
+    }
+
+    .navbar-menu li a {
+        width: 100%;
+        padding: 10px 15px;
+        text-align: left;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 20px;
+    }
+
+    .navbar-brand {
+        margin-bottom: 10px;
+    }
+
+    .navbar-toggle {
+        align-self: flex-end;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .navbar-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .navbar-menu.active {
+        display: flex;
+    }
+
+    .navbar-menu li a {
+        width: 100%;
+        padding: 10px 15px;
+        text-align: left;
+    }
+}
+Ъ
+/* Контейнер для двух белых блоков */
+.donate-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Белые карточки - ОБЩИЕ стили */
+.donate-box {
+    background-color: #fff;
+    flex: 1 1 400px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* ПРАВЫЙ блок - QR-код */
+.donate-qr-box {
+    display: flex;           /* горизонтальный flex */
+    align-items: center;     
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+/* QR-код */
+.donate-qr-box img {
+    width: 120px;            /* фиксированный размер QR */
+    height: 120px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* Текст рядом с QR */
+.donate-qr-text {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+/* Для мобильных */
+@media (max-width: 768px) {
+    .donate-qr-box {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .donate-qr-box img {
+        margin-bottom: 10px;
+    }
+}
+.post-detail-section {
+    background-color: #fdfdfd;
+    padding: 40px 0;
+}
+
+.post-detail-container {
+    max-width: 900px;
+    width: 90%;
+    margin: 0 auto; /* центрируем блок */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.post-image-box {
+    width: 600px;
+    max-height: 400px;
+    overflow: hidden;
+}
+
+.post-image {
+    width: 600px;
+    object-fit: cover;
     display: block;
 }
 
-.donate-text-column {
+.post-content-box {
+    width: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.post-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.post-meta {
+    color: #777;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.post-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* =========================
+   ПАГИНАЦИЯ
+   ========================= */
+.pagination {
+  display: flex !important;
+  justify-content: center !important;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin-top: 20px;
+  padding: 0;
+}
+
+.page-item {
+  list-style: none;
+}
+
+.page-link {
+  display: inline-block;
+  padding: 6px 12px;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color: #333;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.page-link:hover {
+  background-color: #cc883a;
+  color: #fff;
+  border-color: #cc883a;
+}
+
+.page-item.active .page-link {
+  background-color: #BC7A2E;
+  color: #fff;
+  border-color: #BC7A2E;
+  cursor: default;
+}
+
+/* Секция "О приюте" */
+.about-section {
+    padding: 60px 20px;
+    background-color: #fdfdfd;
+}
+
+.post-detail-container {
+    max-width: 900px;
+    width: 90%;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
+    padding: 30px;
 }
-.donate-text-column:last-child {
+
+.post-title {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--brown);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.post-subtitle {
+    font-size: 1.6rem;
+    color: var(--accent-dark);
+    margin: 40px 0 20px;
+    text-align: left;
+    width: 100%;
+}
+
+.post-content-box {
+    width: 100%;
+}
+
+.post-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.post-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+.post-list li {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .post-title {
+        font-size: 1.8rem;
+    }
+    .post-subtitle {
+        font-size: 1.4rem;
+    }
+    .post-text, .post-list li {
+        font-size: 1rem;
+    }
+}
+
+/* Контейнер с текстом и картинкой */
+.about-grid {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* Текстовая колонка */
+.post-content-box {
+    flex: 1;
+}
+
+/* Картинка справа */
+.about-image-box {
     flex: 1;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-image {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    object-fit: cover;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .about-grid {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .about-image {
+        max-width: 100%;
+    }
+}
+
+
+.filter-section {
+    background-color: #EED6BB;
+    padding: 20px 10px;
+}
+
+.filter-form {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: flex-end;
     justify-content: center;
 }
 
-.donate-text-column:first-child {
-    flex: 0 0 150px;  
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-item label {
+    font-weight: bold;
+    color: var(--brown);
+}
+
+.filter-item input,
+.filter-item select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 16px;
+}
+
+/* Кнопка */
+.filter-form .btn {
+    margin-top: 20px;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .filter-form {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: nowrap;       /* строго в одну строку */
+  gap: 20px;
+  align-items: flex-end;   /* выравнивание по нижней линии */
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;  /* метка сверху, поле снизу */
+}
+
+.filter-item.age {
+  flex-direction: row;     /* два input в одну строку */
+  gap: 5px;
+  align-items: center;
+}
+
+.filter-item.age label {
+  margin-right: 10px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Поля и кнопки */
+.filter-item input,
+.filter-item select {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  min-width: 80px;
+}
+
+.filter-buttons .btn {
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 15px;
+}
+
+.filter-buttons .primary-btn {
+  background-color: #BC7A2E;
+  color: white;
+}
+
+.filter-buttons .primary-btn:hover {
+  background-color: #d9a963;
+}
+
+.filter-buttons .secondary-btn {
+  background-color: #EFB878;
+  color: black;
+}
+
+.filter-buttons .secondary-btn:hover {
+  background-color: #f1b36c;
+}
+
+/* Мобильные */
+@media (max-width: 768px) {
+  .filter-row {
+    flex-wrap: wrap;       /* разрешаем перенос */
+    justify-content: flex-start;
+  }
+  .filter-item {
+    flex: 1 1 45%;
+  }
+  .filter-buttons {
+    flex: 1 1 100%;
+  }
+}
+
+.filter-btn {
+    background-color: #BC7A2E;
+     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    line-height: 1;
+    min-height: 40px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    box-sizing: border-box; 
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-item.age {
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-item label {
+    min-width: 60px;
+    font-weight: bold;
+}
+
+.help-section {
+    background-color: #fdf4eb; /* мягкий фон */
+    padding: 50px 20px;
+    font-family: "Century Gothic", Arial, sans-serif;
+    color: var(--text);
+}
+
+.help-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.help-box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 25px;
+}
+
+.help-box h3 {
+    color: var(--brown);
+    margin-bottom: 15px;
+}
+
+.help-box ul {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.help-box ul li {
+    margin-bottom: 10px;
+}
+
+.help-footer {
+    margin-top: 30px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.contacts-section {
+    background-color: #fdf4eb; /* мягкий фон */
+    padding: 50px 20px;
+    font-family: "Century Gothic", Arial, sans-serif;
+    color: var(--text);
+}
+
+.contacts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.contact-box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 25px;
+}
+
+.contact-box h3 {
+    color: var(--brown);
+    margin-bottom: 15px;
+}
+
+.contact-box a {
+    color: var(--accent-dark);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.contact-box a:hover {
+    color: var(--brown);
+}
+
+.contacts-footer {
+    margin-top: 30px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.links-section {
+    background-color: #fdf4eb;
+    padding: 50px 20px;
+    font-family: "Century Gothic", Arial, sans-serif;
+    color: var(--text);
+}
+
+.links-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.link-box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 25px;
+    flex: 1 1 300px;
+    max-width: 400px;
+}
+
+.link-box h3 {
+    color: var(--brown);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.link-box p {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.link-box a {
+    color: var(--accent-dark);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.link-box a:hover {
+    color: var(--brown);
+}
+
+.donate-qr-help {
+    display: block;           /* чтобы можно было центрировать */
+    margin: 20px auto;        /* 20px сверху и снизу, auto слева и справа */
+    max-width: 200px;         /* ограничим размер */
+    width: 100%;
+    height: auto;             /* пропорционально */
+    border: 2px solid var(--border); /* тонкая рамка, если нужно */
+    border-radius: 10px;      /* скругление углов */
+    padding: 10px;            /* внутренний отступ */
+    background-color: #fff;   /* чтобы QR был на белом фоне */
+}
+
+.articles-list .section-text {
+    background-color: #FEEFD8;  /* мягкий бежевый фон, можно менять */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.articles-list .section-text h3 {
+    color: var(--brown);
+    margin-bottom: 10px;
+}
+
+.articles-list .section-text p {
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.articles-list .section-text a {
+    color: #BC7A2E;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.articles-list .section-text a:hover {
+    color: var(--accent-dark);
+}

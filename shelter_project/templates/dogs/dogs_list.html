@@ -1,12 +1,48 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
   <h1 class="section-title">Список собак</h1>
 
+<form method="get" class="filter-form">
+  <div class="filter-row">
+    <div class="filter-item">
+      <label for="gender">Пол:</label>
+      <select id="gender" name="gender">
+        <option value="">Любой</option>
+        <option value="M" {% if request.GET.gender == 'M' %}selected{% endif %}>Мальчик</option>
+        <option value="F" {% if request.GET.gender == 'F' %}selected{% endif %}>Девочка</option>
+      </select>
+    </div>
+
+    <div class="filter-item age">
+      <label>Возраст (лет):</label>
+      <input type="number" name="age_min" placeholder="От" min="0" value="{{ request.GET.age_min }}">
+      <input type="number" name="age_max" placeholder="До" min="0" value="{{ request.GET.age_max }}">
+    </div>
+
+    <div class="filter-item">
+      <label for="height">Рост:</label>
+      <select id="height" name="height">
+        <option value="">Любой</option>
+        <option value="Low" {% if request.GET.height == 'Low' %}selected{% endif %}>ниже колена</option>
+        <option value="Mid" {% if request.GET.height == 'Mid' %}selected{% endif %}>по колено</option>
+        <option value="High" {% if request.GET.height == 'High' %}selected{% endif %}>выше колена</option>
+      </select>
+    </div>
+
+    <div class="filter-buttons">
+      <button type="submit" class="btn filter-btn">Найти</button>
+      <a href="{% url 'dogs:dogs_list' %}" class="btn filter-btn">Сбросить</a>
+    </div>
+  </div>
+</form>
+
   <div class="dogs-container">
-    {% for dog in dogs %}
+    {% for dog in page_obj %}
       {% include "includes/dog_card.html" %}
     {% endfor %}
   </div>
+
+  {% include "includes/paginator.html" %}
 
 {% endblock %}
