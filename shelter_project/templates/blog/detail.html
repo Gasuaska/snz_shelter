@@ -7,22 +7,32 @@
 
     <div class="post-content-box">
       <h1 class="post-title">{{ post.title }}</h1>
+
       <p class="post-meta">
         Опубликовано {{ post.pub_date|date:"d E Y" }} |
         Автор: {{ post.author.get_full_name|default:post.author.username }}
         {% if post.category %}
-          | Категория: {{ post.category.title }}
+          | Категория:
+          <a href="{% url 'blog:category_posts' post.category.slug %}" class="post-category-link">
+            {{ post.category.title }}
+          </a>
         {% endif %}
       </p>
 
       <div class="post-text">
         {{ post.text|linebreaks }}
       </div>
-          {% if post.image %}
-      <div class="post-image-box">
-        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+
+      {% if post.image %}
+        <div class="post-image-box">
+          <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+        </div>
+      {% endif %}
+        <br>
+      <div class="post-nav">
+        <a href="{% url 'blog:blog_list' %}" class="btn primary-btn">← Все статьи</a>
       </div>
-    {% endif %}
+
     </div>
 
   </div>

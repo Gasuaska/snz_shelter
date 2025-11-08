@@ -14,7 +14,6 @@ class PostQuerySet(models.QuerySet):
     def select_related_set(self):
         return self.select_related(
             'category',
-            'location',
             'author'
         )
 
