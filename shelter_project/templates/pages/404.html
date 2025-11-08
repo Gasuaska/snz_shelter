@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <h1>404</h1>
+        <img src="{% static 'images/lost-dog.png' %}" alt="Потерявшаяся собачка" class="dog-image">
+        <p>Ой! Похоже, эта страница потерялась, как наша собачка!</p>
+        <a href="/" class="button">Вернуться на главную</a>
+    </div>
+{% endblock %}

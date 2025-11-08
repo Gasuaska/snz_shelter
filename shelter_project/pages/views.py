@@ -15,3 +15,6 @@ def useful_links(request):
 
 def contacts(request):
     return render(request, 'pages/contacts.html')
+
+def page_not_found_404(request, exception):
+    return render(request, 'pages/404.html', status=404)
