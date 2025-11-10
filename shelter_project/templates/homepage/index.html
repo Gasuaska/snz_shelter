@@ -29,6 +29,22 @@
   </div>
 </section>
 
+<section class="section">
+    <h2 class="section-title">СЛУЧАЙНЫЕ ПРЕКРАСНЫЕ КОТИКИ</h2>
+<div class="dogs-container">
+    {% for cat in cats %}
+      {% include "includes/cat_card.html" %}
+    {% endfor %}
+</div>
+</section>
+
+<section class="section more-dogs-btn">
+  <div class="hero-buttons">
+    <a href="{% url 'cats:cats_list' %}" class="btn primary-btn">ЕЩЕ БОЛЬШЕ КОТИКОВ...</a>
+  </div>
+</section>
+
+
 <section class="donate-section">
   <h2 class="donate-title">ПОМОЧЬ ПРИЮТУ</h2>
   <div class="donate-container">

@@ -10,5 +10,6 @@ urlpatterns = [
     path('rules/', views.rules, name='rules'),
     path('useful_links/', views.useful_links, name='useful_links'),
     path('contacts/', views.contacts, name='contacts'),
+    path('how_to_adopt/', views.adopt, name='adopt'),
 
 ]

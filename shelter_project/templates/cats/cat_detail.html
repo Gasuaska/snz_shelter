@@ -1,7 +1,57 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<section class="section-title">
-  <h1>В разработке</h1>
-</section>
+<h1 class="dog-name-detail">{{ cat.name }}</h1>
+
+<div class="dog-detail-container">
+    <div class="dog-text">
+        <ul>
+            <li><b>Возраст:</b> {{ cat.age_display }}</li>
+            <li><b>Пол:</b> {{ cat.gender_display }}</li>
+            <li><b>В приюте с:</b> {{ cat.intake_year }} года</li>
+        </ul>
+        <br>
+        <p>{{ cat_description.bio }}</p>
+        <br>
+        <p>{{ cat_description.character }}</p>
+        <br>
+        <p>{{ cat_description.best_owner }}</p>
+    </div>
+
+    <div class="dog-slider">
+        <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+        
+        <div class="slides-container">
+            {% for photo in cat_photos %}
+                <img src="{{ photo.image.url }}" class="slide" alt="{{ cat.name }}">
+            {% empty %}
+                <img src="{% static 'images/default-cat.jpg' %}" class="slide" alt="{{ cat.name }}">
+            {% endfor %}
+        </div>
+
+        <button class="next" onclick="changeSlide(1)">&#10095;</button>
+    </div>
+</div>
+
+<script>
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.style.display = i === index ? 'block' : 'none';
+    });
+}
+
+function changeSlide(step) {
+    currentSlide += step;
+    if (currentSlide < 0) currentSlide = slides.length - 1;
+    if (currentSlide >= slides.length) currentSlide = 0;
+    showSlide(currentSlide);
+}
+
+// Инициализация
+if (slides.length > 0) showSlide(currentSlide);
+</script>
+
 {% endblock %}

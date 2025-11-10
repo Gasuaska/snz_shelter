@@ -6,7 +6,8 @@ from xhtml2pdf import pisa
 from django.http import HttpResponse
 
 from .models import (
-    CatInfo, DogInfo, CatHealth, DogHealth, Owner, DogDescription, AnimalPhoto)
+    CatInfo, DogInfo, CatHealth, DogHealth, Owner, DogDescription,
+    DogPhoto, CatPhoto, CatDescription)
 
 
 @admin.action(description="Сгенерировать PDF карточки выбранных собак")
@@ -55,7 +56,9 @@ admin.site.register(CatHealth)
 admin.site.register(DogHealth)
 admin.site.register(Owner)
 admin.site.register(DogDescription)
-admin.site.register(AnimalPhoto, AnimalPhotoAdmin)
+admin.site.register(CatDescription)
+admin.site.register(DogPhoto, AnimalPhotoAdmin)
+admin.site.register(CatPhoto, AnimalPhotoAdmin)
 
 
 admin.site.empty_value_display = 'Не задано'

@@ -1,0 +1,16 @@
+        <div class="dog-card">
+             <div class="dog-image-wrapper">
+                  <a href="{% url 'cats:cat_detail' cat.id %}">
+                    <img src="{{ cat.photos.first.image.url }}" alt="{{ cat.name }}" class="dog-image">
+                  </a>
+              </div>
+            <h3 class="dog-name"><a href="{% url 'cats:cat_detail' cat.id %}">{{ cat.name }}</a></h3>
+              <ul>
+            <li>
+              {{ cat.age_display }}
+            </li>
+            <li>
+              {{ cat.gender_display }}
+            </li>
+            <a href="{% url 'cats:cat_detail' cat.id %}" class="dog-button">Подробнее</a>
+        </div>
