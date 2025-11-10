@@ -8,16 +8,39 @@ from django.http import HttpResponse
 from .models import (
     CatInfo, DogInfo, CatHealth, DogHealth, Owner, DogDescription,
     DogPhoto, CatPhoto, CatDescription)
+from .generate_cards import draw_card
 
 
 @admin.action(description="Сгенерировать PDF карточки выбранных собак")
-def dog_card_pdf(modeladmin, request, queryset):
+def generate_pdf(modeladmin, request, queryset):
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="dogs.pdf"'
-    for dog in queryset:
-        html = render_to_string("pdf/dog_card.html", {"dog": dog})
-        pisa_status = pisa.CreatePDF(html, dest=response)
+    response['Content-Disposition'] = 'attachment; filename="dogs_cards.pdf"'
 
+    c = canvas.Canvas(response, pagesize=A4)
+    page_w, page_h = A4
+    margin = 15 * mm
+    gap = 8 * mm
+    card_w = (page_w - 2 * margin - gap) / 2.0
+    card_h = (page_h - 2 * margin - gap) / 2.0
+
+    positions = []
+    for row in range(2):
+        for col in range(2):
+            x = margin + col * (card_w + gap)
+            y = page_h - margin - (row + 1) * card_h - row * gap
+            positions.append((x, y))
+
+    idx = 0
+    for dog in queryset:
+        x, y = positions[idx % 4]
+        draw_card(c, x, y, card_w, card_h, dog)
+        idx += 1
+        if idx % 4 == 0:
+            c.showPage()
+    if idx % 4 != 0:
+        c.showPage()
+
+    c.save()
     return response
 
 
@@ -41,7 +64,7 @@ class DogInfoAdmin(PetInfoAdmin):
     inlines = (
         DogHealthInline,
     )
-    actions = (dog_card_pdf,)
+    actions = (generate_pdf,)
 
 
 class CatInfoAdmin(PetInfoAdmin):
