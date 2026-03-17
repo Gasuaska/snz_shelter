@@ -44,7 +44,6 @@ def draw_card(c, x, y, w, h, dog: DogInfo):
         c.setFont("Helvetica", 10)
         c.drawCentredString(x + w / 2, img_y + img_h / 2, "Фото отсутствует")
 
-    # текст под картинкой
     text_y = img_y - 10 * mm
     name_text = dog.name or "Без имени"
     dob_text = "Дата рождения: "
