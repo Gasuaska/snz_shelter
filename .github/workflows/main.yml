@@ -1,13 +1,14 @@
-name: Deploy Shelter Site
+name: Main Shelter Workflow
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
 
 jobs:
-  build_and_push_site:
-    name: Build & Push Django site image
+  build_and_push_to_docker_hub:
+    name: Build & Push backend image
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -26,9 +27,9 @@ jobs:
           tags: gasuaska/snz_shelter:latest
 
   deploy:
-    name: Deploy to Server
+    name: Deploy
     runs-on: ubuntu-latest
-    needs: build_and_push_site
+    needs: build_and_push_to_docker_hub
     steps:
       - uses: actions/checkout@v3
 
@@ -42,7 +43,7 @@ jobs:
           source: "docker-compose.yml"
           target: "snz_shelter"
 
-      - name: SSH Deploy
+      - name: SSH deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -52,10 +53,11 @@ jobs:
           script: |
             cd snz_shelter
             sudo mkdir -p /static /app/media
-            sudo docker compose pull
-            sudo docker compose down
-            sudo docker compose up -d
-            sudo docker compose exec site python manage.py migrate
-            sudo docker compose exec site python manage.py collectstatic --noinput
-            sudo docker compose exec site cp -r /app/staticfiles/. /static/
+            sudo docker compose -f docker-compose.yml pull
+            sudo docker compose -f docker-compose.yml down
+            sudo docker compose -f docker-compose.yml up -d
+            # миграции и статика
+            sudo docker compose -f docker-compose.yml exec -T site python manage.py migrate
+            sudo docker compose -f docker-compose.yml exec -T site python manage.py collectstatic --noinput
+            sudo docker compose -f docker-compose.yml exec -T site cp -r /app/staticfiles/. /static/
             sudo docker image prune -af
