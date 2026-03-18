@@ -20,7 +20,7 @@
       </p>
 
       <div class="post-text">
-        {{ post.text|linebreaks }}
+        {{ post.html_text|safe }}
       </div>
 
       {% if post.image %}
