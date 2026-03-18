@@ -19,7 +19,7 @@ services:
     volumes:
       - static_volume:/app/static
       - media_volume:/app/media
-    command: gunicorn project_name.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn snz_shelter.wsgi:application --bind 0.0.0.0:8000
     depends_on:
       - db
 
