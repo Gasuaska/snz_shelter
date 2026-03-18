@@ -53,11 +53,19 @@ jobs:
           script: |
             cd snz_shelter
             sudo mkdir -p /static /app/media
+            
+            # Логин в Docker Hub
+            echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+            
+            # Pull образа, рестарт контейнеров
             sudo docker compose -f docker-compose.yml pull
             sudo docker compose -f docker-compose.yml down
             sudo docker compose -f docker-compose.yml up -d
-            # миграции и статика
+            
+            # Миграции и статика
             sudo docker compose -f docker-compose.yml exec -T site python manage.py migrate
             sudo docker compose -f docker-compose.yml exec -T site python manage.py collectstatic --noinput
             sudo docker compose -f docker-compose.yml exec -T site cp -r /app/staticfiles/. /static/
+            
+            # Очистка ненужных образов
             sudo docker image prune -af
