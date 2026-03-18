@@ -12,3 +12,8 @@ KENNEL_CHOICES = [
     ('KSH5', 'КШ5'), ('KSH6', 'КШ6'), ('KSH7', 'КШ7'), ('KSH8', 'КШ8'),
     ('KSH9', 'КШ9'),
     ('GUARD', 'Охрана'), ('Mira', 'Мира'), ('FOSTER', 'Передержка')]
+
+ALLOWED_TAGS = [
+    'p', 'strong', 'em', 'ul', 'ol', 'li', 'br',
+    'h1', 'h2', 'h3', 'blockquote'
+]

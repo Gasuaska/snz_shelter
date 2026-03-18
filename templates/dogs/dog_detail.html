@@ -32,6 +32,13 @@
 
         <button class="next" onclick="changeSlide(1)">&#10095;</button>
     </div>
+
+    <div class="dogs-container">
+    {% for dog in random_dogs %}
+      {% include "includes/dog_card.html" %}
+    {% endfor %}
+</div>
+
 </div>
 
 <script>
@@ -54,5 +61,7 @@ function changeSlide(step) {
 // Инициализация
 if (slides.length > 0) showSlide(currentSlide);
 </script>
+
+
 
 {% endblock %}

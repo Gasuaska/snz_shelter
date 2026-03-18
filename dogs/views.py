@@ -1,10 +1,13 @@
 import random
 from datetime import date, timedelta
 
+import markdown
+import bleach
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from database.models import DogInfo, DogDescription
+from database.constants import ALLOWED_TAGS
 
 MAX_DOGS_ON_PAGE = 16
 
@@ -43,13 +46,27 @@ def dogs_list(request):
     return render(
         request, 'dogs/dogs_list.html', context)
 
+def render_md(text):
+    if not text:
+        return None
+    raw_html = markdown.markdown(text)
+    return bleach.clean(raw_html, tags=ALLOWED_TAGS)
+
+
 def dog_detail(request, pk):
     dog = DogInfo.objects.get(pk=pk)
     dog_description = getattr(dog, 'dog_description', None)
+    
+    if dog_description:
+        dog_description.bio_html = render_md(dog_description.bio)
+        dog_description.character_html = render_md(dog_description.character)
+        dog_description.best_owner_html = render_md(dog_description.best_owner)
+    
     dogs = list(DogInfo.objects.all())
     random_dogs = random.sample(dogs, min(len(dogs), 3))
     dog_photos = dog.photos.all()
     main_photo = dog.photos.filter(is_main=True).first()
+    
     return render(
         request, 'dogs/dog_detail.html', {
             'dog': dog,
