@@ -1,4 +1,4 @@
- {% load static %}
+{% load static %}
 <nav class="navbar">
   <div class="navbar-container site-header">
     <a class="navbar-brand" href="/">
@@ -11,7 +11,7 @@
     </button>
 
     <ul class="navbar-menu">
-      <li><a href="https://vk.com/zoosnejinsk"><b>Наша группа в ВК</b></a></li>
+      <li><a href="https://vk.com/zoosnejinsk" target="_blank" rel="noopener"><b>Наша группа в ВК</b></a></li>
       <li><a href="{% url 'dogs:dogs_list' %}">Собаки</a></li>
       <li><a href="{% url 'cats:cats_list' %}">Кошки</a></li>
       <li><a href="{% url 'pages:about' %}">О нас</a></li>
