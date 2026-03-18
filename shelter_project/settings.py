@@ -18,7 +18,9 @@ DEBUG = os.getenv('DEBUG', default='False').lower() == 'true'
 allowed_hosts = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(',')
 ALLOWED_HOSTS = [host.strip() for host in allowed_hosts]
 
+CSRF_TRUSTED_ORIGINS = ["https://drugizpriyuta.ru", "https://www.drugizpriyuta.ru"]
 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Application definition
 
