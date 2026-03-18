@@ -32,14 +32,16 @@
 
         <button class="next" onclick="changeSlide(1)">&#10095;</button>
     </div>
-
+</div>
     
+<section class="section">
+    <h2 class="section-title">СЛУЧАЙНЫЕ ПРЕКРАСНЫЕ СОБАКИ</h2>
+<div class="dogs-container">
+    {% for dog in random_dogs %}
+      {% include "includes/dog_card.html" %}
+    {% endfor %}
 </div>
-    <div class="dogs-container">
-        {% for dog in random_dogs %}
-        {% include "includes/dog_card.html" %}
-        {% endfor %}
-</div>
+</section>
 
 <script>
 let currentSlide = 0;
