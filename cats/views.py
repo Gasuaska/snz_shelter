@@ -42,7 +42,7 @@ def cats_list(request):
 
 def cat_detail(request, pk):
     cat = CatInfo.objects.get(pk=pk)
-    cat_description = getattr(cat, 'description', None)
+    cat_description = getattr(cat, 'cat_description', None)
     felv_stasus = cat.cat_health.felv_status
     fiv_stasus = cat.cat_health.fiv_status
     cat_status = {

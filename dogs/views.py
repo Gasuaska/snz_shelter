@@ -45,7 +45,7 @@ def dogs_list(request):
 
 def dog_detail(request, pk):
     dog = DogInfo.objects.get(pk=pk)
-    dog_description = getattr(dog, 'description', None)
+    dog_description = getattr(dog, 'dog_description', None)
     dogs = list(DogInfo.objects.all())
     random_dogs = random.sample(dogs, min(len(dogs), 3))
     dog_photos = dog.photos.all()
