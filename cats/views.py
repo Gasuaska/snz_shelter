@@ -1,10 +1,13 @@
 import random
 from datetime import date, timedelta
 
+import markdown
+import bleach
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from database.models import CatInfo, CatHealth, CatDescription
+from dogs.views import render_md
 
 MAX_CATS_ON_PAGE = 16
 
@@ -43,6 +46,12 @@ def cats_list(request):
 def cat_detail(request, pk):
     cat = CatInfo.objects.get(pk=pk)
     cat_description = getattr(cat, 'cat_description', None)
+    
+    if cat_description:
+        cat_description.bio_html = render_md(cat_description.bio)
+        cat_description.character_html = render_md(cat_description.character)
+        cat_description.best_owner_html = render_md(cat_description.best_owner)
+    
     felv_stasus = cat.cat_health.felv_status
     fiv_stasus = cat.cat_health.fiv_status
     cat_status = {
