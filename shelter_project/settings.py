@@ -115,3 +115,5 @@ STATIC_ROOT = '/static'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024
