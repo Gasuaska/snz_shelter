@@ -422,7 +422,7 @@ class CatDescription(models.Model):
         return self.cat.name
 
 
-@receiver(post_save, sender=DogInfo)
+@receiver(post_save, sender=CatInfo)
 def create_cat_description(sender, instance, created, **kwargs):
     if created:
         CatDescription.objects.create(
