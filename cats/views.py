@@ -59,6 +59,7 @@ def cat_detail(request, pk):
         'fiv_stasus': fiv_stasus,
     }
     cats = list(CatInfo.objects.all())
+    cats = [cat for cat in cats if cat.pk != pk]
     random_cats = random.sample(cats, min(len(cats), 3))
     cat_photos = cat.photos.all()
     main_photo = cat.photos.filter(is_main=True).first()

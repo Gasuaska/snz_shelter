@@ -63,6 +63,7 @@ def dog_detail(request, pk):
         dog_description.best_owner_html = render_md(dog_description.best_owner)
     
     dogs = list(DogInfo.objects.all())
+    dogs = [dog for dog in dogs if dog.pk != pk]
     random_dogs = random.sample(dogs, min(len(dogs), 3))
     dog_photos = dog.photos.all()
     main_photo = dog.photos.filter(is_main=True).first()
