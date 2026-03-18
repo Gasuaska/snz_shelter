@@ -11,11 +11,11 @@
             <li><b>В приюте с:</b> {{ cat.intake_year }} года</li>
         </ul>
         <br>
-        <p>{{ cat_description.bio|linebreaks }}</p>
+        <p>{{ cat_description.bio|safe }}</p>
         <br>
-        <p>{{ cat_description.character|linebreaks }}</p>
+        <p>{{ cat_description.character|safe }}</p>
         <br>
-        <p>{{ cat_description.best_owner|linebreaks }}</p>
+        <p>{{ cat_description.best_owner|safe }}</p>
     </div>
 
     <div class="dog-slider">
