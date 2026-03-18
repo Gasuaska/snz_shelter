@@ -33,14 +33,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Copy docker-compose file to server
+      - name: Copy files to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: "docker-compose.yml"
+          source: "docker-compose.yml,nginx.conf,.env"
           target: "snz_shelter"
 
       - name: SSH deploy
