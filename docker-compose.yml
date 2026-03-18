@@ -14,8 +14,7 @@ services:
       - pg_data:/var/lib/postgresql/data
 
   site:
-    build:
-      context: .
+    image: gasuaska/snz_shelter:latest
     env_file: .env
     volumes:
       - static_volume:/app/static
