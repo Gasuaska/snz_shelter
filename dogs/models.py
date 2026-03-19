@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models
 
-from .constants import KENNEL_CHOICES
+from database.constants import KENNEL_CHOICES
 from database.models import BaseHealthInfo, BaseInfoModel, Owner
 
 
