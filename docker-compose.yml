@@ -51,7 +51,7 @@ services:
       - ./backups:/backups
     entrypoint: >
       bash -c "while true; do
-        pg_dump -h db -U postgres postgres > /backups/backup_$(date +%Y-%m-%d_%H-%M-%S).sql;
+        pg_dump -h db -U django_user django > /backups/backup_$(date +%Y-%m-%d_%H-%M-%S).sql;
         find /backups -type f -mtime +7 -delete;
         sleep 86400;
       done"
