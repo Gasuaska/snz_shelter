@@ -1,18 +1,18 @@
 import random
 from datetime import date, timedelta
 
-import markdown
-import bleach
+from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
-from database.models import CatInfo, CatHealth, CatDescription
+from database.models import CatInfo
 from dogs.views import render_md
 
 MAX_CATS_ON_PAGE = 16
 
 def cats_list(request):
-    cats = CatInfo.objects.all().prefetch_related('photos')
+    cats = CatInfo.objects.filter(
+        is_at_shelter=True).prefetch_related('photos')
     today = date.today()
     gender = request.GET.get('gender')
     age_min = request.GET.get('age_min')
@@ -31,7 +31,9 @@ def cats_list(request):
     if age_max:
         try:
             age_max = int(age_max)
-            birth_min = date(today.year - age_max - 1, today.month, today.day) + timedelta(days=1)
+            birth_min = (date(
+                today.year - age_max - 1, today.month, today.day)
+                         + timedelta(days=1))
             cats = cats.filter(birth_date__gte=birth_min)
         except ValueError:
             pass
@@ -44,7 +46,8 @@ def cats_list(request):
         request, 'cats/cats_list.html', context)
 
 def cat_detail(request, pk):
-    cat = CatInfo.objects.get(pk=pk)
+    cat = get_object_or_404(CatInfo, pk=pk, is_at_shelter=True)
+
     cat_description = getattr(cat, 'cat_description', None)
     
     if cat_description:
@@ -58,7 +61,7 @@ def cat_detail(request, pk):
         'felv_stasus': felv_stasus,
         'fiv_stasus': fiv_stasus,
     }
-    cats = list(CatInfo.objects.all())
+    cats = list(CatInfo.objects.filter(is_at_shelter=True))
     cats = [cat for cat in cats if cat.pk != pk]
     random_cats = random.sample(cats, min(len(cats), 3))
     cat_photos = cat.photos.all()

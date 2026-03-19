@@ -4,15 +4,17 @@ from datetime import date, timedelta
 import markdown
 import bleach
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
-from database.models import DogInfo, DogDescription
+
+from database.models import DogInfo
 from database.constants import ALLOWED_TAGS
 
 MAX_DOGS_ON_PAGE = 16
 
 def dogs_list(request):
-    dogs = DogInfo.objects.all().prefetch_related('photos')
+    dogs = DogInfo.objects.filter(
+        is_at_shelter=True).prefetch_related('photos')
     today = date.today()
     gender = request.GET.get('gender')
     height = request.GET.get('height')
@@ -34,7 +36,9 @@ def dogs_list(request):
     if age_max:
         try:
             age_max = int(age_max)
-            birth_min = date(today.year - age_max - 1, today.month, today.day) + timedelta(days=1)
+            birth_min = (date(
+                today.year - age_max - 1, today.month, today.day)
+                         + timedelta(days=1))
             dogs = dogs.filter(birth_date__gte=birth_min)
         except ValueError:
             pass
@@ -54,7 +58,7 @@ def render_md(text):
 
 
 def dog_detail(request, pk):
-    dog = DogInfo.objects.get(pk=pk)
+    dog = get_object_or_404(DogInfo, pk=pk, is_at_shelter=True)
     dog_description = getattr(dog, 'dog_description', None)
     
     if dog_description:
@@ -62,7 +66,7 @@ def dog_detail(request, pk):
         dog_description.character_html = render_md(dog_description.character)
         dog_description.best_owner_html = render_md(dog_description.best_owner)
     
-    dogs = list(DogInfo.objects.all())
+    dogs = list(DogInfo.objects.filter(is_at_shelter=True))
     dogs = [dog for dog in dogs if dog.pk != pk]
     random_dogs = random.sample(dogs, min(len(dogs), 3))
     dog_photos = dog.photos.all()

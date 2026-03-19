@@ -1,12 +1,7 @@
-import markdown
-import bleach
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 
-from blog.forms import PostForm, ProfileForm
-from blog.models import Category, Post, User
-from database.constants import ALLOWED_TAGS
+from blog.models import Category, Post
 from dogs.views import render_md
 
 def pages_paginator(request, post_list, posts_per_page=10):
