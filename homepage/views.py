@@ -2,7 +2,8 @@ import random
 
 from django.shortcuts import render
 
-from database.models import DogInfo, CatInfo
+from dogs.models import DogInfo
+from cats.models import CatInfo
 from blog.models import Post
 
 def index(request):
