@@ -1,7 +1,8 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
-from database.models import DogInfo, CatInfo
+from dogs.models import DogInfo
+from cats.models import CatInfo
 from blog.models import Post
 
 
