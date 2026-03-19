@@ -26,7 +26,7 @@
             {% for photo in dog_photos %}
                 <img src="{{ photo.image.url }}" class="slide" alt="{{ dog.name }}">
             {% empty %}
-                <img src="{% static 'images/default-dog.jpg' %}" class="slide" alt="{{ dog.name }}">
+                <img src="{% static 'images/default-dog.png' %}" class="slide" alt="{{ dog.name }}">
             {% endfor %}
         </div>
 
