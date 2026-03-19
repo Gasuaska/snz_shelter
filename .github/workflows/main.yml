@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: "docker-compose.yml,nginx.conf,.env"
+          source: "docker-compose.yml,nginx.conf"
           target: "snz_shelter"
 
       - name: SSH deploy

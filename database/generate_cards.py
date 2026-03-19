@@ -6,7 +6,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 from reportlab.lib.utils import ImageReader
 
-from .models import DogInfo
+from dogs.models import DogInfo
 
 
 def get_main_photo_path(dog: DogInfo):
