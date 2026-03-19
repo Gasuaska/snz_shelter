@@ -5,9 +5,9 @@ from django.template.loader import render_to_string
 from xhtml2pdf import pisa
 from django.http import HttpResponse
 
-from .models import (
-    CatInfo, DogInfo, CatHealth, DogHealth, Owner, DogDescription,
-    DogPhoto, CatPhoto, CatDescription)
+from .models import Owner
+from cats.models import CatInfo, CatDescription, CatPhoto, CatHealth
+from dogs.models import DogInfo, DogDescription, DogPhoto, DogHealth
 from .generate_cards import draw_card
 
 
