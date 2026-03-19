@@ -44,12 +44,12 @@ services:
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 12h & wait $${!}; certbot renew; done'"
 
   backup:
-    image: postgres:15
+    image: gasuaska/snz_shelter:latest
     depends_on:
       - db
     volumes:
       - ./backups:/backups
-      - ./media:/app/media
+      - media_volume:/app/media
     entrypoint: >
       bash -c "while true; do
         pg_dump -h db -U django_user django > /backups/backup_$(date +%Y-%m-%d_%H-%M-%S).sql;
