@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 
 
-from database.models import DogInfo
+from dogs.models import DogInfo
 from database.constants import ALLOWED_TAGS
 
 MAX_DOGS_ON_PAGE = 16

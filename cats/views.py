@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
-from database.models import CatInfo
+from cats.models import CatInfo
 from dogs.views import render_md
 
 MAX_CATS_ON_PAGE = 16

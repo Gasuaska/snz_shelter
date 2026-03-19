@@ -15,5 +15,5 @@ KENNEL_CHOICES = [
 
 ALLOWED_TAGS = [
     'p', 'strong', 'em', 'ul', 'ol', 'li', 'br',
-    'h1', 'h2', 'h3', 'blockquote', 'a'
+    'h1', 'h2', 'h3', 'blockquote', 'a', 'img'
 ]
