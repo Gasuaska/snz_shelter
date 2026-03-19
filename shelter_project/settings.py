@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'homepage.apps.HomepageConfig',
     'database.apps.DatabaseConfig',
+    'django.contrib.sitemaps',
     
 ]
 
