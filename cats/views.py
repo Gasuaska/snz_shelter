@@ -4,6 +4,8 @@ from datetime import date, timedelta
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.shortcuts import render
+from django.urls import reverse
+from taggit.models import Tag
 
 from cats.models import CatInfo
 from dogs.views import render_md
@@ -74,3 +76,20 @@ def cat_detail(request, pk):
             'cat_photos': cat_photos,
             'main_photo': main_photo,
             })
+
+def cat_list(request):
+    cats = CatInfo.objects.all()
+    tags = Tag.objects.all()
+    tags_with_urls = [
+        {
+            'name': tag.name,
+            'slug': tag.slug,
+            'url': reverse('cats:cat_list_by_tag', args=[tag.slug])
+        }
+        for tag in tags
+    ]
+    return render(request, 'cats/cat_list.html', {
+        'page_obj': cats,
+        'tags': tags_with_urls,
+        'current_tag': None,
+    })

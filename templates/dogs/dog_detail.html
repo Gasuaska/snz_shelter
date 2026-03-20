@@ -33,6 +33,14 @@
         <button class="next" onclick="changeSlide(1)">&#10095;</button>
     </div>
 </div>
+
+<div class="dog-tags">
+    {% for tag in dog.tags.all %}
+        <a href="{% url 'dog_list_by_tag' tag.slug %}" class="tag-button">{{ tag.name }}</a>
+    {% empty %}
+        <p>У этой собаки пока нет тегов.</p>
+    {% endfor %}
+</div>
     
 <section class="section">
     <h2 class="section-title">СЛУЧАЙНЫЕ ПРЕКРАСНЫЕ СОБАКИ</h2>

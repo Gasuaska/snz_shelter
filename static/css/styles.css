@@ -1331,3 +1331,42 @@ ul {
 .lost_dog {
     align-items: center;
 }
+
+.dog-tags {
+    margin-top: 20px;
+}
+
+.tag-button {
+    display: inline-block;
+    background-color: #EFB878;
+    color: #333;
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin: 5px 5px 0 0;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.tag-button:hover {
+    background-color: #e8ad69;
+    color: #fff;
+}
+
+
+.dogs-page-container {
+    display: flex;
+    gap: 30px;
+}
+
+.dogs-sidebar {
+    width: 250px;
+}
+
+.dogs-main {
+    flex: 1;
+}
+
+.tags-sidebar {
+    margin-top: 20px;
+}

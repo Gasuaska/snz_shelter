@@ -6,6 +6,8 @@ import bleach
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
+from django.urls import reverse
+from taggit.models import Tag
 
 from dogs.models import DogInfo
 from database.constants import ALLOWED_TAGS, MAX_DOGS_ON_PAGE
@@ -40,11 +42,14 @@ def dogs_list(request):
             dogs = dogs.filter(birth_date__gte=birth_min)
         except ValueError:
             pass
-    
+
     paginator = Paginator(dogs, MAX_DOGS_ON_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    context = {'page_obj': page_obj}
+    all_tags = Tag.objects.all()
+
+    context = {'page_obj': page_obj,
+               'all_tags': all_tags}
     return render(
         request, 'dogs/dogs_list.html', context)
 
@@ -70,7 +75,7 @@ def dog_detail(request, pk):
     random_dogs = random.sample(d_list, min(len(d_list), 3))
     dog_photos = dog.photos.all()
     main_photo = dog.photos.filter(is_main=True).first()
-
+    
     return render(
         request, 'dogs/dog_detail.html', {
             'dog': dog,
@@ -79,3 +84,20 @@ def dog_detail(request, pk):
             'dog_photos': dog_photos,
             'main_photo': main_photo,
             })
+
+def dog_list(request):
+    dogs = DogInfo.objects.all()
+    tags = Tag.objects.all()
+    tags_with_urls = [
+        {
+            'name': tag.name,
+            'slug': tag.slug,
+            'url': reverse('dogs:dog_list_by_tag', args=[tag.slug])
+        }
+        for tag in tags
+    ]
+    return render(request, 'dogs/dog_list.html', {
+        'page_obj': dogs,
+        'tags': tags_with_urls,
+        'current_tag': None,
+    })
