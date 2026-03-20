@@ -2,7 +2,10 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import Category, Post, BlogImage
-from shelter_project.settings import MEDIA_URL
+from django.conf import settings
+
+MEDIA_URL = settings.MEDIA_URL
+
 
 class PostInline(admin.StackedInline):
     model = Post
