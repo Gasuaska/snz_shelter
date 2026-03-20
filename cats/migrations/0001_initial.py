@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('intake_place', models.TextField(blank=True, help_text='Откуда животное попало в приют?', null=True, verbose_name='Место изъятия')),
                 ('notes', models.TextField(blank=True, help_text='Дополнительные примечания', null=True, verbose_name='Примечания')),
                 ('owner', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cats', to='database.owner', verbose_name='Владелец')),
-                ('tags', taggit.managers.TaggableManager(blank=True, help_text='A comma-separated list of tags.', through='taggit.TaggedItem', to='taggit.Tag', verbose_name='Теги')),
+                # ('tags', taggit.managers.TaggableManager(blank=True, help_text='A comma-separated list of tags.', through='taggit.TaggedItem', to='taggit.Tag', verbose_name='Теги')),
             ],
             options={
                 'verbose_name': 'Кошка',
