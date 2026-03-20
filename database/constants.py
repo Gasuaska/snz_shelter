@@ -15,7 +15,7 @@ KENNEL_CHOICES = [
 
 ALLOWED_TAGS = [
     'p', 'strong', 'em', 'ul', 'ol', 'li', 'br',
-    'h1', 'h2', 'h3', 'blockquote', 'a', 'img'
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'a', 'img'
 ]
 
 MAX_CATS_ON_PAGE = 20

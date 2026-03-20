@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models
+from taggit.managers import TaggableManager
 
 from database.constants import KENNEL_CHOICES
 from database.models import BaseHealthInfo, BaseInfoModel, Owner
@@ -26,6 +27,7 @@ class DogInfo(BaseInfoModel):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
+        verbose_name='Владелец',
         related_name='dogs'
     )
     kennel = models.CharField(
@@ -44,6 +46,7 @@ class DogInfo(BaseInfoModel):
         default=MIDDLE,
         verbose_name='Рост собаки'
     )
+    tags = TaggableManager(blank=True, verbose_name='Теги')
 
     def __str__(self):
         return self.name
@@ -145,7 +148,7 @@ class DogPhoto(models.Model):
 
 
     def __str__(self):
-        return f'{self.animal}-{self.uploaded_at}{self.is_main}'
+        return f'{self.animal}-{self.uploaded_at} {self.is_main}'
 
     @property
     def main_photo(self):

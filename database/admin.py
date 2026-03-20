@@ -46,10 +46,12 @@ def generate_pdf(modeladmin, request, queryset):
 
 class PetInfoAdmin(admin.ModelAdmin):
     list_editable = (
-        'gender', 'birth_date', 'intake_date', 'is_at_shelter')
+        'gender', 'birth_date',
+        'intake_date', 'is_at_shelter', 'kennel', 'tags')
     list_display = (
-        'name', 'gender', 'birth_date', 'intake_date', 'is_at_shelter')
-    search_fields = ('name',)
+        'name', 'gender', 'birth_date',
+        'intake_date', 'is_at_shelter', 'kennel', 'tags')
+    search_fields = ('name', 'kennel'. 'tags')
     list_filter = (
         'gender', 'birth_date', 'intake_date', 'is_at_shelter', 'is_neutered')
     list_display_links = ('name',)

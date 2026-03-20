@@ -56,3 +56,4 @@ python-bidi==0.6.7
 bleach==6.3.0
 Markdown==3.10.2
 webencodings==0.5.1
+django-taggit==6.1.0

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'homepage.apps.HomepageConfig',
     'database.apps.DatabaseConfig',
     'django.contrib.sitemaps',
+    'taggit',
     
 ]
 

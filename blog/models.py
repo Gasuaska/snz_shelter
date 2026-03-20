@@ -1,3 +1,6 @@
+import os
+
+from django.utils.timezone import now
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import DateTimeField
@@ -79,3 +82,25 @@ class Post(PublishedModel):
 
     def __str__(self):
         return self.title[:50]
+
+def blog_image_upload_path(instance, filename):
+    base, ext = os.path.splitext(filename)
+    date_str = now().strftime("%Y-%m-%d")
+    name_part = instance.alt_text.replace(' ', '_') if instance.alt_text else base
+    return f'blog_images/{name_part}_{date_str}{ext.lower()}'
+
+class BlogImage(models.Model):
+    image = models.ImageField(upload_to='blog_images/')
+    alt_text = models.CharField
+    (max_length=128,
+     blank=True,
+     verbose_name='Описание'
+     )
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.alt_text or f'Image {self.id}'
+
+    class Meta:
+        verbose_name = 'Картинка для блога'
+        verbose_name_plural = 'Картинки для блога'

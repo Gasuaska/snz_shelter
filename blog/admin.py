@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Post
+from .models import Category, Post, BlogImage
 
 
 class PostInline(admin.StackedInline):
@@ -51,4 +51,6 @@ class PostAdmin(IsPublishedAdmin, TitleAdmin, CreatedAtAdmin):
     list_display_links = ('title',)
 
 
+
 admin.site.register(Post, PostAdmin)
+admin.site.register(BlogImage)
