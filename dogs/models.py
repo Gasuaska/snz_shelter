@@ -1,7 +1,6 @@
 import os
 
-from datetime import date, datetime
-from django.utils import timezone
+from datetime import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models

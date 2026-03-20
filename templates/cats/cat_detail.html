@@ -35,9 +35,9 @@
 
 <div class="dogs-container">
     {% for tag in dog.tags.all %}
-        <a href="{% url 'dogs:dog_list_by_tag' tag.slug %}" class="tag-button">{{ tag.name }}</a>
+        <a href="{% url 'cats:cat_list_by_tag' tag.slug %}" class="tag-button">{{ tag.name }}</a>
     {% empty %}
-        <p =dogs-container>У этой собаки пока нет тегов.</p>
+        <p =dogs-container>У этой кошки пока нет тегов.</p>
     {% endfor %}
 </div>
 
