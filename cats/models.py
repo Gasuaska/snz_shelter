@@ -14,7 +14,7 @@ class CatInfo(BaseInfoModel):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='cats'
+        related_name='cats',
         verbose_name='Владелец'
     )
     tags = TaggableManager(blank=True, verbose_name='Теги')
