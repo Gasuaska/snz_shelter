@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import Category, Post, BlogImage
-
+from shelter_project.settings import MEDIA_URL
 
 class PostInline(admin.StackedInline):
     model = Post
@@ -55,9 +55,9 @@ class PostAdmin(IsPublishedAdmin, TitleAdmin, CreatedAtAdmin):
 class BlogImageAdmin(admin.ModelAdmin):
     list_display_links = ('image',)
     list_display = ('image', 'alt_text', 'uploaded_at',
-                    'full_url', 'image_preview')
+                    'image_preview', 'full_url_display')
     list_editable = ('alt_text',)
-    readonly_fields = ('full_url', 'image_preview')
+    readonly_fields = ('image_preview', 'full_url_display')
 
     def image_preview(self, obj):
         if obj.image:
@@ -65,8 +65,15 @@ class BlogImageAdmin(admin.ModelAdmin):
                 '<img src="{}" style="max-height:100px; max-width:150px;" />', 
                 obj.image.url)
         return '-'
-            
+
     image_preview.short_description = 'Превью'
+    
+    def full_url_display(self, obj):
+        if obj.image:
+            return f'{MEDIA_URL}{obj.image.name}'
+        return "-"
+    
+    full_url_display.short_description = 'Полный URL'
 
 
 admin.site.register(Post, PostAdmin)
