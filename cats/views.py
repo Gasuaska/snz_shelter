@@ -7,8 +7,7 @@ from django.shortcuts import render
 
 from cats.models import CatInfo
 from dogs.views import render_md
-
-MAX_CATS_ON_PAGE = 16
+from database.constants import MAX_CATS_ON_PAGE
 
 def cats_list(request):
     cats = CatInfo.objects.filter(

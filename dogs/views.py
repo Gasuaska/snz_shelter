@@ -5,12 +5,10 @@ import markdown
 import bleach
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
-
+from django.db.models import Q
 
 from dogs.models import DogInfo
-from database.constants import ALLOWED_TAGS
-
-MAX_DOGS_ON_PAGE = 16
+from database.constants import ALLOWED_TAGS, MAX_DOGS_ON_PAGE
 
 def dogs_list(request):
     dogs = DogInfo.objects.filter(
@@ -60,18 +58,19 @@ def render_md(text):
 def dog_detail(request, pk):
     dog = get_object_or_404(DogInfo, pk=pk, is_at_shelter=True)
     dog_description = getattr(dog, 'dog_description', None)
-    
+
     if dog_description:
         dog_description.bio_html = render_md(dog_description.bio)
         dog_description.character_html = render_md(dog_description.character)
         dog_description.best_owner_html = render_md(dog_description.best_owner)
-    
-    dogs = list(DogInfo.objects.filter(is_at_shelter=True))
-    dogs = [dog for dog in dogs if dog.pk != pk]
-    random_dogs = random.sample(dogs, min(len(dogs), 3))
+
+    dogs_queryset = DogInfo.objects.filter(
+        is_at_shelter=True).exclude(Q(pk=pk) | Q(name='Алтай'))
+    d_list = list(dogs_queryset)
+    random_dogs = random.sample(d_list, min(len(d_list), 3))
     dog_photos = dog.photos.all()
     main_photo = dog.photos.filter(is_main=True).first()
-    
+
     return render(
         request, 'dogs/dog_detail.html', {
             'dog': dog,

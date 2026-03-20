@@ -111,7 +111,7 @@ def create_dog_description(sender, instance, created, **kwargs):
             best_owner=''
         )
 
-    
+
 def dog_image_upload_to(instance, filename):
     dog_id = instance.animal.id
     date_str = datetime.now().strftime("%Y-%m-%d_%H%M%S")
@@ -150,3 +150,4 @@ class DogPhoto(models.Model):
     @property
     def main_photo(self):
         return self.photos.filter(is_main=True).first()
+
