@@ -85,8 +85,9 @@ def dog_detail(request, pk):
             'main_photo': main_photo,
             })
 
-def dog_list(request):
-    dogs = DogInfo.objects.all()
+def dog_list_by_tag(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    dogs = DogInfo.objects.filter(tags__slug=tag_slug)
     tags = Tag.objects.all()
     tags_with_urls = [
         {
@@ -96,7 +97,7 @@ def dog_list(request):
         }
         for tag in tags
     ]
-    return render(request, 'dogs/dog_list.html', {
+    return render(request, 'dogs/dogs_list.html', {
         'page_obj': dogs,
         'tags': tags_with_urls,
         'current_tag': None,

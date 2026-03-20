@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  site:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+      - static_volume:/static
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - DB_ENGINE=sqlite
+    depends_on:
+      - db
+    command: python manage.py runserver 0.0.0.0:8000

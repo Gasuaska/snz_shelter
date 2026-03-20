@@ -1,9 +1,9 @@
+from django import forms
 from django.contrib import admin
 from reportlab.pdfgen import canvas
 from django.http import HttpResponse
-from django.template.loader import render_to_string
-from xhtml2pdf import pisa
 from django.http import HttpResponse
+from taggit.models import Tag
 
 from .models import Owner
 from cats.models import CatInfo, CatDescription, CatPhoto, CatHealth
@@ -44,17 +44,55 @@ def generate_pdf(modeladmin, request, queryset):
     return response
 
 
+class DogInfoForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple
+    )
+
+    class Meta:
+        model = DogInfo
+        fields = '__all__'
+
+    class Media:
+            css = {
+                'all': ('admin/custom_checkboxes.css',)
+            }
+
+class CatInfoForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple
+    )
+
+    class Meta:
+        model = CatInfo
+        fields = '__all__'
+        
+    class Media:
+            css = {
+                'all': ('admin/custom_checkboxes.css',)
+            }
+
+
 class PetInfoAdmin(admin.ModelAdmin):
     list_editable = (
         'gender', 'birth_date',
-        'intake_date', 'is_at_shelter', 'kennel', 'tags')
+        'intake_date', 'is_at_shelter')
     list_display = (
         'name', 'gender', 'birth_date',
-        'intake_date', 'is_at_shelter', 'kennel', 'tags')
-    search_fields = ('name', 'kennel', 'tags__name')
+        'intake_date', 'is_at_shelter', 'get_tags')
+    search_fields = ('name', 'get_tags')
     list_filter = (
         'gender', 'birth_date', 'intake_date', 'is_at_shelter', 'is_neutered')
     list_display_links = ('name',)
+
+    def get_tags(self, obj):
+        return ", ".join(tag.name for tag in obj.tags.all())
+
+    get_tags.short_description = 'Теги'
 
 
 class DogHealthInline(admin.StackedInline):
@@ -62,15 +100,42 @@ class DogHealthInline(admin.StackedInline):
     extra = 0
 
 
+class CatHealthInline(admin.StackedInline):
+    model = CatHealth
+    extra = 0
+
+
 class DogInfoAdmin(PetInfoAdmin):
-    inlines = (
-        DogHealthInline,
-    )
-    actions = (generate_pdf,)
+    form = DogInfoForm
+    inlines = (DogHealthInline,)
+    list_display = ('name', 'gender', 'birth_date',
+                    'intake_date', 'is_at_shelter', 'get_tags')
+    list_editable = ('gender', 'birth_date', 'intake_date', 'is_at_shelter')
+    search_fields = ('name', 'tags__name')
+    list_filter = ('gender', 'birth_date', 'intake_date',
+                   'is_at_shelter', 'is_neutered')
+    list_display_links = ('name',)
+
+    def get_tags(self, obj):
+        return ", ".join(tag.name for tag in obj.tags.all())
+    get_tags.short_description = 'Теги'
 
 
 class CatInfoAdmin(PetInfoAdmin):
-    pass
+    form = CatInfoForm
+    list_display = ('name', 'gender', 'birth_date',
+                    'intake_date', 'is_at_shelter', 'get_tags')
+    list_editable = ('gender', 'birth_date', 'intake_date', 'is_at_shelter')
+    search_fields = ('name', 'tags__name')
+    list_filter = ('gender', 'birth_date',
+                   'intake_date', 'is_at_shelter', 'is_neutered')
+    list_display_links = ('name',)
+    inlines = (CatHealthInline,)
+
+    def get_tags(self, obj):
+        return ", ".join(tag.name for tag in obj.tags.all())
+    get_tags.short_description = 'Теги'
+
 
 class AnimalPhotoAdmin(admin.ModelAdmin):
     autocomplete_fields = ['animal']
