@@ -51,7 +51,7 @@ class PetInfoAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'gender', 'birth_date',
         'intake_date', 'is_at_shelter', 'kennel', 'tags')
-    search_fields = ('name', 'kennel'. 'tags')
+    search_fields = ('name', 'kennel', 'tags__name')
     list_filter = (
         'gender', 'birth_date', 'intake_date', 'is_at_shelter', 'is_neutered')
     list_display_links = ('name',)
