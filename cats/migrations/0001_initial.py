@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('database', '__first__'),
-        ('taggit', '0006_rename_taggeditem_content_type_object_id_taggit_tagg_content_8fc721_idx'),
+        # ('taggit', '0006_rename_taggeditem_content_type_object_id_taggit_tagg_content_8fc721_idx'),
     ]
 
     operations = [
