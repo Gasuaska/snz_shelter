@@ -1353,6 +1353,9 @@ ul {
     color: #fff;
 }
 
+.tag-button.active {
+    background-color: #BC7A2E;
+}
 
 .dogs-page-container {
     display: flex;
