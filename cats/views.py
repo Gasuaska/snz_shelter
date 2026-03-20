@@ -93,3 +93,21 @@ def cat_list(request):
         'tags': tags_with_urls,
         'current_tag': None,
     })
+
+def cat_list_by_tag(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    cats = CatInfo.objects.filter(tags__slug=tag_slug)
+    tags = Tag.objects.all()
+    tags_with_urls = [
+        {
+            'name': tag.name,
+            'slug': tag.slug,
+            'url': reverse('cat:cat_list_by_tag', args=[tag.slug])
+        }
+        for tag in tags
+    ]
+    return render(request, 'cats/cats_list.html', {
+        'page_obj': cats,
+        'tags': tags_with_urls,
+        'current_tag': tag,
+    })

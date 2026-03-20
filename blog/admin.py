@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from .models import Category, Post, BlogImage
 
@@ -51,6 +52,22 @@ class PostAdmin(IsPublishedAdmin, TitleAdmin, CreatedAtAdmin):
     list_display_links = ('title',)
 
 
+class BlogImageAdmin(admin.ModelAdmin):
+    list_display_links = ('image',)
+    list_display = ('image', 'alt_text', 'uploaded_at',
+                    'full_url', 'image_preview')
+    list_editable = ('alt_text',)
+    readonly_fields = ('full_url', 'image_preview')
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" style="max-height:100px; max-width:150px;" />', 
+                obj.image.url)
+        return '-'
+            
+    image_preview.short_description = 'Превью'
+
 
 admin.site.register(Post, PostAdmin)
-admin.site.register(BlogImage)
+admin.site.register(BlogImage, BlogImageAdmin)

@@ -10,7 +10,9 @@ from django.urls import reverse
 from taggit.models import Tag
 
 from dogs.models import DogInfo
-from database.constants import ALLOWED_TAGS, MAX_DOGS_ON_PAGE
+from database.constants import (ALLOWED_TAGS,
+                                MAX_DOGS_ON_PAGE,
+                                ALLOWED_ATTRIBUTES)
 
 def dogs_list(request):
     dogs = DogInfo.objects.filter(
@@ -66,7 +68,8 @@ def render_md(text):
     if not text:
         return None
     raw_html = markdown.markdown(text)
-    return bleach.clean(raw_html, tags=ALLOWED_TAGS)
+    return bleach.clean(
+        raw_html, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES)
 
 
 def dog_detail(request, pk):
@@ -109,5 +112,5 @@ def dog_list_by_tag(request, tag_slug):
     return render(request, 'dogs/dogs_list.html', {
         'page_obj': dogs,
         'tags': tags_with_urls,
-        'current_tag': None,
+        'current_tag': tag,
     })

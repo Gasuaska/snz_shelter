@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import DateTimeField
 
+from shelter_project.settings import MEDIA_URL
 from .managers import PostQuerySet
 
 User = get_user_model()
@@ -83,19 +84,24 @@ class Post(PublishedModel):
     def __str__(self):
         return self.title[:50]
 
-def blog_image_upload_path(instance, filename):
-    base, ext = os.path.splitext(filename)
-    date_str = now().strftime("%Y-%m-%d")
-    name_part = instance.alt_text.replace(' ', '_') if instance.alt_text else base
-    return f'blog_images/{name_part}_{date_str}{ext.lower()}'
 
 class BlogImage(models.Model):
-    image = models.ImageField(upload_to='blog_images/')
+    image = models.ImageField(
+        upload_to='blog_images/', verbose_name='Изображение')
     alt_text = models.CharField(max_length=128,
                                 blank=True,
                                 verbose_name='Описание')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    full_url = models.CharField(max_length=128,
+                                editable=True,
+                                verbose_name='Полный URL',
+                                help_text='Ссылка для копирования в блог')
 
+    def save(self, *args, **kwargs): 
+        if self.image:
+            self.full_url = f'{MEDIA_URL}{self.image.name}'
+        super().save(*args, **kwargs)
+    
     def __str__(self):
         return self.alt_text or f'Image {self.id}'
 
