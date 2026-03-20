@@ -46,10 +46,19 @@ def dogs_list(request):
     paginator = Paginator(dogs, MAX_DOGS_ON_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    all_tags = Tag.objects.all()
+    
+    tags = Tag.objects.all()
+    tags_with_urls = [
+        {
+            'name': tag.name,
+            'slug': tag.slug,
+            'url': reverse('dogs:dog_list_by_tag', args=[tag.slug])
+        }
+        for tag in tags
+    ]
 
     context = {'page_obj': page_obj,
-               'all_tags': all_tags}
+               'tags': tags_with_urls}
     return render(
         request, 'dogs/dogs_list.html', context)
 

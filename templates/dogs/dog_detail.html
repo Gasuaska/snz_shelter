@@ -34,7 +34,7 @@
     </div>
 </div>
 
-<div class="dog-tags">
+<div class="dogs-container">
     {% for tag in dog.tags.all %}
         <a href="{% url 'dogs:dog_list_by_tag' tag.slug %}" class="tag-button">{{ tag.name }}</a>
     {% empty %}
