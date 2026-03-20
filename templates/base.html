@@ -7,14 +7,16 @@
     <title>{% block title %}Приют{% endblock %}</title>
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-   </head>
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+
    <body>
     {% include "includes/header.html" %}
      <main>
        {% block content %}Контента пока нет :({% endblock %}
      </main>
-     {% include "includes/footer.html" %}
-     <script src="{% static 'js/navbar.js' %}"></script>
+      {% include "includes/footer.html" %}
+      <script src="{% static 'js/navbar.js' %}"></script>
+      <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
    </body>
  </html>
   

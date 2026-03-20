@@ -1,43 +1,44 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
-<h1 class="dog-name-detail">{{ dog.name }}</h1>
 
-<div class="dog-detail-container">
+{% block content %}
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+/>
+
+<h1 class="dog-name-detail">{{ dog.name }}</h1>
+<div class="dog-detail-container two-columns">
     <div class="dog-text">
-        <ul>
-            <li><b>Возраст:</b> {{ dog.age_display }}</li>
-            <li><b>Пол:</b> {{ dog.gender_display }}</li>
-            <li><b>Рост:</b> {{ dog.height_display }}</li>
-            <li><b>В приюте с:</b> {{ dog.intake_year }} года</li>
-        </ul>
-        <br>
-        <p>{{ dog_description.bio|safe }}</p>
-        <br>
-        <p>{{ dog_description.character|safe }}</p>
-        <br>
-        <p>{{ dog_description.best_owner|safe }}</p>
+        <div class="dog-text">
+            <ul>
+                <li><b>Возраст:</b> {{ dog.age_display }}</li>
+                <li><b>Пол:</b> {{ dog.gender_display }}</li>
+                <li><b>Рост:</b> {{ dog.height_display }}</li>
+                <li><b>В приюте с:</b> {{ dog.intake_year }} года</li>
+            </ul>
+            <br>
+            <p>{{ dog_description.bio|safe }}</p>
+            <br>
+            <p>{{ dog_description.character|safe }}</p>
+            <br>
+            <p>{{ dog_description.best_owner|safe }}</p>
+        </div>
     </div>
 
-    <div class="dog-slider">
-        <div class="slides-container">
-            {% for photo in dog_photos %}
-                <img src="{{ photo.image.url }}" class="slide" alt="{{ dog.name }}">
-            {% empty %}
-                <img src="{% static 'images/default-dog.png' %}" class="slide" alt="{{ dog.name }}">
-            {% endfor %}
+    <div class="swiper dog-detail-container">
+    <div class="swiper-wrapper">
+        {% for photo in dog_photos %}
+        <div class="swiper-slide">
+            <img src="{{ photo.image.url }}" alt="{{ dog.name }}">
         </div>
+        {% endfor %}
+    </div>
+    
+    <div class="swiper-pagination"></div>
 
-        <div class="thumbnails">
-            {% for photo in dog_photos %}
-                <img src="{{ photo.image.url }}" class="thumb" onclick="currentSlide({{ forloop.counter0 }})" alt="{{ dog.name }}">
-            {% empty %}
-                <img src="{% static 'images/default-dog.png' %}" class="thumb" onclick="currentSlide(0)" alt="{{ dog.name }}">
-            {% endfor %}
-        </div>
-
-        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
-        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
     </div>
 </div>
 
@@ -58,31 +59,21 @@
 </div>
 </section>
 
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
 <script>
-let slideIndex = 0;
-const slides = document.querySelectorAll('.slide');
-const thumbs = document.querySelectorAll('.thumb');
+    const swiper = new Swiper('.swiper', {
+  direction: 'horizontal',
+  loop: true,
 
-function showSlides(n) {
-    if (slides.length === 0) return;
-    if (n >= slides.length) slideIndex = 0;
-    if (n < 0) slideIndex = slides.length - 1;
+  pagination: {
+    el: '.swiper-pagination',
+  },
 
-    slides.forEach((slide, i) => slide.style.display = i === slideIndex ? 'block' : 'none');
-    thumbs.forEach((thumb, i) => thumb.classList.toggle('active', i === slideIndex));
-}
-
-function plusSlides(n) {
-    slideIndex += n;
-    showSlides(slideIndex);
-}
-
-function currentSlide(n) {
-    slideIndex = n;
-    showSlides(slideIndex);
-}
-
-// стартовый слайд
-showSlides(slideIndex);
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+});
 </script>
 {% endblock %}
