@@ -91,11 +91,9 @@ def blog_image_upload_path(instance, filename):
 
 class BlogImage(models.Model):
     image = models.ImageField(upload_to='blog_images/')
-    alt_text = models.CharField
-    (max_length=128,
-     blank=True,
-     verbose_name='Описание'
-     )
+    alt_text = models.CharField(max_length=128,
+                                blank=True,
+                                verbose_name='Описание')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
