@@ -69,6 +69,7 @@ class CatHealth(BaseHealthInfo):
         if created:
             CatHealth.objects.create(cat=instance)
 
+
 class CatDescription(models.Model):
     cat = models.OneToOneField(
         CatInfo,

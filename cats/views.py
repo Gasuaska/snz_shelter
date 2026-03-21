@@ -55,12 +55,10 @@ def cat_detail(request, pk):
         cat_description.bio_html = render_md(cat_description.bio)
         cat_description.character_html = render_md(cat_description.character)
         cat_description.best_owner_html = render_md(cat_description.best_owner)
-    
-    felv_stasus = cat.cat_health.felv_status
-    fiv_stasus = cat.cat_health.fiv_status
+
     cat_status = {
-        'felv_stasus': felv_stasus,
-        'fiv_stasus': fiv_stasus,
+        'felv_status_display': cat.cat_health.get_felv_status_display(),
+        'fiv_status_display': cat.cat_health.get_fiv_status_display(),
     }
     cats = list(CatInfo.objects.filter(is_at_shelter=True))
     cats = [cat for cat in cats if cat.pk != pk]

@@ -64,7 +64,6 @@ jobs:
             sudo docker compose -f docker-compose.yml up -d
 
             # Миграции
-            sudo docker compose -f docker-compose.yml exec -T site python manage.py makemigrations
             sudo docker compose -f docker-compose.yml exec -T site python manage.py migrate
 
             # Collectstatic прямо в volume
