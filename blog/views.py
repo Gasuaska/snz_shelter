@@ -12,6 +12,8 @@ def pages_paginator(request, post_list, posts_per_page=10):
 def blog_list(request):
     posts = Post.objects.published().select_related_set()
     page_obj = pages_paginator(request, posts)
+    for post in page_obj:
+        post.html_text = render_md(post.text)
     return render(request, 'blog/blog_list.html', {'page_obj': page_obj})
 
 
@@ -31,6 +33,8 @@ def category_posts(request, category_slug):
     posts = (category.posts
              .published()
              .select_related_set())
+    for post in posts:
+        post.html_text = render_md(post.text)
     page_obj = pages_paginator(request, posts)
     return render(request, 'blog/category.html', {'page_obj': page_obj,
                                                   'category': category})
