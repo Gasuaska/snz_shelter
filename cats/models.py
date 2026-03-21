@@ -63,6 +63,11 @@ class CatHealth(BaseHealthInfo):
 
     def __str__(self):
             return self.cat.name
+ 
+    @receiver(post_save, sender=CatInfo)
+    def create_cat_health(sender, instance, created, **kwargs):
+        if created:
+            CatHealth.objects.create(cat=instance)
 
 class CatDescription(models.Model):
     cat = models.OneToOneField(

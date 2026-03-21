@@ -9,6 +9,8 @@
             <li><b>Возраст:</b> {{ cat.age_display }}</li>
             <li><b>Пол:</b> {{ cat.gender_display }}</li>
             <li><b>В приюте с:</b> {{ cat.intake_year }} года</li>
+            <li><b>Иммунодефицит кошек:<b> {{ cat_status.fiv_stasus}} </li>
+            <li><b>Лейкоз кошек:</b> {{ cat_status.felv_status }} </li>
         </ul>
         <br>
         <p>{{ cat_description.bio|safe }}</p>
@@ -17,19 +19,20 @@
         <br>
         <p>{{ cat_description.best_owner|safe }}</p>
     </div>
-
-    <div class="dog-slider">
-        <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
-        
-        <div class="slides-container">
+    <div class="swiper dog-detail-container two-columns">
+        <div class="swiper-wrapper">
             {% for photo in cat_photos %}
-                <img src="{{ photo.image.url }}" class="slide" alt="{{ cat.name }}">
-            {% empty %}
-                <img src="{% static 'images/default-cat.jpg' %}" class="slide" alt="{{ cat.name }}">
+            <div class="swiper-slide">
+                <img src="{{ photo.image.url }}" alt="{{ cat.name }}">
+            </div>
             {% endfor %}
         </div>
 
-        <button class="next" onclick="changeSlide(1)">&#10095;</button>
+        <div class="swiper-pagination"></div>
+
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        </div>
     </div>
 </div>
 
@@ -50,25 +53,21 @@
 </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
 <script>
-let currentSlide = 0;
-const slides = document.querySelectorAll('.slide');
+    const swiper = new Swiper('.swiper', {
+  direction: 'horizontal',
+  loop: true,
 
-function showSlide(index) {
-    slides.forEach((slide, i) => {
-        slide.style.display = i === index ? 'block' : 'none';
-    });
-}
+  pagination: {
+    el: '.swiper-pagination',
+  },
 
-function changeSlide(step) {
-    currentSlide += step;
-    if (currentSlide < 0) currentSlide = slides.length - 1;
-    if (currentSlide >= slides.length) currentSlide = 0;
-    showSlide(currentSlide);
-}
-
-// Инициализация
-if (slides.length > 0) showSlide(currentSlide);
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+});
 </script>
 
 {% endblock %}
