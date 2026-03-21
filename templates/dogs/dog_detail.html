@@ -10,7 +10,7 @@
 <h1 class="dog-name-detail">{{ dog.name }}</h1>
 <div class="dog-detail-container two-columns">
     <div class="dog-text">
-        <div class="dog-text">
+        <div>
             <ul>
                 <li><b>Возраст:</b> {{ dog.age_display }}</li>
                 <li><b>Пол:</b> {{ dog.gender_display }}</li>
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div class="swiper dog-detail-container">
+    <div class="swiper dog-detail-container two-columns">
     <div class="swiper-wrapper">
         {% for photo in dog_photos %}
         <div class="swiper-slide">

@@ -421,7 +421,6 @@ ul {
 
 .dog-text {
     flex: 1;
-    width: 40%;
     margin: 0 auto;
 
 }
@@ -472,6 +471,7 @@ ul {
     font-size: 50px;
     font-weight: bold;
     margin: 10px 0;
+    margin-top: 100px;
     color: var(--brown);
 }
 
@@ -1398,6 +1398,7 @@ ul {
     width: 600px;              /* ширина слайдера */
     height: 400px;             /* высота слайдера */
     background-color: #fff;
+    margin-top: 100px;
 }
 
 .swiper-slide {
@@ -1406,12 +1407,18 @@ ul {
     align-items: center;
 }
 
+.swiper-wrapper {
+    height: 100%;           /* ВОТ ЭТО КЛЮЧ */
+    align-items: center;    /* теперь заработает как надо */
+}
+
 .swiper-slide img {
     display: block;          /* убирает inline-отступы */
     margin: auto;  
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    align-items: center;
 }
 
 .swiper-button-next,
@@ -1443,9 +1450,6 @@ ul {
     align-items: flex-start;
 }
 
-.dog-text {
-    flex: 1;
-}
 
 @media (max-width: 768px) {
     .two-columns {
