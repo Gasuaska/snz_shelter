@@ -40,7 +40,11 @@
         </div>
     </div>
 </div>
-
+<div class="dogs-container">
+<a href="https://vk.me/club38877901" target="_blank" class="btn">
+    Хочу взять кошку!
+    </a>
+</div>
 <div class="dogs-container">
     {% for tag in dog.tags.all %}
         <a href="{% url 'cats:cat_list_by_tag' tag.slug %}" class="tag-button">{{ tag.name }}</a>
