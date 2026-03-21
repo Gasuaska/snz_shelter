@@ -7,6 +7,15 @@
     --border: #ddd;
 }
 
+.content a {
+  color: #d9a963;
+  text-decoration: none; /* убирает подчёркивание */
+}
+
+.content a:visited {
+  color: #b87a41;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -370,8 +379,10 @@ body, html {
 }
 
 .section-text {
-    width: 60%;
-    margin-left: 10%;
+        width: 60%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 70px;
 }
 
 ul {
@@ -1233,8 +1244,6 @@ ul {
     max-width: 200px;         /* ограничим размер */
     width: 100%;
     height: auto;             /* пропорционально */
-    border: 2px solid var(--border); /* тонкая рамка, если нужно */
-    border-radius: 10px;      /* скругление углов */
     padding: 10px;            /* внутренний отступ */
     background-color: #fff;   /* чтобы QR был на белом фоне */
 }
@@ -1459,4 +1468,11 @@ ul {
     .swiper {
         width: 100%;
     }
+}
+
+.adoption-title {
+    width: 60%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 70px;
 }
