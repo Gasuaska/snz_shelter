@@ -66,6 +66,23 @@
 </section>
 
 <section class="section">
+  <h2 class="section-title">ПОСЕТИТЕЛЯМ</h2>
+  <div class="section-text">
+    <p>Приют находится около ЖБИ, в черте города. Поворот направо, если ехать в сторону 2КПП.<p>
+  <div id="map" style="width:60%;height:400px;margin-left:50px"></div>
+  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
+  <script>
+  ymaps.ready(function () {
+      var map = new ymaps.Map('map', {center: [56.059623, 60.773868], zoom: 14});
+      var placemark = new ymaps.Placemark([56.059623, 60.773868], {hintContent: 'Приют «Друг из приюта»'});
+      map.geoObjects.add(placemark);
+  });
+  </script>
+  <br>
+  <a href="{% url 'pages:visitors' %}" class="btn primary-btn">ЧИТАТЬ ДАЛЕЕ...</a></li>
+</section>
+
+<section class="section">
     <h2 class="section-title">О ПРИЮТЕ</h2>
     <p class="section-text">
         Наш приют для собак был основан в 2012 году командой волонтёров при 
@@ -77,7 +94,6 @@
         С тех пор более 600 собак и кошек нашли новый дом. 
     </p>
     <div class="section more-dogs-btn">
-      <br>
       <a href="{% url 'pages:about' %}" class="btn primary-btn"><b>ПОДРОБНЕЕ</b></a>
     </div>
 

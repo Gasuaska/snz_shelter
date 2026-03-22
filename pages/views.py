@@ -25,5 +25,8 @@ def adopt(request):
     return render(request, 'pages/adopt.html')
 
 
+def visitors(request):
+    return render(request, 'pages/visitors.html')
+
 def page_not_found_404(request, exception):
     return render(request, 'pages/404.html', status=404)

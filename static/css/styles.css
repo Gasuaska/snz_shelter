@@ -7,6 +7,12 @@
     --border: #ddd;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
 .content a {
   color: #d9a963;
   text-decoration: none; /* убирает подчёркивание */
@@ -218,7 +224,7 @@ body, html {
 .navbar-menu {
     list-style: none;
     display: flex;
-    gap: 15px; /* расстояние между пунктами */
+    gap: 10px; /* расстояние между пунктами */
     margin: 0;
     padding: 0;
 }

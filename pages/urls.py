@@ -11,5 +11,5 @@ urlpatterns = [
     path('useful_links/', views.useful_links, name='useful_links'),
     path('contacts/', views.contacts, name='contacts'),
     path('how_to_adopt/', views.adopt, name='adopt'),
-
+    path('visitors/', views.visitors, name='visitors'),
 ]
