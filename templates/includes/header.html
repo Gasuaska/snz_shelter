@@ -24,3 +24,17 @@
     </ul>
   </div>
 </nav>
+
+<script>
+document.addEventListener('click', function (event) {
+    const menu = document.querySelector('.navbar-menu');
+    const toggle = document.querySelector('.navbar-toggle');
+
+    const isClickInsideMenu = menu.contains(event.target);
+    const isClickOnToggle = toggle.contains(event.target);
+
+    if (!isClickInsideMenu && !isClickOnToggle) {
+        menu.classList.remove('active');
+    }
+});
+</script>

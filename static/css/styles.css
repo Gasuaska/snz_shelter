@@ -38,6 +38,7 @@ body {
 @media (max-width: 768px) {
     body {
         font-size: 18px;
+        padding-top: 10hv;
     }
 }
 
@@ -55,6 +56,19 @@ body {
     background-color: #fff;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+    .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-height: 200px;
+}
 }
 
 .nav-container {
@@ -651,41 +665,61 @@ ul {
 }
 
 @media (max-width: 768px) {
+    /* Контейнер: логотип + бургер в ряд */
     .navbar-container {
-        flex-direction: column;
-        align-items: flex-start;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between; /* лого слева, бургер справа */
+        align-items: center;            /* выровнять по центру */
+        flex-wrap: wrap;                /* меню уйдет на новую строку */
         padding: 10px 20px;
     }
 
+    /* Лого */
     .navbar-brand {
-        margin-bottom: 10px;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
+    /* Бургер */
     .navbar-toggle {
-        align-self: flex-end;
-        margin-bottom: 15px;
+        font-size: 28px;
         display: block;
+        margin-bottom: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
     }
 
+    /* Меню */
     .navbar-menu {
         display: none;
         flex-direction: column;
-        width: 100%;
+        width: 100%;                /* полностью под хедером */
         gap: 10px;
         margin-top: 10px;
+        max-height: 80vh;
+        overflow-y: auto;
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 10px 0;
     }
 
     .navbar-menu.active {
         display: flex;
     }
 
+    /* Пункты меню */
     .navbar-menu li a {
         width: 100%;
-        padding: 10px 15px;
+        padding: 12px 20px;
         text-align: left;
+        font-size: 16px;
     }
 }
-Ъ
+
 /* Контейнер для двух белых блоков */
 .donate-container {
     display: flex;
@@ -1071,14 +1105,19 @@ ul {
 /* Мобильные */
 @media (max-width: 768px) {
   .filter-row {
-    flex-wrap: wrap;       /* разрешаем перенос */
+    max-width: 80%;
+    flex-wrap: wrap !important;       /* разрешаем перенос */
     justify-content: flex-start;
   }
   .filter-item {
-    flex: 1 1 45%;
+    flex: 1 1 100%;
+    margin-left: 15px;
+    margin-right: 15px;
+    max-width: 60%;
   }
   .filter-buttons {
     flex: 1 1 100%;
+    margin-left: 15px;
   }
 }
 
