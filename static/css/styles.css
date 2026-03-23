@@ -1521,3 +1521,9 @@ ul {
     margin-bottom: 20px;
     margin-left: 70px;
 }
+
+#map {
+    width: 80%;
+    margin-left: 5%;
+    height: 30vh;
+}
