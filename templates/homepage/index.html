@@ -68,16 +68,16 @@
 <section class="section">
   <h2 class="section-title">ПОСЕТИТЕЛЯМ</h2>
   <div class="section-text">
-    <p>Приют находится около ЖБИ, в черте города. Поворот направо, если ехать в сторону 2КПП.<p>
-  <div id="map" style="width:60%;height:400px;margin-left:50px"></div>
-  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
-  <script>
-  ymaps.ready(function () {
-      var map = new ymaps.Map('map', {center: [56.059623, 60.773868], zoom: 14});
-      var placemark = new ymaps.Placemark([56.059623, 60.773868], {hintContent: 'Приют «Друг из приюта»'});
-      map.geoObjects.add(placemark);
-  });
-  </script>
+    <p>Приют находится около ЖБИ, в черте города. Поворот направо, если ехать в сторону 2КПП...<p>
+   <div id="map" style="width:80%;margin-left:10%"></div>
+        <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
+        <script>
+        ymaps.ready(function () {
+            var map = new ymaps.Map('map', {center: [56.059623, 60.773868], zoom: 14});
+            var placemark = new ymaps.Placemark([56.059623, 60.773868], {hintContent: 'Приют «Друг из приюта»'});
+            map.geoObjects.add(placemark);
+        });
+        </script>
   <br>
   <a href="{% url 'pages:visitors' %}" class="btn primary-btn">ЧИТАТЬ ДАЛЕЕ...</a></li>
 </section>

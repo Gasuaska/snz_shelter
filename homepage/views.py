@@ -13,6 +13,7 @@ def index(request):
     random_dogs = random.sample(dogs, min(len(dogs), 3))
     cats = list(CatInfo.objects.all())
     random_cats = random.sample(cats, min(len(cats), 3))
+    urgent = DOGS_URGENT
     blog_list = Post.objects.order_by('-pub_date')[:3]
     for post in blog_list:
         post.html_text = render_md(post.text)
@@ -20,4 +21,5 @@ def index(request):
         request, 'homepage/index.html', {
             'dogs': random_dogs,
             'cats': random_cats,
+            'urgent': urgent,
             'blog_list': blog_list})

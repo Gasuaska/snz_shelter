@@ -18,7 +18,15 @@ class CatInfo(BaseInfoModel):
         verbose_name='Владелец'
     )
     tags = TaggableManager(blank=True, verbose_name='Теги')
-    
+    urgent = models.BooleanField(
+        verbose_name='Срочно ищет дом',
+        default=False
+    )
+    priority = models.IntegerField(
+        verbose_name='Приоритет',
+        default=0,
+        help_text='Чем больше — тем выше в списке'
+    )
 
     def __str__(self):
         return self.name

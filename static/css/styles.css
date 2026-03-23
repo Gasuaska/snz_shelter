@@ -1527,3 +1527,14 @@ ul {
     margin-left: 5%;
     height: 30vh;
 }
+
+a {
+    color: #cc883a;
+    text-decoration: underline;
+}
+
+
+button a,
+.btn a {
+    color: inherit;
+}
