@@ -1,5 +1,5 @@
 import random
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 
 from django.db.models import F, FloatField, ExpressionWrapper
 from django.db.models.functions import Random
