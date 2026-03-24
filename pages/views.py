@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from finance.models import MonthlyReport
+
 
 def about(request):
     return render(request, 'pages/about.html')
@@ -27,6 +29,10 @@ def adopt(request):
 
 def visitors(request):
     return render(request, 'pages/visitors.html')
+
+def report(request):
+    reports = MonthlyReport.objects.all()
+    return render(request, 'pages/report.html', {'reports': reports})
 
 def page_not_found_404(request, exception):
     return render(request, 'pages/404.html', status=404)

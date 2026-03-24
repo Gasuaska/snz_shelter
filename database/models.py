@@ -46,7 +46,8 @@ class AnimalTag(TagBase):
     description = models.TextField(
         blank=True,
         null=True,
-        help_text='Описание тега')
+        help_text='Описание тега',
+        verbose_name='Теги')
 
 
 class TaggedAnimal(GenericTaggedItemBase):

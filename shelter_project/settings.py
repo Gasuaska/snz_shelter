@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'cats.apps.CatsConfig',
     'blog.apps.BlogConfig',
     'pages.apps.PagesConfig',
+    'finance.apps.FinanceConfig',
     'homepage.apps.HomepageConfig',
     'database.apps.DatabaseConfig',
     'django.contrib.sitemaps',

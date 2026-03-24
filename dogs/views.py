@@ -1,6 +1,8 @@
 import random
 from datetime import date, timedelta
 
+from django.db.models import F, FloatField, ExpressionWrapper
+from django.db.models.functions import Random
 import markdown
 import bleach
 from django.core.paginator import Paginator
@@ -15,8 +17,10 @@ from database.constants import (ALLOWED_TAGS,
                                 ALLOWED_ATTRIBUTES)
 
 def dogs_list(request):
+    today_seed = int(datetime.date.today().strftime('%Y%m%d'))
     dogs = DogInfo.objects.filter(
-        is_at_shelter=True).prefetch_related('photos')
+        is_at_shelter=True).prefetch_related(
+            'photos').order_by('-priority', Random(seed=today_seed))
     today = date.today()
     gender = request.GET.get('gender')
     height = request.GET.get('height')

@@ -12,4 +12,5 @@ urlpatterns = [
     path('contacts/', views.contacts, name='contacts'),
     path('how_to_adopt/', views.adopt, name='adopt'),
     path('visitors/', views.visitors, name='visitors'),
+    path('report/', views.report, name='report'),
 ]

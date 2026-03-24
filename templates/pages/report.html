@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Финансовый отчет{% endblock %}
+
+{% block content %}
+<section class="about-section post-detail-section">
+  <div class="post-detail-container about-grid">
+    <div class="post-content-box">
+      <h1 class="post-title">Финансовый отчет</h1>
+      <p class="post-text">
+        На этой странице представлен ежемесячный финансовый отчет.
+      </p>
+      {% for report in reports %}
+        <h2 class="post-subtitle"> Отчет за {{ report.date}}</h2>
+        <details class="post-text">
+            <summary>Развернуть</summary>
+        <p class="post-text">
+            Приход: {{ report.income }} рублей.
+        </p>
+        <p class="post-text">
+            Расход: {{ report.expense }} рублей.
+        </p>
+        <p class="post-text">
+            РАСХОДЫ:
+        </p>
+        <p class="post-text">
+            {{ report.expense_details|linebreaks  }}
+        </p>
+        <br>
+        <details class="post-text">
+            <summary>Благодарим за пожертвование:</summary>
+            <p class="post-text">{{ report.donors|linebreaks  }}</p>
+            <hr>
+        </detals>
+        </details>
+            {% endfor %}
+            </div>
+        </div>
+</section>
+{% endblock %}
