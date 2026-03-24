@@ -31,7 +31,7 @@ def visitors(request):
     return render(request, 'pages/visitors.html')
 
 def report(request):
-    reports = MonthlyReport.objects.all()
+    reports = MonthlyReport.objects.all().order_by('-date')
     return render(request, 'pages/report.html', {'reports': reports})
 
 def page_not_found_404(request, exception):

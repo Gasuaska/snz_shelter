@@ -17,7 +17,7 @@ from database.constants import (ALLOWED_TAGS,
                                 ALLOWED_ATTRIBUTES)
 
 def dogs_list(request):
-    today_seed = int(datetime.date.today().strftime('%Y%m%d'))
+    today_seed = int(date.today().strftime('%Y%m%d'))
     dogs = DogInfo.objects.filter(
         is_at_shelter=True).prefetch_related(
             'photos').order_by('-priority', Random(seed=today_seed))
