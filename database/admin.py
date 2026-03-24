@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.http import HttpResponse
 from taggit.models import Tag
 
-from .models import Owner
+from .models import Owner, AnimalTag
 from cats.models import CatInfo, CatDescription, CatPhoto, CatHealth
 from dogs.models import DogInfo, DogDescription, DogPhoto, DogHealth
 from .generate_cards import draw_card
@@ -139,6 +139,11 @@ class CatInfoAdmin(PetInfoAdmin):
 
 class AnimalPhotoAdmin(admin.ModelAdmin):
     autocomplete_fields = ['animal']
+    
+
+class AnimalTagAmdin(admin.ModelAdmin):
+    list_display = ('name', 'description')
+    search_fields = ('name', 'description')
 
 admin.site.register(CatInfo, CatInfoAdmin)
 admin.site.register(DogInfo, DogInfoAdmin)
@@ -149,6 +154,7 @@ admin.site.register(DogDescription)
 admin.site.register(CatDescription)
 admin.site.register(DogPhoto, AnimalPhotoAdmin)
 admin.site.register(CatPhoto, AnimalPhotoAdmin)
+admin.site.register(AnimalTag, AnimalTagAmdin)
 
 
 admin.site.empty_value_display = 'Не задано'

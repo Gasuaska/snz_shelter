@@ -5,6 +5,7 @@
   <h1 class="section-title">Список кошек</h1>
 
 <form method="get" class="filter-form">
+  {% include "includes/paginator.html" %}
   <div class="filter-row">
     <div class="filter-item">
       <label for="gender">Пол:</label>

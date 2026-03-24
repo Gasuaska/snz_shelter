@@ -4,7 +4,7 @@ from datetime import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models
-from taggit.managers import TaggableManager
+from django.urls import reverse
 
 from database.constants import KENNEL_CHOICES
 from database.models import BaseHealthInfo, BaseInfoModel, Owner
@@ -45,7 +45,6 @@ class DogInfo(BaseInfoModel):
         default=MIDDLE,
         verbose_name='Рост собаки'
     )
-    tags = TaggableManager(blank=True, verbose_name='Теги')
     urgent = models.BooleanField(
         verbose_name='Срочно ищет дом',
         default=False
@@ -67,6 +66,8 @@ class DogInfo(BaseInfoModel):
     def height_display(self):
         return dict(self.HEIGHT_CHOICES).get(self.height, 'Не указано')
 
+    def get_absolute_url(self):
+        return reverse('dogs:dog_detail', args=[self.pk])
 
 
 class DogHealth(BaseHealthInfo):

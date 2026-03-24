@@ -1,5 +1,8 @@
 from django.utils import timezone
 from django.db import models
+from taggit.models import TagBase, GenericTaggedItemBase
+from taggit.managers import TaggableManager
+
 
 class Owner(models.Model):
     first_name = models.CharField(
@@ -37,6 +40,21 @@ class Owner(models.Model):
     class Meta:
         verbose_name = 'Владелец'
         verbose_name_plural = 'Владельцы'
+
+
+class AnimalTag(TagBase):
+    description = models.TextField(
+        blank=True,
+        null=True,
+        help_text='Описание тега')
+
+
+class TaggedAnimal(GenericTaggedItemBase):
+    tag = models.ForeignKey(
+        AnimalTag,
+        on_delete=models.CASCADE,
+        related_name='tagged_items'
+    )
 
 
 class BaseInfoModel(models.Model):
@@ -109,6 +127,10 @@ class BaseInfoModel(models.Model):
         help_text='Дополнительные примечания',
         verbose_name='Примечания',
         )
+    tags = TaggableManager(
+        through=TaggedAnimal,
+        blank=True
+    )
 
     class Meta:
         abstract = True

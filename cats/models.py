@@ -17,7 +17,6 @@ class CatInfo(BaseInfoModel):
         related_name='cats',
         verbose_name='Владелец'
     )
-    tags = TaggableManager(blank=True, verbose_name='Теги')
     urgent = models.BooleanField(
         verbose_name='Срочно ищет дом',
         default=False

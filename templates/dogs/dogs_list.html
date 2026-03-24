@@ -4,6 +4,7 @@
 {% block content %}
   <h1 class="section-title">Список собак</h1>
 <form method="get" class="filter-form">
+  {% include "includes/paginator.html" %}
   <div class="filter-row">
     <div class="filter-item">
       <label for="gender">Пол:</label>
