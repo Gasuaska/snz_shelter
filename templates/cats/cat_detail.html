@@ -52,7 +52,7 @@
     </a>
 </div>
 <div class="dogs-container">
-    {% for tag in dog.tags.all %}
+    {% for tag in cat.tags.all %}
         <a href="{% url 'cats:cat_list_by_tag' tag.slug %}" class="tag-button">{{ tag.name }}</a>
     {% empty %}
         <p =dogs-container>У этой кошки пока нет тегов.</p>

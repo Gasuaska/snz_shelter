@@ -1,10 +1,18 @@
 from django.shortcuts import render
 
 from finance.models import MonthlyReport
+from dogs.models import DogInfo
+from cats.models import CatInfo
 
 
 def about(request):
-    return render(request, 'pages/about.html')
+    dogs_amount = len(DogInfo.objects.filter(is_at_shelter = True))
+    cats_amount = len(CatInfo.objects.filter(is_at_shelter = True))
+    context = {
+        'dogs_amount': dogs_amount,
+        'cats_amount': cats_amount,
+    }
+    return render(request, 'pages/about.html', context)
 
 
 def help_us(request):

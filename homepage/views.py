@@ -9,7 +9,8 @@ from dogs.views import render_md
 
 
 def index(request):
-    dogs = list(DogInfo.objects.filter(is_at_shelter=True))
+    dogs = list(DogInfo.objects.filter(
+        is_at_shelter=True).exclude(name='Алтай'))
     random_dogs = random.sample(dogs, min(len(dogs), 3))
     cats = list(CatInfo.objects.filter(is_at_shelter=True))
     random_cats = random.sample(cats, min(len(cats), 3))

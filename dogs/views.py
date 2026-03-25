@@ -1,10 +1,8 @@
 import random
-from datetime import date, timedelta, datetime
+from datetime import date, timedelta
 from operator import attrgetter
 from itertools import groupby
 
-from django.db.models import F, FloatField, ExpressionWrapper
-from django.db.models.functions import Random
 import markdown
 import bleach
 from django.core.paginator import Paginator
@@ -109,7 +107,15 @@ def dog_detail(request, pk):
 
 def dog_list_by_tag(request, tag_slug):
     tag = get_object_or_404(AnimalTag, slug=tag_slug)
-    dogs = DogInfo.objects.filter(tags__slug=tag_slug)
+    today_seed = int(date.today().strftime('%Y%m%d'))
+    dogs = DogInfo.objects.filter(
+        is_at_shelter=True, tags__slug=tag_slug).prefetch_related(
+            'photos').order_by('-priority')
+    grouped_dogs = []
+    for priority, group in groupby(dogs, key=attrgetter('priority')):
+        group_list = list(group)
+        random.Random(today_seed + priority).shuffle(group_list)
+        grouped_dogs.extend(group_list)
     tags = AnimalTag.objects.all()
     tags_with_urls = [
         {

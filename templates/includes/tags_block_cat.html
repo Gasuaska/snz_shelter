@@ -1,0 +1,12 @@
+{# templates/includes/tags_block.html #}
+
+<div class="tags-sidebar">
+  {% for tag in tags %}
+    <a href="{{ tag.url }}" 
+       class="tag-button {% if tag.slug == current_tag %}active{% endif %}">
+      {{ tag.name }}
+    </a>
+  {% empty %}
+    <p>Теги пока не добавлены</p>
+  {% endfor %}
+</div>
