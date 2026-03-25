@@ -2,10 +2,12 @@
 {% load static %}
 {% block title %}Список кошек{% endblock %}
 {% block content %}
- <h1 class="section-title">Список кошек с тегом {{ current_tag.name }}</h1>
+<h1 class="section-title">Список кошек с тегом {{ current_tag.name }}</h1>
+<div class="post-content-box">
     <p class="dog-text">
     {{ current_tag.description|linebreaks }}
   </p>
+</div>
 <form method="get" class="filter-form">
   {% include "includes/paginator.html" %}
   <div class="filter-row">
