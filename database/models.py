@@ -47,15 +47,24 @@ class AnimalTag(TagBase):
         blank=True,
         null=True,
         help_text='Описание тега',
-        verbose_name='Теги')
+        verbose_name='Описание тега')
+
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
 
 
 class TaggedAnimal(GenericTaggedItemBase):
     tag = models.ForeignKey(
         AnimalTag,
         on_delete=models.CASCADE,
-        related_name='tagged_items'
+        related_name='tagged_items',
+        verbose_name='Тег'
     )
+
+    class Meta:
+        verbose_name = 'Животное с тегом'
+        verbose_name_plural = 'Животные с тегами'
 
 
 class BaseInfoModel(models.Model):

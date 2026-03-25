@@ -3,7 +3,7 @@ from django.contrib import admin
 from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from django.http import HttpResponse
-from taggit.models import Tag
+from taggit.admin import Tag
 
 from .models import Owner, AnimalTag
 from cats.models import CatInfo, CatDescription, CatPhoto, CatHealth
@@ -46,7 +46,7 @@ def generate_pdf(modeladmin, request, queryset):
 
 class DogInfoForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.all(),
+        queryset=AnimalTag.objects.all(),
         required=False,
         widget=forms.CheckboxSelectMultiple
     )
@@ -62,7 +62,7 @@ class DogInfoForm(forms.ModelForm):
 
 class CatInfoForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.all(),
+        queryset=AnimalTag.objects.all(),
         required=False,
         widget=forms.CheckboxSelectMultiple
     )
@@ -109,15 +109,16 @@ class DogInfoAdmin(PetInfoAdmin):
     form = DogInfoForm
     inlines = (DogHealthInline,)
     list_display = ('name', 'gender', 'birth_date',
-                    'intake_date', 'is_at_shelter', 'get_tags')
-    list_editable = ('gender', 'birth_date', 'intake_date', 'is_at_shelter')
-    search_fields = ('name', 'tags__name')
+                    'intake_date', 'is_at_shelter', 'priority', 'urgent')
+    list_editable = ('gender', 'birth_date', 'intake_date', 'is_at_shelter',
+                     'priority', 'urgent')
+    search_fields = ('name', 'tags__name', 'priority', 'urgent')
     list_filter = ('gender', 'birth_date', 'intake_date',
-                   'is_at_shelter', 'is_neutered')
+                   'is_at_shelter', 'is_neutered', 'priority', 'urgent')
     list_display_links = ('name',)
 
     def get_tags(self, obj):
-        return ", ".join(tag.name for tag in obj.tags.all())
+        return ', '.join(tag.name for tag in obj.tags.all())
     get_tags.short_description = 'Теги'
 
 
@@ -139,7 +140,7 @@ class CatInfoAdmin(PetInfoAdmin):
 
 class AnimalPhotoAdmin(admin.ModelAdmin):
     autocomplete_fields = ['animal']
-    
+
 
 class AnimalTagAmdin(admin.ModelAdmin):
     list_display = ('name', 'description')
@@ -155,6 +156,6 @@ admin.site.register(CatDescription)
 admin.site.register(DogPhoto, AnimalPhotoAdmin)
 admin.site.register(CatPhoto, AnimalPhotoAdmin)
 admin.site.register(AnimalTag, AnimalTagAmdin)
-
-
 admin.site.empty_value_display = 'Не задано'
+
+admin.site.unregister(Tag)

@@ -1,5 +1,7 @@
 import random
 from datetime import date, timedelta, datetime
+from operator import attrgetter
+from itertools import groupby
 
 from django.db.models import F, FloatField, ExpressionWrapper
 from django.db.models.functions import Random
@@ -19,8 +21,12 @@ from database.constants import (ALLOWED_TAGS,
 def dogs_list(request):
     today_seed = int(date.today().strftime('%Y%m%d'))
     dogs = DogInfo.objects.filter(
-        is_at_shelter=True).prefetch_related(
-            'photos').order_by('-priority', Random(seed=today_seed))
+        is_at_shelter=True).prefetch_related('photos').order_by('-priority')
+    grouped_dogs = []
+    for priority, group in groupby(dogs, key=attrgetter('priority')):
+        group_list = list(group)
+        random.Random(today_seed + priority).shuffle(group_list)
+        grouped_dogs.extend(group_list)
     today = date.today()
     gender = request.GET.get('gender')
     height = request.GET.get('height')
