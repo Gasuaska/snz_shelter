@@ -120,7 +120,7 @@ def dog_list_by_tag(request, tag_slug):
         }
         for tag in tags
     ]
-    return render(request, 'dogs/dogs_list.html', {
+    return render(request, 'dogs/dogs_list_by_tag.html', {
         'page_obj': dogs,
         'tags': tags_with_urls,
         'current_tag': tag,
