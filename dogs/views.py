@@ -55,7 +55,7 @@ def dogs_list(request):
         except ValueError:
             pass
 
-    paginator = Paginator(dogs, MAX_DOGS_ON_PAGE)
+    paginator = Paginator(grouped_dogs, MAX_DOGS_ON_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
