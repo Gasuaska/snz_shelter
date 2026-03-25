@@ -3,10 +3,10 @@
 {% block title %}Список собак{% endblock %}
 {% block content %}
   <h1 class="section-title">Список собак с тегом {{ tag.name }}</h1>
-<form method="get" class="filter-form">
-  <p class="dog-text">
+    <p class="dog-text">
     {{ tag.description|linebreaks }}
   </p>
+<form method="get" class="filter-form">
   {% include "includes/paginator.html" %}
   <div class="filter-row">
     <div class="filter-item">
