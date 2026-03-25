@@ -11,9 +11,9 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from django.urls import reverse
-from taggit.models import Tag
 
 from dogs.models import DogInfo
+from database.models import AnimalTag
 from database.constants import (ALLOWED_TAGS,
                                 MAX_DOGS_ON_PAGE,
                                 ALLOWED_ATTRIBUTES)
@@ -59,7 +59,7 @@ def dogs_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
-    tags = Tag.objects.all()
+    tags = AnimalTag.objects.all()
     tags_with_urls = [
         {
             'name': tag.name,
@@ -108,13 +108,14 @@ def dog_detail(request, pk):
             })
 
 def dog_list_by_tag(request, tag_slug):
-    tag = get_object_or_404(Tag, slug=tag_slug)
+    tag = get_object_or_404(AnimalTag, slug=tag_slug)
     dogs = DogInfo.objects.filter(tags__slug=tag_slug)
-    tags = Tag.objects.all()
+    tags = AnimalTag.objects.all()
     tags_with_urls = [
         {
             'name': tag.name,
             'slug': tag.slug,
+            'description': tag.description,
             'url': reverse('dogs:dog_list_by_tag', args=[tag.slug])
         }
         for tag in tags
