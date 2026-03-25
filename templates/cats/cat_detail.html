@@ -70,36 +70,40 @@
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
 <script>
-const swiper = new Swiper('.swiper', {
-  direction: 'horizontal',
-  loop: true,
+    const swiper = new Swiper('.swiper', {
+    direction: 'horizontal',
+    loop: true,
 
-  pagination: {
-    el: '.swiper-pagination',
-  },
+    pagination: {
+        el: '.swiper-pagination',
+    },
 
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-});
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    });
 
 // === ЛАЙТБОКС ===
-const overlay = document.getElementById('image-overlay');
-const overlayImg = document.getElementById('overlay-image');
+    const overlay = document.getElementById('image-overlay');
+    const overlayImg = document.getElementById('overlay-image');
 
-// клик по картинке
-document.querySelectorAll('.swiper-slide img').forEach(img => {
-    img.addEventListener('click', () => {
-        overlayImg.src = img.src;
-        overlay.classList.remove('hidden');
+    document.querySelectorAll('.swiper-slide img').forEach(img => {
+        img.addEventListener('click', () => {
+            overlayImg.src = img.src;
+            overlay.classList.remove('hidden');
+        });
     });
-});
 
-// клик по фону закрывает
-overlay.addEventListener('click', () => {
-    overlay.classList.add('hidden');
-});
+    // закрытие по фону
+    overlay.addEventListener('click', () => {
+        overlay.classList.add('hidden');
+    });
+
+    // защита от закрытия при клике по самой картинке
+    overlayImg.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
 </script>
 
 {% endblock %}
