@@ -104,7 +104,7 @@ def cat_list_by_tag(request, tag_slug):
         }
         for tag in tags
     ]
-    return render(request, 'cats/cats_list.html', {
+    return render(request, 'cats/cats_list_by_tag.html', {
         'page_obj': cats,
         'tags': tags_with_urls,
         'current_tag': tag,

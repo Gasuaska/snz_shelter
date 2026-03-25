@@ -41,6 +41,11 @@
         </div>
     </div>
 </div>
+
+<div id="image-overlay" class="image-overlay hidden">
+    <img id="overlay-image" src="" alt="">
+</div>
+
 <div class="dogs-container">
 <a href="https://vk.me/club38877901" target="_blank" class="btn">
     Хочу взять кошку!
@@ -65,7 +70,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
 <script>
-    const swiper = new Swiper('.swiper', {
+const swiper = new Swiper('.swiper', {
   direction: 'horizontal',
   loop: true,
 
@@ -77,6 +82,23 @@
     nextEl: '.swiper-button-next',
     prevEl: '.swiper-button-prev',
   },
+});
+
+// === ЛАЙТБОКС ===
+const overlay = document.getElementById('image-overlay');
+const overlayImg = document.getElementById('overlay-image');
+
+// клик по картинке
+document.querySelectorAll('.swiper-slide img').forEach(img => {
+    img.addEventListener('click', () => {
+        overlayImg.src = img.src;
+        overlay.classList.remove('hidden');
+    });
+});
+
+// клик по фону закрывает
+overlay.addEventListener('click', () => {
+    overlay.classList.add('hidden');
 });
 </script>
 

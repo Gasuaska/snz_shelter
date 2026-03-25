@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Список собак{% endblock %}
+{% block title %}Список кошек{% endblock %}
 {% block content %}
-  <h1 class="section-title">Список собак с тегом {{ current_tag.name }}</h1>
+ <h1 class="section-title">Список кошек с тегом {{ current_tag.name }}</h1>
     <p class="dog-text">
     {{ current_tag.description|linebreaks }}
   </p>
@@ -24,32 +24,22 @@
       <input type="number" name="age_max" placeholder="До" min="0" value="{{ request.GET.age_max }}">
     </div>
 
-    <div class="filter-item">
-      <label for="height">Рост:</label>
-      <select id="height" name="height">
-        <option value="">Любой</option>
-        <option value="Low" {% if request.GET.height == 'Low' %}selected{% endif %}>ниже колена</option>
-        <option value="Mid" {% if request.GET.height == 'Mid' %}selected{% endif %}>по колено</option>
-        <option value="High" {% if request.GET.height == 'High' %}selected{% endif %}>выше колена</option>
-      </select>
-    </div>
-
     <div class="filter-buttons">
       <button type="submit" class="btn filter-btn">Найти</button>
-      <a href="{% url 'dogs:dogs_list' %}" class="btn filter-btn">Сбросить</a>
+      <a href="{% url 'cats:cats_list' %}" class="btn filter-btn">Сбросить</a>
     </div>
   </div>
 </form>
 
   <div class="dogs-container">
-    {% for dog in page_obj %}
-      {% include "includes/dog_card.html" %}
+    {% for cat in page_obj %}
+      {% include "includes/cat_card.html" %}
     {% endfor %}
   </div>
-    {% include "includes/paginator.html" %}
+
+  {% include "includes/paginator.html" %}
   <div class="dogs-container">
   <h2>Теги</h2>
       {% include "includes/tags_block.html" %}
   </div>
-
 {% endblock %}
