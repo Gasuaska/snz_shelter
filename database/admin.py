@@ -4,6 +4,7 @@ from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from django.http import HttpResponse
 from taggit.admin import Tag
+from django.utils.html import format_html
 
 from .models import Owner, AnimalTag
 from cats.models import CatInfo, CatDescription, CatPhoto, CatHealth
@@ -162,6 +163,20 @@ class CatDescriptionAdmin(admin.ModelAdmin):
 
 class AnimalPhotoAdmin(admin.ModelAdmin):
     autocomplete_fields = ['animal']
+    list_display = ('animal_name', 'image', 'image_preview')
+    search_fields = ('animal__name',)
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" style="max-height:100px; max-width:150px;" />', 
+                obj.image.url)
+        return '-'
+
+    def animal_name(self, obj):
+        if obj.animal:
+            return obj.animal.name
+        return '—'
 
 
 class AnimalTagAmdin(admin.ModelAdmin):

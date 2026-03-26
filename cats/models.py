@@ -4,7 +4,6 @@ from datetime import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models
-from taggit.managers import TaggableManager
 from django.urls import reverse
 
 from database.models import BaseInfoModel, BaseHealthInfo, Owner
