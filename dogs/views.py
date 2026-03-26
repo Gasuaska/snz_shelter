@@ -20,17 +20,11 @@ def dogs_list(request):
     today_seed = int(date.today().strftime('%Y%m%d'))
     dogs = DogInfo.objects.filter(
         is_at_shelter=True).prefetch_related('photos').order_by('-priority')
-    grouped_dogs = []
-    for priority, group in groupby(dogs, key=attrgetter('priority')):
-        group_list = list(group)
-        random.Random(today_seed + priority).shuffle(group_list)
-        grouped_dogs.extend(group_list)
-    today = date.today()
     gender = request.GET.get('gender')
     height = request.GET.get('height')
     age_min = request.GET.get('age_min')
     age_max = request.GET.get('age_max')
-
+    today = date.today()
     if gender:
         dogs = dogs.filter(gender=gender)
     if height:
@@ -42,7 +36,6 @@ def dogs_list(request):
             dogs = dogs.filter(birth_date__lte=birth_max)
         except ValueError:
             pass
-
     if age_max:
         try:
             age_max = int(age_max)
@@ -52,6 +45,12 @@ def dogs_list(request):
             dogs = dogs.filter(birth_date__gte=birth_min)
         except ValueError:
             pass
+
+    grouped_dogs = []
+    for priority, group in groupby(dogs, key=attrgetter('priority')):
+        group_list = list(group)
+        random.Random(today_seed + priority).shuffle(group_list)
+        grouped_dogs.extend(group_list)
 
     paginator = Paginator(grouped_dogs, MAX_DOGS_ON_PAGE)
     page_number = request.GET.get('page')

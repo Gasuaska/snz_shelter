@@ -7,7 +7,11 @@
             <h3 class="dog-name"><a href="{% url 'dogs:dog_detail' dog.id %}">{{ dog.name }}</a></h3>
               <ul>
             <li>
+              {% if dog.age_display == '0 лет'%}
+              Щеночек
+              {% else %}
               {{ dog.age_display }}
+              {% endif %}
             </li>
             <li>
               {{ dog.gender_display }}

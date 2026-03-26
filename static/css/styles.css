@@ -1562,3 +1562,8 @@ button a,
 .hidden {
     display: none !important;
 }
+
+.vk-wrapper {
+    display: flex;
+    justify-content: center;
+}

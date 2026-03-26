@@ -13,7 +13,7 @@
     <div class="dog-text">
         <div>
             <ul>
-                <li><b>Возраст:</b> {{ dog.age_display }}</li>
+                <li><b>Возраст:</b> {% if dog.age_display == '0 лет'%}Щеночек{% else %}{{ dog.age_display }}{% endif %}</li>
                 <li><b>Пол:</b> {{ dog.gender_display }}</li>
                 <li><b>Рост:</b> {{ dog.height_display }}</li>
                 <li><b>В приюте с:</b> {{ dog.intake_year }} года</li>

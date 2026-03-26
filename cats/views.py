@@ -17,16 +17,10 @@ def cats_list(request):
     today_seed = int(date.today().strftime('%Y%m%d'))
     cats = CatInfo.objects.filter(
         is_at_shelter=True).prefetch_related('photos').order_by('-priority')
-    grouped_cats = []
-    for priority, group in groupby(cats, key=attrgetter('priority')):
-        group_list = list(group)
-        random.Random(today_seed + priority).shuffle(group_list)
-        grouped_cats.extend(group_list)
     today = date.today()
     gender = request.GET.get('gender')
     age_min = request.GET.get('age_min')
     age_max = request.GET.get('age_max')
-
     if gender:
         cats = cats.filter(gender=gender)
     if age_min:
@@ -46,7 +40,12 @@ def cats_list(request):
             cats = cats.filter(birth_date__gte=birth_min)
         except ValueError:
             pass
-    
+
+    grouped_cats = []
+    for priority, group in groupby(cats, key=attrgetter('priority')):
+        group_list = list(group)
+        random.Random(today_seed + priority).shuffle(group_list)
+        grouped_cats.extend(group_list)
     paginator = Paginator(grouped_cats, MAX_CATS_ON_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
