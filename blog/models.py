@@ -6,6 +6,7 @@ from django.utils.timezone import now
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import DateTimeField
+from django.urls import reverse
 
 from .managers import PostQuerySet
 
@@ -84,6 +85,9 @@ class Post(PublishedModel):
 
     def __str__(self):
         return self.title[:50]
+    
+    def get_absolute_url(self):
+        return reverse('blog:posts', args=[self.post_id])
 
 
 def blog_image_upload_path(instance, filename):

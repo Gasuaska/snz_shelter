@@ -53,6 +53,7 @@ class PagesSitemap(Sitemap):
             'pages:rules',
             'pages:visitors',
             'pages:adopt',
+            'pages:report',
             ]
 
     def location(self, item):
