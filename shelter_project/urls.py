@@ -9,25 +9,20 @@ from homepage.sitemaps import *
 sitemaps = {
     'dogs': DogSitemap,
     'cats': CatSitemap,
-    'blog': BlogSitemap,
-    'pages': PagesSitemap
+    'posts': PostSitemap,
+    'categories': CategorySitemap,
+    'bloglist': BlogListSitemap,
+    'pages': PagesSitemap,
 }
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
     path('', include('homepage.urls')),
     path('dogs/', include('dogs.urls')),
     path('cats/', include('cats.urls')),
     path('blog/', include('blog.urls')),
     path('pages/', include('pages.urls')),
-]
-
-urlpatterns += [
-    path(
-        'sitemap.xml',
-        sitemap,
-        {'sitemaps': sitemaps},
-        name='django.contrib.sitemaps.views.sitemap'),
 ]
 
 if settings.DEBUG:
