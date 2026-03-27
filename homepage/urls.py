@@ -2,7 +2,11 @@ from django.urls import path
 from django.views.generic import TemplateView
 from django.contrib.sitemaps.views import sitemap
 
-from .sitemaps import DogSitemap, CatSitemap, BlogSitemap, PagesSitemap
+from .sitemaps import (DogSitemap,
+                       CatSitemap,
+                       PostSitemap,
+                       PagesSitemap,
+                       CategorySitemap)
 from . import views
 
 app_name = 'homepage'
@@ -11,7 +15,8 @@ app_name = 'homepage'
 sitemaps = {
     'dogs': DogSitemap,
     'cats': CatSitemap,
-    'blog': BlogSitemap,
+    'posts': PostSitemap,
+    'categories': CategorySitemap,
     'pages': PagesSitemap,
 }
 
