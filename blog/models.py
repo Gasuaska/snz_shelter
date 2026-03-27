@@ -87,7 +87,7 @@ class Post(PublishedModel):
         return self.title[:50]
     
     def get_absolute_url(self):
-        return reverse('blog:posts', args=[self.post_id])
+        return reverse('blog:posts', args=[self.id])
 
 
 def blog_image_upload_path(instance, filename):
