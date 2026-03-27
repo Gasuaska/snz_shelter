@@ -6,6 +6,7 @@ from .sitemaps import (DogSitemap,
                        CatSitemap,
                        PostSitemap,
                        PagesSitemap,
+                       BlogListSitemap,
                        CategorySitemap)
 from . import views
 
@@ -17,6 +18,7 @@ sitemaps = {
     'cats': CatSitemap,
     'posts': PostSitemap,
     'categories': CategorySitemap,
+    'blogliist': BlogListSitemap,
     'pages': PagesSitemap,
 }
 

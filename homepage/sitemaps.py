@@ -51,7 +51,7 @@ class CategorySitemap(Sitemap):
         return f"https://drugizpriyuta.ru/blog/category/{obj.slug}/"
 
 
-class PagesSitemap(Sitemap):
+class BlogListSitemap(Sitemap):
     changefreq = 'monthly'
     priority = 0.5
 
