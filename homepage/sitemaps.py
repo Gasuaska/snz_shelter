@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from dogs.models import DogInfo
 from cats.models import CatInfo
-from blog.models import Post
+from blog.models import Post, Category
 
 
 class DogSitemap(Sitemap):
@@ -29,7 +29,7 @@ class CatSitemap(Sitemap):
         return obj.get_absolute_url()
 
 
-class BlogSitemap(Sitemap):
+class PostSitemap(Sitemap):
     changefreq = 'weekly'
     priority = 0.7
 
@@ -37,7 +37,29 @@ class BlogSitemap(Sitemap):
         return Post.objects.filter(pub_date__lte=timezone.now())
 
     def location(self, obj):
-        return obj.get_absolute_url()
+        return f"https://drugizpriyuta.ru/blog/posts/{obj.id}/"
+
+
+class CategorySitemap(Sitemap):
+    changefreq = 'monthly'
+    priority = 0.5
+
+    def items(self):
+        return Category.objects.all()
+
+    def location(self, obj):
+        return f"https://drugizpriyuta.ru/blog/category/{obj.slug}/"
+
+
+class PagesSitemap(Sitemap):
+    changefreq = 'monthly'
+    priority = 0.5
+
+    def items(self):
+        return ['blog:blog_list']
+
+    def location(self, item):
+        return reverse(item)
 
 
 class PagesSitemap(Sitemap):
