@@ -12,8 +12,13 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.DeleteModel(
-            name='MonthlyReport',
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.DeleteModel(
+                    name='MonthlyReport',
+                ),
+            ],
+            database_operations=[],
         ),
         migrations.AlterModelOptions(
             name='animaltag',
