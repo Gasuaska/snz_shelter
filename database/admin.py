@@ -219,6 +219,60 @@ class CatInfoAdmin(PetInfoAdmin):
         return ", ".join(tag.name for tag in obj.tags.all())
     get_tags.short_description = 'Теги'
 
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                '<path:object_id>/upload-photos/',
+                self.admin_site.admin_view(self.upload_photos),
+                name='cats_catinfo_upload_photos',
+            ),
+        ]
+        return custom_urls + urls
+
+    def upload_photos(self, request, object_id):
+        cat = get_object_or_404(CatInfo, pk=object_id)
+
+        if not self.has_change_permission(request, cat):
+            from django.core.exceptions import PermissionDenied
+            raise PermissionDenied
+
+        if request.method == 'POST':
+            form = MultipleDogPhotoForm(request.POST, request.FILES)
+
+            if form.is_valid():
+                images = form.cleaned_data['images']
+
+                for image in images:
+                    CatPhoto.objects.create(
+                        animal=cat,
+                        image=image,
+                    )
+
+                messages.success(
+                    request,
+                    f'Загружено фотографий: {len(images)}'
+                )
+
+                return redirect(
+                    reverse('admin:cats_catinfo_change', args=[cat.pk])
+                )
+        else:
+            form = MultipleDogPhotoForm()
+
+        context = {
+            **self.admin_site.each_context(request),
+            'title': f'Загрузка фотографий: {cat.name}',
+            'form': form,
+            'cat': cat,
+            'opts': self.model._meta,
+        }
+
+        return render(
+            request,
+            'admin/cats/upload_photos.html',
+            context,
+        )
 
 class DogDescriptionAdmin(admin.ModelAdmin):
     list_display = ('dog_name',)
