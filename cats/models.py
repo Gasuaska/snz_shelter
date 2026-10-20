@@ -1,12 +1,13 @@
 import os
+from uuid import uuid4
 
-from datetime import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models
 from django.urls import reverse
 
 from database.models import BaseInfoModel, BaseHealthInfo, Owner
+from database.utils import generate_thumbnail
 
 class CatInfo(BaseInfoModel):
     owner = models.ForeignKey(
@@ -121,10 +122,11 @@ def create_cat_description(sender, instance, created, **kwargs):
 
 
 def cat_image_upload_to(instance, filename):
-    cat_id = instance.animal.id
-    date_str = datetime.now().strftime("%Y-%m-%d_%H%M%S")
-    base, ext = os.path.splitext(filename)
-    return f'cats/{cat_id}/{date_str}{ext}'
+    _, ext = os.path.splitext(filename)
+    return f'cats/{instance.animal_id}/{uuid4().hex}{ext.lower()}'
+
+def cat_thumbnail_upload_to(instance, filename):
+    return f'cats/{instance.animal_id}/thumbnails/{filename}'
 
 
 class CatPhoto(models.Model):
@@ -137,6 +139,11 @@ class CatPhoto(models.Model):
         on_delete=models.CASCADE,
         related_name='photos',
         verbose_name='Животное'
+    )
+    thumbnail = models.ImageField(
+        upload_to=cat_thumbnail_upload_to,
+        blank=True,
+        verbose_name='Превью'
     )
     is_main = models.BooleanField(
         default=False,
@@ -158,3 +165,16 @@ class CatPhoto(models.Model):
     @property
     def main_photo(self):
         return self.photos.filter(is_main=True).first()
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.image and not self.thumbnail:
+            with self.image.open('rb') as file:
+                base = os.path.splitext(os.path.basename(self.image.name))[0]
+                filename = f'{base}.jpg'
+                thumbnail = generate_thumbnail(file)
+                self.thumbnail.save(
+                    filename, thumbnail, save=False)
+                type(self).objects.filter(pk=self.pk).update(
+                    thumbnail=self.thumbnail.name
+                )

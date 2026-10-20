@@ -5,8 +5,13 @@ from django.http import HttpResponse
 from django.http import HttpResponse
 from taggit.admin import Tag
 from django.utils.html import format_html
+from django.urls import path, reverse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+
 
 from .models import Owner, AnimalTag
+from .forms import MultipleFileField
 from cats.models import CatInfo, CatDescription, CatPhoto, CatHealth
 from dogs.models import DogInfo, DogDescription, DogPhoto, DogHealth
 from .generate_cards import draw_card
@@ -44,6 +49,27 @@ from .generate_cards import draw_card
 #     c.save()
 #     return response
 
+
+
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    widget = MultipleFileInput
+
+    def clean(self, data, initial=None):
+        single_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            return [single_clean(item, initial) for item in data]
+        return [single_clean(data, initial)]
+
+
+class MultipleDogPhotoForm(forms.Form):
+    images = MultipleFileField(
+        label='Фотографии',
+        required=False,
+    )
 
 class DogInfoForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
@@ -121,6 +147,61 @@ class DogInfoAdmin(PetInfoAdmin):
     def get_tags(self, obj):
         return ', '.join(tag.name for tag in obj.tags.all())
     get_tags.short_description = 'Теги'
+    
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                '<path:object_id>/upload-photos/',
+                self.admin_site.admin_view(self.upload_photos),
+                name='dogs_doginfo_upload_photos',
+            ),
+        ]
+        return custom_urls + urls
+
+    def upload_photos(self, request, object_id):
+        dog = get_object_or_404(DogInfo, pk=object_id)
+
+        if not self.has_change_permission(request, dog):
+            from django.core.exceptions import PermissionDenied
+            raise PermissionDenied
+
+        if request.method == 'POST':
+            form = MultipleDogPhotoForm(request.POST, request.FILES)
+
+            if form.is_valid():
+                images = form.cleaned_data['images']
+
+                for image in images:
+                    DogPhoto.objects.create(
+                        animal=dog,
+                        image=image,
+                    )
+
+                messages.success(
+                    request,
+                    f'Загружено фотографий: {len(images)}'
+                )
+
+                return redirect(
+                    reverse('admin:dogs_doginfo_change', args=[dog.pk])
+                )
+        else:
+            form = MultipleDogPhotoForm()
+
+        context = {
+            **self.admin_site.each_context(request),
+            'title': f'Загрузка фотографий: {dog.name}',
+            'form': form,
+            'dog': dog,
+            'opts': self.model._meta,
+        }
+
+        return render(
+            request,
+            'admin/dogs/upload_photos.html',
+            context,
+        )
 
 
 class CatInfoAdmin(PetInfoAdmin):
@@ -179,8 +260,13 @@ class AnimalPhotoAdmin(admin.ModelAdmin):
         return '—'
 
 
+class DogPhotoAdmin(AnimalPhotoAdmin):
+    list_display = ('thumbnail',)
+
+
 class AnimalTagAmdin(admin.ModelAdmin):
     search_fields = ('name', 'description')
+
 
 admin.site.register(CatInfo, CatInfoAdmin)
 admin.site.register(DogInfo, DogInfoAdmin)

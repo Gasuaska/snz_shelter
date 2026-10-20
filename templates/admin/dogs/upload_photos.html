@@ -1,0 +1,14 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+    <h2>Фотографии собаки {{ dog.name }}</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="button default">
+            Загрузить фотографии
+        </button>
+    </form>
+{% endblock %}

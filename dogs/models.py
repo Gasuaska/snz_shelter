@@ -1,12 +1,13 @@
 import os
+from uuid import uuid4
 
-from datetime import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models
 from django.urls import reverse
 
 from database.constants import KENNEL_CHOICES
+from database.utils import generate_thumbnail
 from database.models import BaseHealthInfo, BaseInfoModel, Owner
 
 
@@ -125,16 +126,22 @@ def create_dog_description(sender, instance, created, **kwargs):
 
 
 def dog_image_upload_to(instance, filename):
-    dog_id = instance.animal.id
-    date_str = datetime.now().strftime("%Y-%m-%d_%H%M%S")
-    base, ext = os.path.splitext(filename)
-    return f'dogs/{dog_id}/{date_str}{ext}'
+    _, ext = os.path.splitext(filename)
+    return f'dogs/{instance.animal_id}/{uuid4().hex}{ext.lower()}'
+
+def dog_thumbnail_upload_to(instance, filename):
+    return f'dogs/{instance.animal_id}/thumbnails/{filename}'
 
 
 class DogPhoto(models.Model):
     image = models.ImageField(
         upload_to=dog_image_upload_to,
         verbose_name='Фотография'
+    )
+    thumbnail = models.ImageField(
+        upload_to=dog_thumbnail_upload_to,
+        blank=True,
+        verbose_name='Превью'
     )
     animal = models.ForeignKey(
         'DogInfo',
@@ -155,11 +162,23 @@ class DogPhoto(models.Model):
         verbose_name = 'Фотография собаки'
         verbose_name_plural = 'Фотографии собак'
 
-
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.image and not self.thumbnail:
+            with self.image.open('rb') as file:
+                base = os.path.splitext(os.path.basename(self.image.name))[0]
+                filename = f'{base}.jpg'
+                thumbnail = generate_thumbnail(file)
+                self.thumbnail.save(
+                    filename, thumbnail, save=False)
+                type(self).objects.filter(pk=self.pk).update(
+                    thumbnail=self.thumbnail.name
+                )
     def __str__(self):
         return f'{self.animal}-{self.uploaded_at} {self.is_main}'
 
     @property
     def main_photo(self):
         return self.photos.filter(is_main=True).first()
+    
 
