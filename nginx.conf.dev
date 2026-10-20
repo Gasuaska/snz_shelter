@@ -1,0 +1,21 @@
+server {
+    listen 80;
+    server_name localhost;
+    client_max_body_size 20M;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+
+    location /.well-known/acme-challenge/ {
+        alias /var/www/certbot/.well-known/acme-challenge/;
+    }
+
+    location /static/ {
+        alias /static/;
+    }
+
+    location /media/ {
+        alias /app/media/;
+    }
+}
