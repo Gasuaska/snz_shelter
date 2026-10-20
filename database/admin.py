@@ -298,14 +298,15 @@ class CatDescriptionAdmin(admin.ModelAdmin):
 
 class AnimalPhotoAdmin(admin.ModelAdmin):
     autocomplete_fields = ['animal']
-    list_display = ('animal_name', 'image', 'image_preview')
+    list_display = ('animal__name', 'animal', 'image', 'image_preview')
+    list_editable = ('animal',)
     search_fields = ('animal__name',)
 
     def image_preview(self, obj):
         if obj.image:
             return format_html(
                 '<img src="{}" style="max-height:100px; max-width:150px;" />', 
-                obj.image.url)
+                obj.thumbnail.url)
         return '-'
 
     def animal_name(self, obj):
@@ -315,7 +316,8 @@ class AnimalPhotoAdmin(admin.ModelAdmin):
 
 
 class DogPhotoAdmin(AnimalPhotoAdmin):
-    list_display = ('thumbnail',)
+    list_display = ('dog', 'thumbnail',)
+    list_editable = ('dog',)
 
 
 class AnimalTagAmdin(admin.ModelAdmin):
