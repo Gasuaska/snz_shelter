@@ -6,9 +6,121 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+        <div id="photo-manager">
+            <p id="photo-count">Выбрано: 0 из 10</p>
 
+            <button type="button" id="add-photos" class="button">
+                Добавить ещё фотографии
+            </button>
+
+            <p id="photo-warning" style="color: #b45309;"></p>
+
+            <div id="photo-preview" style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;
+                margin: 16px 0;
+            "></div>
+        </div>
         <button type="submit" class="button default">
             Загрузить фотографии
         </button>
     </form>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const input = document.querySelector('input[type="file"]');
+        const addButton = document.getElementById('add-photos');
+        const count = document.getElementById('photo-count');
+        const warning = document.getElementById('photo-warning');
+        const preview = document.getElementById('photo-preview');
+        const form = input.closest('form');
+
+        const MAX_FILES = 10;
+        let selectedFiles = [];
+
+        // Обновляем настоящее поле Django
+        function syncInput() {
+            const transfer = new DataTransfer();
+
+            selectedFiles.forEach(file => {
+                transfer.items.add(file);
+            });
+
+            input.files = transfer.files;
+        }
+
+        // Перерисовываем миниатюры
+        function render() {
+            count.textContent =
+                `Выбрано: ${selectedFiles.length} из ${MAX_FILES}`;
+
+            preview.replaceChildren();
+
+            selectedFiles.forEach((file, index) => {
+                const card = document.createElement('div');
+                card.style.width = '110px';
+
+                const img = document.createElement('img');
+                img.style.width = '110px';
+                img.style.height = '110px';
+                img.style.objectFit = 'cover';
+
+                const url = URL.createObjectURL(file);
+                img.src = url;
+                img.onload = () => URL.revokeObjectURL(url);
+
+                const remove = document.createElement('button');
+                remove.type = 'button';
+                remove.textContent = 'Удалить';
+                remove.className = 'button';
+                remove.style.marginTop = '5px';
+
+                remove.addEventListener('click', () => {
+                    selectedFiles.splice(index, 1);
+                    syncInput();
+                    render();
+                    warning.textContent = '';
+                });
+
+                card.append(img, remove);
+                preview.appendChild(card);
+            });
+
+            addButton.disabled = selectedFiles.length >= MAX_FILES;
+        }
+
+        // Добавляем новую порцию
+        input.addEventListener('change', () => {
+            const incoming = Array.from(input.files);
+
+            for (const file of incoming) {
+                if (selectedFiles.length >= MAX_FILES) {
+                    warning.textContent =
+                        'Лимит — 10 фотографий. Остальные не добавлены.';
+                    break;
+                }
+
+                selectedFiles.push(file);
+            }
+
+            syncInput();
+            render();
+        });
+
+        // Позволяем выбирать следующую порцию
+        addButton.addEventListener('click', () => {
+            input.click();
+        });
+
+        // Не отправляем пустую пачку
+        form.addEventListener('submit', event => {
+            if (selectedFiles.length === 0) {
+                event.preventDefault();
+                warning.textContent = 'Сначала выбери фотографии.';
+            }
+        });
+
+        render();
+    });
+    </script>
 {% endblock %}
