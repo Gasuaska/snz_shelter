@@ -31,6 +31,11 @@ class CatInfo(BaseInfoModel):
     def get_absolute_url(self):
         return reverse('cats:cat_detail', args=[self.pk])
 
+    @property
+    def main_photo(self):
+        return (self.photos.filter(is_main=True).first()
+                or self.photos.first())
+
     def __str__(self):
         return self.name
 
@@ -161,10 +166,6 @@ class CatPhoto(models.Model):
 
     def __str__(self):
         return f'{self.animal}-{self.uploaded_at}{self.is_main}'
-
-    @property
-    def main_photo(self):
-        return self.photos.filter(is_main=True).first()
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

@@ -1,7 +1,7 @@
         <div class="dog-card">
              <div class="dog-image-wrapper">
                   <a href="{% url 'cats:cat_detail' cat.id %}">
-                    <img src="{{ cat.photos.first.thumbnail.url }}" alt="{{ cat.name }}" class="dog-image">
+                    <img src="{{ cat.main_photo.thumbnail.url }}" alt="{{ cat.name }}" class="dog-image">
                   </a>
               </div>
             <h3 class="dog-name"><a href="{% url 'cats:cat_detail' cat.id %}">{{ cat.name }}</a></h3>

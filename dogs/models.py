@@ -70,6 +70,10 @@ class DogInfo(BaseInfoModel):
     def get_absolute_url(self):
         return reverse('dogs:dog_detail', args=[self.pk])
 
+    @property
+    def main_photo(self):
+        return (self.photos.filter(is_main=True).first()
+                or self.photos.first())
 
 class DogHealth(BaseHealthInfo):
     dog = models.OneToOneField(
@@ -176,9 +180,3 @@ class DogPhoto(models.Model):
                 )
     def __str__(self):
         return f'{self.animal}-{self.uploaded_at} {self.is_main}'
-
-    @property
-    def main_photo(self):
-        return self.photos.filter(is_main=True).first()
-    
-

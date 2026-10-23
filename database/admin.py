@@ -61,6 +61,8 @@ class MultipleFileField(forms.FileField):
     def clean(self, data, initial=None):
         single_clean = super().clean
         if isinstance(data, (list, tuple)):
+            if len(data) > 10:
+                raise forms.ValidationError('Можно загрузить не больше 10 фотографий за раз.')
             return [single_clean(item, initial) for item in data]
         return [single_clean(data, initial)]
 
@@ -298,8 +300,8 @@ class CatDescriptionAdmin(admin.ModelAdmin):
 
 class AnimalPhotoAdmin(admin.ModelAdmin):
     autocomplete_fields = ['animal']
-    list_display = ('animal__name', 'animal', 'image', 'image_preview')
-    list_editable = ('animal',)
+    list_display = ('animal__name', 'animal', 'is_main', 'image', 'image_preview')
+    list_editable = ('animal', 'is_main')
     search_fields = ('animal__name',)
 
     def image_preview(self, obj):
