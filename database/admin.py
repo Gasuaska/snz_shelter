@@ -1,54 +1,52 @@
 from django import forms
 from django.contrib import admin
-from reportlab.pdfgen import canvas
-from django.http import HttpResponse
 from django.http import HttpResponse
 from taggit.admin import Tag
 from django.utils.html import format_html
 from django.urls import path, reverse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
+from django.contrib import messages, admin
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
-
-from .models import Owner, AnimalTag
+from .models import AnimalTag
 from .forms import MultipleFileField
 from cats.models import CatInfo, CatDescription, CatPhoto, CatHealth
 from dogs.models import DogInfo, DogDescription, DogPhoto, DogHealth
-from .generate_cards import draw_card
+from .pdf_utils import arrange_four_per_a4
+from .utils import prepare_dog_card
 
+@admin.action(description='Скачать карточки для вольеров (4 на A4)')
+def download_dog_cards(modeladmin, request, queryset):
+    cards = [
+        prepare_dog_card(dog)
+        for dog in queryset
+    ]
 
-# @admin.action(description="Сгенерировать PDF карточки выбранных собак")
-# def generate_pdf(modeladmin, request, queryset):
-#     response = HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition'] = 'attachment; filename="dogs_cards.pdf"'
+    html = render_to_string(
+        'pdf/dog_cards.html',
+        {'cards': cards},
+        request=request,
+    )
 
-#     c = canvas.Canvas(response, pagesize=A4)
-#     page_w, page_h = A4
-#     margin = 15 * mm
-#     gap = 8 * mm
-#     card_w = (page_w - 2 * margin - gap) / 2.0
-#     card_h = (page_h - 2 * margin - gap) / 2.0
+    a6_pdf = HTML(
+        string=html,
+        base_url=request.build_absolute_uri('/'),
+    ).write_pdf()
 
-#     positions = []
-#     for row in range(2):
-#         for col in range(2):
-#             x = margin + col * (card_w + gap)
-#             y = page_h - margin - (row + 1) * card_h - row * gap
-#             positions.append((x, y))
+    a4_pdf = arrange_four_per_a4(a6_pdf)
 
-#     idx = 0
-#     for dog in queryset:
-#         x, y = positions[idx % 4]
-#         draw_card(c, x, y, card_w, card_h, dog)
-#         idx += 1
-#         if idx % 4 == 0:
-#             c.showPage()
-#     if idx % 4 != 0:
-#         c.showPage()
+    response = HttpResponse(
+        a4_pdf,
+        content_type='application/pdf',
+    )
 
-#     c.save()
-#     return response
+    response['Content-Disposition'] = (
+        'attachment; filename="dog_cards_A4.pdf"'
+    )
 
+    return response
 
 
 class MultipleFileInput(forms.ClearableFileInput):
@@ -89,6 +87,42 @@ class DogInfoForm(forms.ModelForm):
                 'all': ('admin/custom_checkboxes.css',)
             }
 
+class DogPhotoInline(admin.TabularInline):
+    model = DogPhoto
+    extra = 0
+    readonly_fields = ('photo_preview',)
+    fields = ('photo_preview', 'image', 'is_main')
+
+    @admin.display(description='Предпросмотр')
+    def photo_preview(self, obj):
+        if obj.pk and obj.image:
+            return format_html(
+                '<img src="{}" style="height: 110px; '
+                'width: 150px; object-fit: contain; '
+                'border-radius: 5px;">',
+                obj.thumbnail.url
+            )
+        return '—'
+
+
+class CatPhotoInline(admin.TabularInline):
+    model = CatPhoto
+    extra = 0
+    readonly_fields = ('photo_preview',)
+    fields = ('photo_preview', 'image', 'is_main')
+
+    @admin.display(description='Предпросмотр')
+    def photo_preview(self, obj):
+        if obj.pk and obj.image:
+            return format_html(
+                '<img src="{}" style="height: 110px; '
+                'width: 150px; object-fit: contain; '
+                'border-radius: 5px;">',
+                obj.thumbnail.url
+            )
+        return '—'
+
+
 class CatInfoForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
         queryset=AnimalTag.objects.all(),
@@ -128,6 +162,13 @@ class DogHealthInline(admin.StackedInline):
     model = DogHealth
     extra = 0
 
+class DogDescriptionInline(admin.StackedInline):
+    model = DogDescription
+    extra = 0
+
+class CatDescriptionInline(admin.StackedInline):
+    model = CatDescription
+    extra = 0
 
 class CatHealthInline(admin.StackedInline):
     model = CatHealth
@@ -136,10 +177,10 @@ class CatHealthInline(admin.StackedInline):
 
 class DogInfoAdmin(PetInfoAdmin):
     form = DogInfoForm
-    inlines = (DogHealthInline,)
-    list_display = ('name', 'gender', 'birth_date',
+    inlines = (DogHealthInline, DogPhotoInline, DogDescriptionInline)
+    list_display = ('name', 'gender', 'birth_date', 'weight',
                     'intake_date', 'is_at_shelter', 'priority', 'urgent')
-    list_editable = ('gender', 'birth_date', 'intake_date', 'is_at_shelter',
+    list_editable = ('gender', 'birth_date', 'weight', 'intake_date', 'is_at_shelter',
                      'priority', 'urgent')
     search_fields = ('name', 'tags__name')
     list_filter = ('gender', 'birth_date', 'intake_date',
@@ -149,7 +190,9 @@ class DogInfoAdmin(PetInfoAdmin):
     def get_tags(self, obj):
         return ', '.join(tag.name for tag in obj.tags.all())
     get_tags.short_description = 'Теги'
-    
+
+    actions = [download_dog_cards]
+
     def get_urls(self):
         urls = super().get_urls()
         custom_urls = [
@@ -208,14 +251,14 @@ class DogInfoAdmin(PetInfoAdmin):
 
 class CatInfoAdmin(PetInfoAdmin):
     form = CatInfoForm
-    list_display = ('name', 'gender', 'birth_date',
+    list_display = ('name', 'gender', 'birth_date', 'weight',
                     'intake_date', 'is_at_shelter', 'get_tags')
-    list_editable = ('gender', 'birth_date', 'intake_date', 'is_at_shelter')
+    list_editable = ('gender', 'birth_date', 'weight', 'intake_date', 'is_at_shelter')
     search_fields = ('name', 'tags__name')
     list_filter = ('gender', 'birth_date',
                    'intake_date', 'is_at_shelter', 'is_neutered')
     list_display_links = ('name',)
-    inlines = (CatHealthInline,)
+    inlines = (CatHealthInline, CatPhotoInline, CatDescriptionInline)
 
     def get_tags(self, obj):
         return ", ".join(tag.name for tag in obj.tags.all())
@@ -330,7 +373,6 @@ admin.site.register(CatInfo, CatInfoAdmin)
 admin.site.register(DogInfo, DogInfoAdmin)
 admin.site.register(CatHealth)
 admin.site.register(DogHealth)
-admin.site.register(Owner)
 admin.site.register(DogDescription, DogDescriptionAdmin)
 admin.site.register(CatDescription, CatDescriptionAdmin)
 admin.site.register(DogPhoto, AnimalPhotoAdmin)
@@ -339,3 +381,6 @@ admin.site.register(AnimalTag, AnimalTagAmdin)
 admin.site.empty_value_display = 'Не задано'
 
 admin.site.unregister(Tag)
+admin.site.site_header = 'Друг из приюта'
+admin.site.site_title = 'Управление приютом'
+admin.site.index_title = 'Панель управления'

@@ -1,0 +1,53 @@
+:root,
+html[data-theme="light"] {
+    --primary: #b87a41;
+    --secondary: #d9a963;
+    --accent: #f2c37a;
+
+    --primary-fg: #ffffff;
+
+    --body-fg: #333333;
+    --body-bg: #ffffff;
+
+    --header-bg: #b87a41;
+    --header-color: #ffffff;
+    --header-link-color: #ffffff;
+
+    --breadcrumbs-bg: #f2c37a;
+    --breadcrumbs-fg: #333333;
+    --breadcrumbs-link-fg: #333333;
+
+    --link-fg: #8a5528;
+    --link-hover-color: #b87a41;
+    --link-selected-fg: #8a5528;
+
+    --hairline-color: #dddddd;
+    --border-color: #dddddd;
+
+    --button-bg: #b87a41;
+    --button-hover-bg: #98602e;
+
+    --default-button-bg: #d9a963;
+    --default-button-hover-bg: #b87a41;
+}
+
+.module h2,
+.module caption,
+.inline-group h2 {
+    background: #b87a41;
+    color: white;
+}
+
+.button,
+input[type="submit"],
+input[type="button"] {
+    border-radius: 5px;
+}
+
+#changelist table tbody tr:nth-child(even) {
+    background: #fffaf1;
+}
+
+#changelist table tbody tr.selected {
+    background: #fff0d5;
+}

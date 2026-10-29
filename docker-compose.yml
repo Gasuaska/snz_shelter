@@ -37,9 +37,10 @@ services:
   certbot:
     image: certbot/certbot
     volumes:
-      - certs_volume:/etc/letsencrypt
+      - ./certs_volume:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 12h & wait $${!}; certbot renew; done'"
+    restart: unless-stopped
 
   backup:
     image: alpine:3.18

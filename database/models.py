@@ -4,44 +4,6 @@ from taggit.models import TagBase, GenericTaggedItemBase
 from taggit.managers import TaggableManager
 
 
-class Owner(models.Model):
-    first_name = models.CharField(
-        max_length=64,
-        help_text='Имя',
-        verbose_name='Имя')
-    last_name = models.CharField(
-        max_length=64,
-        help_text='Фамилия',
-        verbose_name='Фамилия')
-    surname = models.CharField(
-        max_length=128,
-        help_text='Отчество',
-        verbose_name='Отчество',
-        null=True,
-        blank=True,)
-    phone_number = models.CharField(
-        max_length=64,
-        help_text='Номер телефона',
-        verbose_name='Номер телефона',
-        null=True,
-        blank=True,
-        )
-    address = models.CharField(
-        max_length=128,
-        help_text='Адрес владельца',
-        verbose_name='Адрес',
-        null=True,
-        blank=True,
-        )
-
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
-
-    class Meta:
-        verbose_name = 'Владелец'
-        verbose_name_plural = 'Владельцы'
-
-
 class AnimalTag(TagBase):
     description = models.TextField(
         blank=True,
@@ -139,7 +101,13 @@ class BaseInfoModel(models.Model):
         )
     tags = TaggableManager(
         through=TaggedAnimal,
-        blank=True
+        blank=True,
+    )
+
+    under_care_of = models.CharField(
+        verbose_name='Под опекой у',
+        blank=True,
+        null=True,
     )
 
     class Meta:

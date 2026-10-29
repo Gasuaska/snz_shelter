@@ -10,38 +10,106 @@
     body {
         font-family: 'CenturyGothic', Arial, sans-serif;
     }
-    .card {
-        background-color: #fff2e2;
-        border: 2px solid #BC7A2E;
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 20px;
+    .sheet {
+        display: grid;
+        grid-template-columns: 105mm 105mm;
+        grid-template-rows: 148.5mm 148.5mm;
     }
-    .card h1 {
-        color: #BC7A2E;
-        font-size: 24px;
-        margin-bottom: 10px;
-    }
-    .card p {
-        font-size: 16px;
-        line-height: 1.4;
-        color: #333;
-    }
-    .photo {
-        float: right;
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
-        margin-left: 20px;
+
+    .dog-card {
+        width: 105mm;
+        height: 148.5mm;
+        box-sizing: border-box;
     }
     .clearfix { clear: both; }
+    .card {
+    background: white;
+    border: 2px solid #555;
+    border-radius: 2px;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+    .card h1 {
+        color: #b87a41;
+        font-size: 30px;
+        line-height: 1.1;
+        text-align: center;
+        margin: 8px 0;
+    }
+
+    .card p {
+        font-size: 14px;
+        line-height: 1.2;
+        color: black;
+        margin: 5px 0;
+    }
+
+    .photo {
+        display: block;
+        width: 90%;
+        height: 55mm;
+        object-fit: cover;
+        box-sizing: border-box;
+        border: 3px solid #b87a41;
+        border-radius: 2px;
+        margin: auto;
+    }
+
+    .card p.caretaker {
+        font-size: 14px;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+        white-space: normal;
+    }
+
+    .card p.dangerous {
+        color: #e00000;
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        margin: 5px 0;
+    }
+
+    hr {
+        border: none;
+        background: #ff1010;
+        height: 3px;
+        margin: 5px 0;
+    }
+
+    .qr-block {
+        display: block;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 8px;
+    }
+
+    .qr-block img {
+        width: 25mm;
+        height: 25mm;
+    }
     </style>
 </head>
 <body>
-  <div class="card">
-    <img class="photo" src="{{ dog.photos.first.file.url }}" alt="Фото">
+  <div class="card dog-card">
+    <img class="photo" src="{{ main_photo.image.url }}" alt="Фото">
     <h1>{{ dog.name }}</h1>
-    <p>Год рождения: {{ dog.birth_date }}
+    <p>Год рождения: {{ dog.birth_date|date:"Y"|default:"Неизвестно" }} г.</p>
+    <p>В приюте с: {{ dog.intake_year|default:"Неизвестно" }} г. </p>
+    {% if dog.under_care_of != None %}
+    <p class="caretaker">На попечении у: {{dog.under_care_of|truncatechars:80}} </p>
+    {% endif %}
+    {% if dog.is_dangerous %}
+    <hr>
+    <p class="dangerous">ОПАСНАЯ СОБАКА</p>
+    <hr>
+    {% endif %}
+    <div class="qr-block">
+        <p>Подробнее обо мне:</p>
+        <img src="{{ qr_code }}" alt="QR-код">
+        
+    </div>
   </div>
 </body>
 </html>

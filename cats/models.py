@@ -6,18 +6,10 @@ from django.dispatch import receiver
 from django.db import models
 from django.urls import reverse
 
-from database.models import BaseInfoModel, BaseHealthInfo, Owner
+from database.models import BaseInfoModel, BaseHealthInfo
 from database.utils import generate_thumbnail
 
 class CatInfo(BaseInfoModel):
-    owner = models.ForeignKey(
-        Owner,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='cats',
-        verbose_name='Владелец'
-    )
     urgent = models.BooleanField(
         verbose_name='Срочно ищет дом',
         default=False
@@ -26,6 +18,11 @@ class CatInfo(BaseInfoModel):
         verbose_name='Приоритет',
         default=0,
         help_text='Чем больше — тем выше в списке'
+    )
+    weight = models.FloatField(
+        verbose_name='Вес животного',
+        blank=True,
+        null=True
     )
     
     def get_absolute_url(self):
@@ -93,10 +90,14 @@ class CatDescription(models.Model):
         related_name='cat_description'
     )
     bio = models.TextField(
+        null=True,
+        blank=True,
         help_text='История появления животного в приюте',
         verbose_name='Биография'
     )
     character = models.TextField(
+        null=True,
+        blank=True,
         help_text='Характер животного',
         verbose_name='Характер'
     )

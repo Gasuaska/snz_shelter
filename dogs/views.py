@@ -1,8 +1,11 @@
+import base64
+from io import BytesIO
 import random
 from datetime import date, timedelta
 from operator import attrgetter
 from itertools import groupby
 
+import qrcode
 import markdown
 import bleach
 from django.core.paginator import Paginator
@@ -130,3 +133,24 @@ def dog_list_by_tag(request, tag_slug):
         'tags': tags_with_urls,
         'current_tag': tag,
     })
+
+def dog_card_preview(request, pk):
+    dog = get_object_or_404(DogInfo, pk=pk)
+    main_photo = dog.photos.filter(is_main=True).first()
+    if main_photo is None:
+        main_photo = dog.photos.first()
+    url = reverse('dogs:dog_detail', args=[dog.pk])
+    dog_url = f'https://drugizpriyuta.ru{url}'
+    qr = qrcode.make(dog_url)
+    
+    buffer = BytesIO()
+    qr.save(buffer, format='PNG')
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode('ascii')
+
+    return render(
+        request,
+        'pdf/dog_card.html',
+        {'dog': dog,
+         'main_photo': main_photo,
+         'qr_code': f'data:image/png;base64,{qr_base64}',},
+    )

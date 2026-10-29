@@ -8,7 +8,7 @@ from django.urls import reverse
 
 from database.constants import KENNEL_CHOICES
 from database.utils import generate_thumbnail
-from database.models import BaseHealthInfo, BaseInfoModel, Owner
+from database.models import BaseHealthInfo, BaseInfoModel
 
 
 class DogInfo(BaseInfoModel):
@@ -22,14 +22,6 @@ class DogInfo(BaseInfoModel):
         (HIGHER, 'выше колена'),
     ]
 
-    owner = models.ForeignKey(
-        Owner,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        verbose_name='Владелец',
-        related_name='dogs'
-    )
     kennel = models.CharField(
         max_length=64,
         choices=KENNEL_CHOICES,
@@ -54,6 +46,18 @@ class DogInfo(BaseInfoModel):
         verbose_name='Приоритет',
         default=0,
         help_text='Чем больше — тем выше в списке'
+    )
+
+    weight = models.IntegerField(
+        verbose_name='Вес животного',
+        blank=True,
+        null=True
+    )
+
+    is_dangerous = models.BooleanField(
+        default=False,
+        verbose_name='Опасный',
+        help_text='Опасный? Нет (по умолчанию)/Да'
     )
 
     def __str__(self):
@@ -96,10 +100,14 @@ class DogDescription(models.Model):
         related_name='dog_description'
     )
     bio = models.TextField(
+        null=True,
+        blank=True,
         help_text='История появления животного в приюте',
         verbose_name='Биография'
     )
     character = models.TextField(
+        null=True,
+        blank=True,
         help_text='Характер животного',
         verbose_name='Характер'
     )

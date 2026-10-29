@@ -1,0 +1,32 @@
+<div class="card dog-card">
+    <img class="photo"
+         src="{{ card.main_photo.image.url }}"
+         alt="Фото">
+
+    <h1>{{ card.dog.name }}</h1>
+
+    <p>Год рождения:
+        {{ card.dog.birth_date|date:"Y"|default:"Неизвестно" }} г.
+    </p>
+
+    <p>В приюте с:
+        {{ card.dog.intake_year|default:"Неизвестно" }} г.
+    </p>
+
+    {% if card.dog.under_care_of %}
+        <p class="caretaker">
+            На попечении у: {{ card.dog.under_care_of }}
+        </p>
+    {% endif %}
+
+    {% if card.dog.is_dangerous %}
+        <hr>
+        <p class="dangerous">ОПАСНАЯ СОБАКА</p>
+        <hr>
+    {% endif %}
+
+    <div class="qr-block {% if card.dog.is_dangerous %}qr-dangerous{% endif %}">
+        <span>Подробнее обо мне:</span>
+        <img src="{{ card.qr_code }}" alt="QR-код">
+    </div>
+</div>
