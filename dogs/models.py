@@ -170,7 +170,7 @@ class DogPhoto(models.Model):
         verbose_name='Дата загрузки'
     )
     show_in_gallery = models.BooleanField(
-        default=False,
+        default=True,
         verbose_name='Показывать в галерее'
     )
 

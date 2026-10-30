@@ -161,7 +161,7 @@ class CatPhoto(models.Model):
     )
 
     show_in_gallery = models.BooleanField(
-        default=False,
+        default=True,
         verbose_name='Показывать в галерее'
     )
 
