@@ -6,10 +6,10 @@ from database.utils import generate_thumbnail
 
 def gallery_image_upload_to(instance, filename):
     _, ext = os.path.splitext(filename)
-    return f'gallery/{instance.animal_id}/{uuid4().hex}{ext.lower()}'
+    return f'gallery/{uuid4().hex}{ext.lower()}'
 
 def gallery_thumbnail_upload_to(instance, filename):
-    return f'gallery/{instance.animal_id}/thumbnails/{filename}'
+    return f'gallery/thumbnails/{filename}'
 
 
 class GalleryPhoto(models.Model):
