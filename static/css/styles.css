@@ -1567,3 +1567,254 @@ button a,
     display: flex;
     justify-content: center;
 }
+
+.search-field {
+    display: flex;
+    gap: 10px;
+}
+
+.search-field input {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    flex: 1;
+    min-width: 0;
+}
+
+.search-field button {
+    background: var(--accent);
+    color: var(--text);
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    cursor: pointer;
+}
+
+.search-field button:hover {
+    background: var(--accent-dark);
+}
+
+
+.gallery-swiper .swiper-slide {
+    height: auto;
+}
+
+.gallery-swiper .swiper-slide img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 0px;
+}
+
+.gallery-swiper .swiper-button-prev,
+.gallery-swiper .swiper-button-next {
+    top: 80px;
+    margin-top: 0;
+}
+
+.gallery-swiper .swiper-pagination {
+    bottom: 0;
+}
+
+.image-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    cursor: pointer;
+}
+
+.image-overlay.hidden {
+    display: none;
+}
+
+.image-overlay img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    cursor: default;
+}
+.gallery-section {
+    height: auto;
+    min-height: 0;
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.gallery-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 1100px;
+    margin: 20px auto;
+}
+
+.gallery-swiper {
+    flex: 1;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.gallery-swiper .swiper-wrapper,
+.gallery-swiper .swiper-slide {
+    height: auto;
+}
+
+.gallery-swiper .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.gallery-prev,
+.gallery-next {
+    flex: 0 0 30px;
+    cursor: pointer;
+    color: #bd7c2e;
+    font-size: 32px;
+    text-align: center;
+}
+
+.gallery-prev::after {
+    content: '❮';
+}
+
+.gallery-next::after {
+    content: '❯';
+}
+
+.gallery-more {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.photo-grid {
+    columns: 4;
+    column-gap: 16px;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+.photo-card {
+    break-inside: avoid;
+    margin-bottom: 16px;
+}
+
+.gallery-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0px;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+    .photo-grid {
+        columns: 3;
+    }
+}
+
+@media (max-width: 650px) {
+    .photo-grid {
+        columns: 2;
+    }
+}
+
+@media (max-width: 400px) {
+    .photo-grid {
+        columns: 1;
+    }
+}
+
+.photo-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 2px;
+}
+
+.photo-info a {
+    color: #bd7c2e;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.photo-info a:hover {
+    text-decoration: underline;
+}
+
+.photo-info small {
+    color: #888;
+}
+
+@media (max-width: 900px) {
+    .photo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+    .photo-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.overlay-prev,
+.overlay-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 64px;
+    padding: 8px;
+
+    background: rgba(0, 0, 0, 0.25);
+    color: white;
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+    opacity: 0.65;
+    transition: opacity 0.2s, background 0.2s;
+}
+
+.overlay-prev { left: 16px; }
+.overlay-next { right: 16px; }
+
+.overlay-prev svg,
+.overlay-next svg {
+    width: 32px;
+    height: 32px;
+}
+
+.overlay-prev:hover,
+.overlay-next:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.55);
+}
+
+@media (max-width: 600px) {
+    .overlay-prev,
+    .overlay-next {
+        width: 36px;
+        height: 48px;
+    }
+
+    .overlay-prev { left: 4px; }
+    .overlay-next { right: 4px; }
+}

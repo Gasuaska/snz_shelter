@@ -48,6 +48,10 @@ def dogs_list(request):
             dogs = dogs.filter(birth_date__gte=birth_min)
         except ValueError:
             pass
+    search_query = request.GET.get('q', '').strip()
+
+    if search_query:
+        dogs = dogs.filter(name__icontains=search_query)
 
     grouped_dogs = []
     for priority, group in groupby(dogs, key=attrgetter('priority')):

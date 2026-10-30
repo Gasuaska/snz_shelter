@@ -23,6 +23,7 @@ urlpatterns = [
     path('cats/', include('cats.urls')),
     path('blog/', include('blog.urls')),
     path('pages/', include('pages.urls')),
+    path('gallery/', include('gallery.urls')),
 ]
 
 if settings.DEBUG:

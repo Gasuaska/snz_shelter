@@ -30,12 +30,20 @@
         <option value="High" {% if request.GET.height == 'High' %}selected{% endif %}>выше колена</option>
       </select>
     </div>
-
+  <div class="search-field filter-item">
+    <input
+        type="search"
+        name="q"
+        placeholder="Имя собаки..."
+        value="{{ request.GET.q|default:'' }}"
+    >
+      </div>
     <div class="filter-buttons">
       <button type="submit" class="btn filter-btn">Найти</button>
       <a href="{% url 'dogs:dogs_list' %}" class="btn filter-btn">Сбросить</a>
     </div>
   </div>
+
 </form>
 
   <div class="dogs-container">

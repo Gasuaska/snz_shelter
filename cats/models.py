@@ -160,6 +160,11 @@ class CatPhoto(models.Model):
         verbose_name='Дата загрузки'
     )
 
+    show_in_gallery = models.BooleanField(
+        default=False,
+        verbose_name='Показывать в галерее'
+    )
+
     class Meta:
         verbose_name = 'Фотография кошки'
         verbose_name_plural = 'Фотографии кошек'

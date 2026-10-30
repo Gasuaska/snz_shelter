@@ -31,7 +31,7 @@
     <div class="swiper-wrapper">
         {% for photo in dog_photos %}
         <div class="swiper-slide">
-            <img src="{{ photo.image.url }}" alt="{{ dog.name }}">
+            <img loading="lazy" src="{{ photo.image.url }}" alt="{{ dog.name }}">
         </div>
         {% endfor %}
     </div>

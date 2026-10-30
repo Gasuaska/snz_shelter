@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'finance.apps.FinanceConfig',
     'homepage.apps.HomepageConfig',
     'database.apps.DatabaseConfig',
+    'gallery.apps.GalleryConfig',
     'django.contrib.sitemaps',
     'taggit',
     

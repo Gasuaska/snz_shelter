@@ -17,6 +17,24 @@ from dogs.models import DogInfo, DogDescription, DogPhoto, DogHealth
 from .pdf_utils import arrange_four_per_a4
 from .utils import prepare_dog_card
 
+
+@admin.action(description='Опубликовать выбранные фото в галерее')
+def publish_in_gallery(modeladmin, request, queryset):
+    updated = queryset.update(show_in_gallery=True)
+    modeladmin.message_user(
+        request,
+        f'Опубликовано фотографий: {updated}'
+    )
+
+
+@admin.action(description='Убрать выбранные фото из галереи')
+def unpublish_from_gallery(modeladmin, request, queryset):
+    updated = queryset.update(show_in_gallery=False)
+    modeladmin.message_user(
+        request,
+        f'Снято с публикации фотографий: {updated}'
+    )
+
 @admin.action(description='Скачать карточки для вольеров (4 на A4)')
 def download_dog_cards(modeladmin, request, queryset):
     cards = [
@@ -343,10 +361,10 @@ class CatDescriptionAdmin(admin.ModelAdmin):
 
 class AnimalPhotoAdmin(admin.ModelAdmin):
     autocomplete_fields = ['animal']
-    list_display = ('animal__name', 'animal', 'is_main', 'image', 'image_preview')
-    list_editable = ('animal', 'is_main')
+    list_display = ('animal__name', 'animal', 'is_main', 'show_in_gallery', 'image', 'image_preview')
+    list_editable = ('animal', 'is_main', 'show_in_gallery')
     search_fields = ('animal__name',)
-
+    actions = [publish_in_gallery, unpublish_from_gallery]
     def image_preview(self, obj):
         if obj.image:
             return format_html(
@@ -358,11 +376,6 @@ class AnimalPhotoAdmin(admin.ModelAdmin):
         if obj.animal:
             return obj.animal.name
         return '—'
-
-
-class DogPhotoAdmin(AnimalPhotoAdmin):
-    list_display = ('dog', 'thumbnail',)
-    list_editable = ('dog',)
 
 
 class AnimalTagAmdin(admin.ModelAdmin):

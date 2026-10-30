@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Фотогалерея — Друг из приюта{% endblock %}
+
+{% block content %}
+
+<section class="section">
+    <h1 class="section-title">ЖИЗНЬ ПРИЮТА В ФОТОГРАФИЯХ</h1>
+
+    <div class="photo-grid">
+        {% for photo in page_obj %}
+            <div class="photo-card">
+
+                <img
+                    class="gallery-photo"
+                    src="{{ media_url }}{{ photo.thumbnail }}"
+                    data-full="{{ media_url }}{{ photo.image }}"
+                    alt="{{ photo.animal_name|default:photo.caption|default:'Фото приюта' }}"
+                    loading="lazy"
+                >
+
+                <div class="photo-info">
+                    {% if photo.photo_type == 'dog' %}
+                        <a href="{% url 'dogs:dog_detail' photo.gallery_animal_id %}">
+                            {{ photo.animal_name }}
+                        </a>
+                    {% elif photo.photo_type == 'cat' %}
+                        <a href="{% url 'cats:cat_detail' photo.gallery_animal_id %}">
+                            {{ photo.animal_name }}
+                        </a>
+                    {% else %}
+                        <span>{{ photo.caption }}</span>
+                    {% endif %}
+
+                    <small>{{ photo.uploaded_at|date:"d.m.Y" }}</small>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+    {% include "includes/paginator.html" %}
+</section>
+
+    <div id="image-overlay" class="image-overlay hidden">
+    <button type="button" class="overlay-prev" aria-label="Предыдущее фото">
+        <svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+        </svg>
+    </button>
+
+    <img id="overlay-image" src="" alt="Фото приюта">
+
+    <button type="button" class="overlay-next" aria-label="Следующее фото">
+        <svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"/>
+        </svg>
+    </button>
+</div>
+
+<script>
+const overlay = document.getElementById('image-overlay');
+const overlayImg = document.getElementById('overlay-image');
+
+const photos = Array.from(document.querySelectorAll('.gallery-photo'));
+
+const prevButton = document.querySelector('.overlay-prev');
+const nextButton = document.querySelector('.overlay-next');
+
+let currentIndex = 0;
+
+// Показываем фотографию по её номеру
+function showPhoto(index) {
+    currentIndex = (index + photos.length) % photos.length;
+    overlayImg.src = photos[currentIndex].dataset.full;
+}
+
+// Открываем фотографию
+photos.forEach((img, index) => {
+    img.addEventListener('click', () => {
+        showPhoto(index);
+        overlay.classList.remove('hidden');
+    });
+});
+
+// Листаем вперёд
+function nextPhoto() {
+    showPhoto(currentIndex + 1);
+}
+
+// Листаем назад
+function prevPhoto() {
+    showPhoto(currentIndex - 1);
+}
+
+nextButton.addEventListener('click', (event) => {
+    event.stopPropagation();
+    nextPhoto();
+});
+
+prevButton.addEventListener('click', (event) => {
+    event.stopPropagation();
+    prevPhoto();
+});
+
+// Закрываем лайтбокс
+function closeOverlay() {
+    overlay.classList.add('hidden');
+    overlayImg.src = '';
+}
+
+overlay.addEventListener('click', closeOverlay);
+
+overlayImg.addEventListener('click', (event) => {
+    event.stopPropagation();
+});
+
+// Управление клавиатурой
+document.addEventListener('keydown', (event) => {
+    if (overlay.classList.contains('hidden')) {
+        return;
+    }
+
+    if (event.key === 'ArrowRight') {
+        nextPhoto();
+    } else if (event.key === 'ArrowLeft') {
+        prevPhoto();
+    } else if (event.key === 'Escape') {
+        closeOverlay();
+    }
+});
+
+// Свайпы на телефоне
+let touchStartX = 0;
+
+overlay.addEventListener('touchstart', (event) => {
+    touchStartX = event.changedTouches[0].screenX;
+}, { passive: true });
+
+overlay.addEventListener('touchend', (event) => {
+    const touchEndX = event.changedTouches[0].screenX;
+    const difference = touchStartX - touchEndX;
+
+    if (Math.abs(difference) > 50) {
+        if (difference > 0) {
+            nextPhoto();
+        } else {
+            prevPhoto();
+        }
+    }
+}, { passive: true });
+</script>
+
+{% endblock %}

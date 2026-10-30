@@ -5,6 +5,11 @@
 
 {% block content %}
 
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+/>
+
 <div class="hero-section">
     <div class="hero-content">
         <div class="hero-buttons">
@@ -76,6 +81,40 @@
 </section>
 
 <section class="section">
+    <h2 class="section-title">ФОТОГАЛЕРЕЯ</h2>
+
+    <div class="gallery-row">
+        <div class="gallery-prev"></div>
+
+        <div class="swiper gallery-swiper">
+            <div class="swiper-wrapper">
+                {% for photo in photos %}
+                    <div class="swiper-slide">
+                        <img
+                            src="{{ media_url }}{{ photo.thumbnail }}"
+                            data-full="{{ media_url }}{{ photo.image }}"
+                            alt="{{ photo.caption|default:'Фото приюта' }}"
+                            loading="lazy"
+                        >
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="gallery-next"></div>
+    </div>
+</section>
+</section>
+<div id="image-overlay" class="image-overlay hidden">
+    <img id="overlay-image" src="" alt="Фото приюта">
+</div>
+<section class="section more-dogs-btn">
+  <div class="hero-buttons">
+    <a href="{% url 'gallery:gallery' %}" class="btn primary-btn">БОЛЬШЕ ФОТО</a>
+  </div>
+</section>
+
+<section class="section">
   <h2 class="section-title">ПОСЕТИТЕЛЯМ</h2>
   <div class="section-text">
     <p>Приют находится около ЖБИ, в черте города. Поворот направо, если ехать в сторону 2КПП...<p>
@@ -108,16 +147,6 @@
     </div>
 </section>
 
-{% comment %} <section class="section">
-    <h2 class="section-title">НОВОСТИ</h2>
-    <div class="vk-wrapper">
-      <div id="vk_groups"></div>
-      <script type="text/javascript">
-        VK.Widgets.Group("vk_groups", {mode: 4, height: 400, color1: "FFFFFF", color2: "000000", color3: "d9a963"}, 38877901);
-      </script>
-    </div>
-</section> {% endcomment %}
-
 <section class="section">
     <h2 class="section-title">СТАТЬИ</h2>
     <div class="articles-list">
@@ -135,5 +164,59 @@
       </div>
     </div>
 </section>
+<script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.gallery-swiper', {
+    loop: true,
+    spaceBetween: 12,
+    slidesPerView: 2,
+    slidesPerGroup: 2,
 
+    breakpoints: {
+        600: {
+            slidesPerView: 3,
+            slidesPerGroup: 3,
+        },
+        900: {
+            slidesPerView: 5,
+            slidesPerGroup: 5,
+        },
+        1200: {
+            slidesPerView: 6,
+            slidesPerGroup: 6,
+        },
+    },
+
+    pagination: {
+        el: '.gallery-swiper .swiper-pagination',
+        clickable: true,
+    },
+
+    navigation: {
+        nextEl: '.gallery-next',
+        prevEl: '.gallery-prev',
+    },
+});
+// Открытие фотографии
+const overlay = document.getElementById('image-overlay');
+const overlayImg = document.getElementById('overlay-image');
+
+document.querySelectorAll('.gallery-swiper .swiper-slide img').forEach(img => {
+    img.addEventListener('click', () => {
+        overlayImg.src = img.dataset.full;
+        overlay.classList.remove('hidden');
+    });
+});
+
+// Закрытие по клику на фон
+overlay.addEventListener('click', () => {
+    overlay.classList.add('hidden');
+    overlayImg.src = '';
+});
+
+// Клик по фотографии не закрывает окно
+overlayImg.addEventListener('click', (event) => {
+    event.stopPropagation();
+});
+</script>
 {% endblock %}
