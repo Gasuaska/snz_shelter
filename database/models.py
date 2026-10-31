@@ -4,6 +4,12 @@ from taggit.models import TagBase, GenericTaggedItemBase
 from taggit.managers import TaggableManager
 
 
+class OuttakeReason(models.TextChoices):
+    ADOPTED = 'adopted', 'Пристроена'
+    DIED = 'died', 'Умерла'
+    OTHER = 'other', 'Другое'
+
+
 class AnimalTag(TagBase):
     description = models.TextField(
         blank=True,
@@ -75,16 +81,27 @@ class BaseInfoModel(models.Model):
         help_text='Находится в приюте? Да(по умолчанию)/Нет',
         verbose_name='Находится в приюте'
         )
+    is_public = models.BooleanField(
+        default=True,
+        verbose_name='Показывать анкету на сайте',
+        )
     outtake_date = models.DateField(
         null=True,
         blank=True,
         help_text='Дата убытия из приюта',
         verbose_name='Дата убытия из приюта',
         )
+    outtake_reason = models.CharField(
+        max_length=20,
+        choices=OuttakeReason.choices,
+        null=True,
+        blank=True,
+        verbose_name='Причина выбытия',
+    )
     outtake_reasons = models.TextField(
         null=True,
         blank=True,
-        help_text='Причина убытия',
+        help_text='Причина убытия (архивное поле)',
         verbose_name='Причина убытия',
     )
     intake_place = models.TextField(

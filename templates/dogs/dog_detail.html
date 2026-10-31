@@ -8,11 +8,12 @@
 />
 
 <h1 class="dog-name-detail">{{ dog.name }}</h1>
-
+<h2 class="outtake-reason">{% if dog.outtake_reason == 'adopted'%}Собака пристроена{% endif %}
+    {% if dog.outtake_reason == 'died'%}Собака скончалась{% endif %}</h2>
 <div class="dog-detail-container two-columns">
     <div class="dog-text">
         <div>
-            <ul>
+        
                 <li><b>Возраст:</b> {% if dog.age_display == '0 лет'%}Щеночек{% else %}{{ dog.age_display }}{% endif %}</li>
                 <li><b>Пол:</b> {{ dog.gender_display }}</li>
                 <li><b>Рост:</b> {{ dog.height_display }}</li>
@@ -47,11 +48,13 @@
     <img id="overlay-image" src="" alt="">
 </div>
 
+{% if dog.is_at_shelter%}
 <div class="dogs-container">
 <a href="https://vk.me/club38877901" target="_blank" class="btn">
     Хочу взять собаку!
     </a>
 </div>
+{% endif %}
 
 <div class="dogs-container">
     {% for tag in dog.tags.all %}

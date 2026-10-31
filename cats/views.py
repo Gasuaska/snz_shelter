@@ -66,7 +66,7 @@ def cats_list(request):
         request, 'cats/cats_list.html', context)
 
 def cat_detail(request, pk):
-    cat = get_object_or_404(CatInfo, pk=pk, is_at_shelter=True)
+    cat = get_object_or_404(CatInfo, pk=pk, is_public=True)
 
     cat_description = getattr(cat, 'cat_description', None)
     

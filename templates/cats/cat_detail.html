@@ -8,7 +8,8 @@
 />
 
 <h1 class="dog-name-detail">{{ cat.name }}</h1>
-
+<h2 class="outtake-reason">{% if cat.outtake_reason == 'adopted'%}Кошка пристроена{% endif %}
+    {% if cat.outtake_reason == 'died'%}Кошка скончалась{% endif %}</h2>
 <div class="dog-detail-container">
     <div class="dog-text">
         <ul>
@@ -45,12 +46,13 @@
 <div id="image-overlay" class="image-overlay hidden">
     <img id="overlay-image" src="" alt="">
 </div>
-
+{% if cat.is_at_shelter%}
 <div class="dogs-container">
 <a href="https://vk.me/club38877901" target="_blank" class="btn">
     Хочу взять кошку!
     </a>
 </div>
+{% endif %}
 <div class="dogs-container">
     {% for tag in cat.tags.all %}
         <a href="{% url 'cats:cat_list_by_tag' tag.slug %}" class="tag-button">{{ tag.name }}</a>

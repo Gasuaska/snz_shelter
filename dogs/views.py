@@ -87,7 +87,7 @@ def render_md(text):
 
 
 def dog_detail(request, pk):
-    dog = get_object_or_404(DogInfo, pk=pk, is_at_shelter=True)
+    dog = get_object_or_404(DogInfo, pk=pk, is_public=True)
     dog_description = getattr(dog, 'dog_description', None)
 
     if dog_description:
