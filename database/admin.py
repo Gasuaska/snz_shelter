@@ -7,6 +7,7 @@ from django.urls import path, reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages, admin
 from django.http import HttpResponse
+from django.db.models import Exists, OuterRef
 from django.template.loader import render_to_string
 from weasyprint import HTML
 
@@ -17,6 +18,28 @@ from dogs.models import DogInfo, DogDescription, DogPhoto, DogHealth
 from .pdf_utils import arrange_four_per_a4
 from .utils import prepare_dog_card
 
+
+class DogWithoutMainPhotoFilter(admin.SimpleListFilter):
+    title = 'главное фото собаки'
+    parameter_name = 'dog_without_main'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('yes', 'Не назначено'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() != 'yes':
+            return queryset
+
+        main_photos = DogPhoto.objects.filter(
+            animal_id=OuterRef('animal_id'),
+            is_main=True,
+        )
+
+        return queryset.alias(
+            has_main=Exists(main_photos)
+        ).filter(has_main=False)
 
 @admin.action(description='Опубликовать выбранные фото в галерее')
 def publish_in_gallery(modeladmin, request, queryset):
@@ -377,7 +400,9 @@ class AnimalPhotoAdmin(admin.ModelAdmin):
             return obj.animal.name
         return '—'
 
-
+class DogPhotoAdmin(AnimalPhotoAdmin):
+    list_filter = (DogWithoutMainPhotoFilter,)
+    
 class AnimalTagAmdin(admin.ModelAdmin):
     search_fields = ('name', 'description')
 
@@ -388,7 +413,7 @@ admin.site.register(CatHealth)
 admin.site.register(DogHealth)
 admin.site.register(DogDescription, DogDescriptionAdmin)
 admin.site.register(CatDescription, CatDescriptionAdmin)
-admin.site.register(DogPhoto, AnimalPhotoAdmin)
+admin.site.register(DogPhoto, DogPhotoAdmin)
 admin.site.register(CatPhoto, AnimalPhotoAdmin)
 admin.site.register(AnimalTag, AnimalTagAmdin)
 admin.site.empty_value_display = 'Не задано'
