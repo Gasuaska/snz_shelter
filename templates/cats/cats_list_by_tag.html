@@ -32,7 +32,9 @@
     </div>
   </div>
 </form>
-
+<div class="dogs-container">
+    <p>Всего кошек: {{ page_obj|length }}</p>
+</div>
   <div class="dogs-container">
     {% for cat in page_obj %}
       {% include "includes/cat_card.html" %}

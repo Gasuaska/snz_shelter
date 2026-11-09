@@ -45,7 +45,9 @@
   </div>
 
 </form>
-
+<div class="dogs-container">
+    <p>Всего собак: {{ page_obj.paginator.count }}</p>
+</div>
   <div class="dogs-container">
     {% for dog in page_obj %}
       {% include "includes/dog_card.html" %}
